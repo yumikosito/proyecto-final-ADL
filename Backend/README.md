@@ -1,7 +1,3 @@
-# Hito 3 - Proyecto Final ADL
-
-Integrantes: Jocelyn Araya y Millaray Painemil
-
 ## Instalación
 
 ```bash
