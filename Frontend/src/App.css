@@ -1,0 +1,555 @@
+*{
+  color: var(--blackColor);
+}
+
+/* Custom fonts */
+@font-face{
+  font-family: MedievalSharp;
+  src: url('../src/assets/fonts/MedievalSharp-Regular.ttf');
+}
+
+@font-face{
+  font-family: Acme;
+  src: url('../src/assets/fonts/Acme-Regular.ttf');
+}
+
+:root {
+  --yellowColor: #f8dea4;
+  --redColor: #ED9C9C;
+  --skyBlue:#9BE8F5;
+  --whiteColor:#ffffff;
+  --greenColor:#249F3F;
+  --blackColor:#323232;
+}
+
+
+#titleText{
+  text-align: center;
+  font-family: "Acme";
+  margin: 1rem 0;
+}
+
+a{
+  text-decoration: none;
+  color: var(--blackColor);
+}
+
+hr{
+  border-top: 0.3rem solid var(--greenColor);
+}
+
+
+
+/* Colores de fondo y textos */
+.skyBlue {
+  background-color: var(--skyBlue);
+}
+
+.redColor {
+  background-color: var(--redColor);
+}
+
+.yellowColor {
+  background-color: #FAE5B8 ;
+}
+
+.skyBluePrice{
+  color: #68D5E8;
+}
+
+.textColor {
+  color: var(--blackColor);
+}
+
+.whiteColor {
+  background-color: var(--whiteColor);
+}
+
+.greenColor{
+  background-color: var(--greenColor);
+}
+
+
+
+/* CSS del Navbar */
+
+#navbarConfig{
+  background-color: var(--skyBlue);
+}
+
+ .textConfig{
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--blackColor);
+}
+ .backHover{
+  border-radius: 5px;
+  color: var(--blackColor);
+}
+.backHover:hover{
+  background-color: var(--blackColor);
+  color: var(--whiteColor) !important;
+}
+
+.navbar-link.active {
+  font-weight: 600;
+  color: var(--blackColor);
+  text-decoration: underline;
+}
+
+.navbar-link.active:hover{
+  color: var(--whiteColor);
+}
+
+#cardDetail .title-acme{
+  text-decoration: underline;
+}
+
+/* CSS del header */
+
+#header {
+  margin-top: 0;
+  padding: 6rem 0 5rem 0;
+  background-image: url('./assets/img/Vivi-header.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+#header .box {
+  padding: 3rem 3rem;
+  background: rgba(12, 12, 12, 0.65);
+  margin: auto;
+  text-align: center;
+}
+
+#header h1 {
+  color: var(--whiteColor);
+  font-size: 2.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  font-family: 'MedievalSharp', sans-serif !important
+}
+
+#header p {
+  color: var(--whiteColor);
+  font-size: 1.25rem;
+  letter-spacing: 0.1rem;
+}
+#header hr{
+  border-top: 0.3rem dotted var(--whiteColor);
+}
+
+
+/* CSS del Footer */
+
+.titleConfig{
+  font-size: 1.4rem;
+  font-family: 'MedievalSharp', sans-serif !important;
+  color: var(--blackColor);
+
+}
+.footer .titleConfig{
+  text-align: center;
+}
+
+.footer-text{
+  text-align: center;
+}
+
+.footerTextSocialContact{
+  font-size: 0.9rem;
+}
+
+/* CSS de formulario register y login */
+
+
+.registerLoginColor{
+  border: #4aab5f solid 2px;
+  width: 20rem;
+}
+
+.registerLoginButton{
+  width: 20rem;
+  background-color: var(--skyBlue);
+  color: var(--blackColor);
+  padding: 0;
+  border: var(--skyBlue);
+}
+
+.registerLoginButtonText{
+  font-weight: 600;
+  align-self: center;
+  margin:auto;
+  padding: 0.5rem;
+}
+
+.registerLoginInput{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registerLoginInput2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.loginForm a {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  text-decoration:underline;
+  color: var(--blackColor);
+}
+
+.form-label{
+  font-weight: 600;
+}
+
+/* CSS del home */
+.searchOrderBy{
+  border:var(--greenColor) solid 2px;
+}
+
+#filters .filterText{
+  font-size: 2rem;
+  font-family: 'Acme',sans-serif;
+  color: var(--blackColor);
+}
+
+ #filters .categoryText{
+  font-size: 1.4rem;
+  text-decoration: underline;
+  font-weight: 600;
+  color: var(--greenColor);
+}
+
+.buttonFiltersSmall{
+  border: var(--greenColor) 2px solid;
+  font-weight: 600;
+}
+
+.custom-range::-moz-range-thumb {
+  background: var(--redColor);
+}
+
+.form-range::-moz-range-thumb:active {
+  background-color: var(--redColor);
+}
+
+#filters .form-check{
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--blackColor);
+}
+
+ .priceRange{
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--greenColor);
+}
+
+.searchButtonHome{
+  background-color: var(--greenColor);
+}
+
+.priceRangeText{
+  color: var(--blackColor);
+  font-weight: 600;
+}
+
+
+
+/* CSS cards home */
+.title-acme {
+    font-family: "Acme", sans-serif;
+}
+
+.textPrice{
+  color:var(--greenColor);
+}
+
+.textShop{
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.page-item .page-link{
+  background:#fff5e1;
+  color: var(--blackColor);
+  border:var(--skyBlue) 2px solid;
+}
+
+.active .page-link{
+  background:var(--skyBlue);
+  color:var(--blackColor);;
+}
+
+/* CSS Products */
+.img {
+  height: 12rem;
+}
+
+.addCartButton {
+  background-color:var(--yellowColor);
+  color:var(--blackColor);
+  font-weight: 600;
+  border: var(--yellowColor);
+}
+
+.goDetails{
+  background-color:var(--skyBlue);
+  color: var(--blackColor);
+  border: var(--skyBlue);
+  font-weight: 600;
+}
+
+#cardProduct .priceText{
+  color:var(--greenColor) !important;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.addCartButton {
+  background-color:var(--yellowColor);
+  color:var(--blackColor);
+  border: var(--yellowColor);
+  font-weight: 600;
+}
+
+/* CSS del menu profile */
+
+.textProfileTitle {
+  font-family: 'Acme', sans-serif;
+  text-align: end;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.textProfile{
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--blackColor);
+}
+
+.textProfile:hover{
+  background-color:#f8d589;
+  color: var(--blackColor);
+  border-radius: 10px;
+  
+}
+
+
+#titleProfile{
+  font-size: 2rem;
+  text-decoration: underline;
+  font-weight: 600;
+  color: var(--blackColor);
+}
+
+.profileLink{
+  background-color: #f8d589;
+}
+
+.addressColor{
+  border: var(--redColor) solid 2px;
+  width: 100%;
+}
+
+.chocoboImg{
+  width: 3rem;
+  height: 3rem;
+}
+
+/* CSS Nuevo producto */
+.newPostColor{
+  border: var(--redColor) solid 2px;
+  width: 100%;
+}
+
+.textareaColor{
+  border:var(--redColor) solid 2px;
+  width: 100%;
+  height: 100% !important;
+}
+
+.searchButton{
+  background-color: var(--skyBlue);
+  color: var(--blackColor);
+  border: var(--skyBlue);
+}
+
+.deleteButton {
+  border: var(--redColor) solid 2px;
+  background-color: var(--redColor);
+
+}
+
+/* CSS NotFound */
+
+.moogleImg{
+  width: 30rem;
+  height: 30rem;
+}
+
+#notFound .titleNF{
+  font-family: 'MedievalSharp',sans-serif;
+}
+
+
+/* CSS del carrito card */
+
+.inputCart{
+  text-align: center;
+  width: 2rem;
+}
+
+#cartCard {
+  border:#f8d589 solid 2px;
+}
+
+.imgCart{
+  width: 4rem;
+  height: 4rem;
+}
+
+.cartProductPrice{
+  color:var(--greenColor);
+  font-size: 1.2rem;
+  font-weight: 300;
+  font-family: 'Acme',sans-serif;
+}
+
+.buttonErase{
+  background-color: var(--redColor);
+  border: var(--redColor);
+  color: var(--blackColor);
+  font-weight: 600;
+}
+
+.cartProductTitle{
+  font-size: 1rem;
+  font-family: 'Acme',sans-serif;
+}
+
+.cartProductShop{
+  font-size: 0.8rem;
+}
+
+/* CSS del carrito order */
+
+#cartFinalOrder{
+  border: var(--redColor) 2px solid; 
+}
+
+.cartOrderTitle{
+  font-family: 'Acme', sans-serif;
+  text-decoration: underline;
+  font-size: 1.1rem;
+  color: var(--blackColor);
+}
+
+#cartFinalOrder .button{
+  background-color: #f8d589;
+  color: var(--blackColor);
+  border:#f8d589;
+}
+
+.cuponInput{
+  border:var(--skyBlue) solid 1px;
+}
+
+.cartOrderSub{
+  font-size: 0.8rem;
+  color: var(--blackColor);
+}
+
+#cartFinalOrder .hr{
+  border:var(--blackColor) 3px dotted;
+  border-style: none none dotted; 
+}
+.cartOrderTotal{
+  font-size: 1.2;
+  font-weight: 700;
+  color: var(--blackColor);
+}
+.buttonCheckout{
+  background-color: var(--skyBlue);
+  border: var(--skyBlue);
+  color: var(--blackColor);
+  font-weight: 700;
+}
+.form-control.inputCart{
+  border: var(--skyBlue) 1px solid;
+}
+
+/* CSS My Products  */
+
+ .imgMyProducts {
+  height: 8rem;
+  width: 8rem;
+ }
+
+ .cardMyProducts {
+  min-height: 10rem;
+  border: var(--redColor) 2px solid;
+ }
+
+ .editProductsButton{
+  background-color: var(--yellowColor);
+  border: var(--yellowColor);
+  color: var(--blackColor);
+ }
+
+ /*Edit Post*/
+.editPostColor {
+  border: #59a76a solid 2px;
+  
+}
+
+.editButton {
+  width: 20rem;
+  background-color: var(--skyBlue);
+  color: var(--blackColor);
+  border: var(--skyBlue);
+}
+
+.priceTextPostCard{
+  color: var(--greenColor);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/*CSS orders*/
+
+.ordersImg {
+  width: 5rem;
+}
+
+.orderListButton {
+    background-color: var(--yellowColor);
+    color: var(--blackColor);
+    border:var(--yellowColor) solid 2px;
+  }
+
+.totalPriceOrder{
+  color: var(--greenColor);
+}
+
+.seeMore {
+  background-color: var(--skyBlue);
+  color: var(--blackColor);
+  border: var(--skyBlue);
+}
+
+/* Cart address */
+#cartAddress{
+  border: var(--greenColor) solid;
+}
+
+#cartAddress .cartOrderSub{
+  font-size: 1rem;
+}
