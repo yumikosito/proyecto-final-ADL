@@ -12,7 +12,7 @@ exports.getCartFull = async (id_user) =>{
         let sellerName = await getUserName(productInfo.seller)
   
         return {...item,
-        seller_Name: sellerName,
+        seller_name: sellerName,
         product_name: productInfo.product_name ,
         product_price: productInfo.product_price ,
         product_quantity:productInfo.product_quantity ,

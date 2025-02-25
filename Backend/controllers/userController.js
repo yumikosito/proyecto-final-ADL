@@ -163,11 +163,13 @@ exports.editAddressUsers = async (req,res) =>{
   try {
     let { id_user, address } = await getUser(req);
     let { addressChange } = req.body;
+    console.log(address, addressChange);
+    
 
-    if(address != addressChange ){
+    if( inputEmpty(addressChange) && address != addressChange ){
       address= addressChange;
 
-    } else if(address == addressChange){
+    } else if( inputEmpty(addressChange) && address == addressChange){
      return res.status(409).json({msg:"Dirección es la misma que tenía antes"})
     }
 

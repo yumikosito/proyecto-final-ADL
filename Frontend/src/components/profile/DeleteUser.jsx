@@ -32,7 +32,11 @@ const DeleteUser = () => {
           icon: "success"
         });
       } else if (
-        // await axios.put("http://localhost:3000/api/perfil", {userLog.id_user}
+        //    await axios.get("http://localhost:3000/api/usuarios/eliminar",{
+        //     headers:{
+        //       Authorization:`Bearer ${user.token}`,
+        //   },
+        // })
         result.dismiss === Swal.DismissReason.cancel
       ) {
         swalWithBootstrapButtons.fire({

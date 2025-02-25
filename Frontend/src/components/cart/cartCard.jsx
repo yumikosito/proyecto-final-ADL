@@ -8,6 +8,7 @@ import { CartContext } from '../../context/CartContext';
 
 
 const CartCard = (product) => {
+  
   const {eraseProdCart} = useContext(CartContext)
   const precioFormat= product.product_price
   const count=product.total_quantity
@@ -38,7 +39,7 @@ const CartCard = (product) => {
 
               <Col xs={7} className='mx-2 d-flex flex-column align-items-start justify-content-center'>
                 <h6 className='cartProductTitle'>{product.product_name}</h6>
-                <p className='cartProductShop'>Vendido por: {product.seller}</p>
+                <p className='cartProductShop'>Vendido por: {product.seller_name}</p>
               </Col>
               </Row>
             </Col>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {createContext,useContext,useEffect,useState} from 'react'
 import { ProductContext } from './ProductContext'
+import { UserContext } from './UserContext'
 
 const CartContext= createContext()
 
@@ -8,6 +9,7 @@ const CartProvider = ({children}) => {
   const [cart,setCart]=useState([])
   const [discount,setDiscount] = useState(0)
   const { products } = useContext(ProductContext)
+  const { user } = useContext(UserContext)
   
   
   let total= cart.reduce((accumulator ,item) => {
@@ -84,24 +86,20 @@ const CartProvider = ({children}) => {
 
 
 
-  // const getData = async () =>{
-  //   try {
-  //     // const response= await axios.get("http://localhost:3001//api/carrito")
-  //     // console.log(response.data);
+  const getCart = async () =>{
+    try {
+      const res= await axios.get("http://localhost:3000/api/carrito/",{
+        headers:{
+          Authorization:`Bearer ${user.token}`,
+      }})
       
-  //     // setCart (Response.data);
-  //   } catch (error) {
-  //     console.log(error);
-      
-  //   }
- 
-  // }
+      setCart (res.data);
+    } catch (error) {
+      console.log(error); 
+    }
+  }
 
-  useEffect (()=>{
-
-  },[cart])
-
-  return <CartContext.Provider value={{cart,setCart,addCart,totalCLP,totalDelivery,totalDiscount, totalCart, totalOrder,setDiscount, eraseTotalCart,eraseProdCart}}>
+  return <CartContext.Provider value={{cart,setCart,addCart,totalCLP,totalDelivery,totalDiscount, totalCart, totalOrder,setDiscount, eraseTotalCart,eraseProdCart, getCart}}>
     {children}
   </CartContext.Provider>
 }

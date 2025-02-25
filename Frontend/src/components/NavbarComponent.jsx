@@ -25,11 +25,12 @@ const NavbarComponent = () => {
   }
 
   const logoutButton = async () => {
-  //   const res = await axios.get("http://localhost3001/logout",{
-  //     headers:{
-  //       Authorization:`Bearer ${user.token}`,
-  //   },
-  // });
+    const res = await axios.get("http://localhost:3000/api/usuarios/cerrar-sesion",{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+    },
+  });
+    setUser([])
     setUserLog(false);
     onUpdateActiveLink('home'); 
   }

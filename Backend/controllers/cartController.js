@@ -32,6 +32,8 @@ exports.editProductInCartController = async(req,res) =>{
   try {
     let { id_user } = await getUser(req);
     const { id_product, total_quantity } = req.body;
+    console.log(total_quantity);
+    
     const productValid = await myProductInCart(id_user, id_product);
 
     if (!productValid){

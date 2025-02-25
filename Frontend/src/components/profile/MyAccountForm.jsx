@@ -14,17 +14,6 @@ const MyAccountForm = () => {
   useEffect(()=>{
     profileUser()
   },[])
-
-
-  // useEffect (async() =>{
-  //   const token= user.token
-  //     const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
-  //       headers:{
-  //         Authorization:`Bearer ${token}`,
-  //     }
-  //   })
-  // }
-  // ,[])
   
 
   const nameChange=useInput("")
@@ -43,16 +32,9 @@ const MyAccountForm = () => {
           },})
 
        if (res.data.msg=="El usuario se modificó con éxito"){
-            // if(nameChange.value!=""){
-            //   letname=nameChange.value
-            // }
-            // if(lastnameChange.value!=""){
-            //   lastname=lastnameChange.value
-            // }
-            // if(emailChange.value!=""){
-            //   email=emailChange.value
-            // }
-            // setUser({...user,name: name, lastname: lastname,email: email})
+
+          profileUser()
+
 
             Swal.fire({
               title: "Perfil editado con exito",
