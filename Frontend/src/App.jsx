@@ -33,16 +33,16 @@ function App() {
     <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/producto/:id" element={<CardDetail />} /> 
-        <Route path="/login" element={!userLog.logged ? <Login />:<Navigate to='/'/>} />
-        <Route path="/registro" element={!userLog.logged ? <Register />:<Navigate to='/'/>} />
+        <Route path="/login" element={!userLog ? <Login />:<Navigate to='/'/>} />
+        <Route path="/registro" element={!userLog ? <Register />:<Navigate to='/'/>} />
 
-        <Route path="/perfil/" element={userLog.logged ? <Profile />:<Navigate to='/login'/>} /> 
-        <Route path="/perfil/nueva-venta" element={userLog.logged ? <NuevaVenta />:<Navigate to='/login'/>} />
-        <Route path="/perfil/mis-productos" element={userLog.logged ? <MyProducts />:<Navigate to='/login'/>} />
-        <Route path="/perfil/mis-productos/:id" element={userLog.logged ? <EditPost/>:<Navigate to='/login'/>} /> 
-        <Route path="/perfil/pedidos-anteriores" element={userLog.logged ? <MyOrders />:<Navigate to='/login'/>} />
-        <Route path="/perfil/pedidos-anteriores/:id" element={userLog.logged ? <OrderDetail />:<Navigate to='/login'/>} />
-        <Route path="/carrito" element={userLog.logged ? <Cart />:<Navigate to='/login'/>} />
+        <Route path="/perfil/" element={userLog ? <Profile />:<Navigate to='/login'/>} /> 
+        <Route path="/perfil/nueva-venta" element={userLog? <NuevaVenta />:<Navigate to='/login'/>} />
+        <Route path="/perfil/mis-productos" element={userLog ? <MyProducts />:<Navigate to='/login'/>} />
+        <Route path="/perfil/mis-productos/:id" element={userLog ? <EditPost/>:<Navigate to='/login'/>} /> 
+        <Route path="/perfil/pedidos-anteriores" element={userLog ? <MyOrders />:<Navigate to='/login'/>} />
+        <Route path="/perfil/pedidos-anteriores/:id" element={userLog ? <OrderDetail />:<Navigate to='/login'/>} />
+        <Route path="/carrito" element={userLog ? <Cart />:<Navigate to='/login'/>} />
         
         <Route path='*' element={<NotFound/>}></Route>
       </Routes>

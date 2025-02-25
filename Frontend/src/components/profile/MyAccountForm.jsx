@@ -1,66 +1,117 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, FormGroup, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useInput from '../../assets/hooks/useInput';
 import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const MyAccountForm = () => {
 
-  const {user,profileUserfunc,userLog,setUserLog}=useContext(UserContext)
-  // profileUserfunc()
-  let name=userLog.name;
+  const {user,profileUser,userLog,setUserLog, setUser}=useContext(UserContext);
+  const [userChange, setUserChange] = useState([])
+  useEffect(()=>{
+    profileUser()
+  },[])
+
+
+  // useEffect (async() =>{
+  //   const token= user.token
+  //     const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+  //       headers:{
+  //         Authorization:`Bearer ${token}`,
+  //     }
+  //   })
+  // }
+  // ,[])
+  
+
   const nameChange=useInput("")
-
-  let lastname=userLog.lastname;
   const lastnameChange=useInput("")
-
-  const username=userLog.username
-  const birthday = userLog.birthday
-  
-
-  let password=userLog.password;
   const passwordChange=useInput("")
-  
-
-  let email=userLog.email;
   const emailChange=useInput("");
 
- 
-
-  const handleSubmit = (e)=> {
+  
+  const handleSubmit = async (e)=> {
     e.preventDefault()
- 
-    
-    if(nameChange.value!=""){
-      name=nameChange.value
-    }
-    if(lastnameChange.value!=""){
-      lastname=lastnameChange.value
-    }
-    if(passwordChange.value!="" && passwordChange.value.length>8){
-      password=passwordChange.value
-    }
-    if(emailChange.value!=""){
-      email=emailChange.value
-    }
-   setUserLog({...userLog,name,lastname,password,email})
 
-      // try {
-    //   const response= await axios.put("http://localhost:3000/api/perfil", {userLog})
+      try {
+      const res =  await axios.put("http://localhost:3000/api/usuarios/editar-perfil", {nameChange: nameChange.value, lastnameChange: lastnameChange.value, passwordChange: passwordChange.value, emailChange: emailChange.value},{
+      headers:{
+              Authorization:`Bearer ${user.token}`,
+          },})
 
-    //    Swal.fire({
-        //   title: "Perfil editado con exito",
-        //   icon: "success",
-        //   confirmButtonColor: "#68D5E8",
-        //   color:"#323232"
-        // })
-    // } catch (error) {
-      // console.error("Error al editar datos:", error);
-    // }
+       if (res.data.msg=="El usuario se modificó con éxito"){
+            // if(nameChange.value!=""){
+            //   letname=nameChange.value
+            // }
+            // if(lastnameChange.value!=""){
+            //   lastname=lastnameChange.value
+            // }
+            // if(emailChange.value!=""){
+            //   email=emailChange.value
+            // }
+            // setUser({...user,name: name, lastname: lastname,email: email})
 
+            Swal.fire({
+              title: "Perfil editado con exito",
+              icon: "success",
+              confirmButtonColor: "#68D5E8",
+              color:"#323232"
+            })
+
+        } else if (res.data.msg="Email es el mismo que tenía antes") {
+          Swal.fire({
+            title: "Email es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        } else if(res.data.msg=="Email ya existe en uso"){
+          Swal.fire({
+            title: "Email ya existe en uso",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
+          Swal.fire({
+            title: "Nombre es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        } else if(res.data.msg=="Apellido es el mismo que tenía antes"){
+          Swal.fire({
+            title: "Apellido es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        } else if(res.data.msg=="Contraseña es la misma que tenía antes"){
+          Swal.fire({
+            title: "Nombre es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        } else {
+          Swal.fire({
+            title: "No se pudo modificar el usuario",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        }
+      
+      
+    } catch (error) {
+      console.error("Error al editar datos:", error);
+    }
+  
+  
   }
-
   return (
     <div className='myAccount'>
       <Container className='whiteColor mb-3'>
@@ -75,28 +126,28 @@ const MyAccountForm = () => {
               <Form.Group className="mb-3"  controlId="formBasicName">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control className='registerLoginColor' type="text"
-                placeholder={name} {...nameChange}
+                placeholder={user.name} {...nameChange}
                 />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicLastName">
                 <Form.Label>Apellido</Form.Label>
                 <Form.Control className='registerLoginColor' type="text"
-                placeholder={lastname} {...lastnameChange}
+                placeholder={user.lastname} {...lastnameChange}
                 />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicUsername">
                 <Form.Label>Nombre de usuario</Form.Label>
                 <Form.Control disabled className='registerLoginColor' type="text"
-                placeholder={username}
+                placeholder={user.username}
                 />
               </Form.Group>
 
               <FormGroup className="mb-3" controlId="formBasicBirthday">
                 <Form.Label>Fecha de nacimiento</Form.Label>
                 <Form.Control disabled className='registerLoginColor' type="text"
-                placeholder={birthday}
+                placeholder={user.birthday}
                 />
               </FormGroup>
 
@@ -118,7 +169,7 @@ const MyAccountForm = () => {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Correo electronico</Form.Label>
                 <Form.Control disabled className='registerLoginColor' type="email"
-                placeholder={email}
+                placeholder={user.email}
                 />
               </Form.Group>
 
