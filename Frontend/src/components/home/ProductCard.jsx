@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { CartContext } from "../../context/CartContext";
 
-const ProductCard = ({ product_name, product_price, product_photo, id_product }) => {
+const ProductCard = ({ product_name, product_price, product_photo, id_product}) => {
   const priceCLP= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(product_price)
-  const {userLog} = useContext(UserContext)
-  const { cart,addCart } = useContext(CartContext)
+  const { userLog } = useContext(UserContext)
+  const { addCart } = useContext(CartContext)
 
   const navigate = useNavigate();
   const details = (idProduct) => {
@@ -16,7 +16,7 @@ const ProductCard = ({ product_name, product_price, product_photo, id_product })
   }
 
   const buttonCart = (idProduct)=>{
-      addCart(idProduct)  
+    addCart(idProduct)
   }
   
   return (
@@ -28,7 +28,7 @@ const ProductCard = ({ product_name, product_price, product_photo, id_product })
         <Card.Text className="priceText">{priceCLP}</Card.Text>
         <Button variant="info" className="mb-2 goDetails px-4" onClick={() => details(id_product)}>Ver detalles</Button>
         <Button
-        // disabled={userLog.logged ? "":"false"} 
+        // disabled={userLog ? "":"false"} 
         variant="warning" className="addCartButton" onClick={()=>buttonCart(id_product)}>Agregar al carrito</Button>
       </Card.Body>
     </Card>     

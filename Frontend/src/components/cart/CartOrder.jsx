@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { CheckLg } from 'react-bootstrap-icons'
 import { CartContext } from '../../context/CartContext'
@@ -6,8 +6,7 @@ import useInput from '../../assets/hooks/useInput'
 import Swal from 'sweetalert2'
 
 const cartOrders = () => {
-  
-  const {cart,totalCart,totalCLP,totalDelivery,totalDiscount,totalOrder,setDiscount}=useContext(CartContext)
+  const {totalCLP,totalDelivery,totalDiscount,totalOrder,setDiscount, totalProducts, buyCart}=useContext(CartContext)
   const cuponDiscount = useInput("")
 
   const cuponApply = (e) =>{
@@ -27,18 +26,9 @@ const cartOrders = () => {
     }
   }
 
-
-  // const handleSubmit= async(e) =>{
-  //   e.preventDefault()
-  //   try {
-  //       const response= await axios.post("http://localhost:3001/carrito/comprar", {cartTrue})
-
-  //       alert("Carrito enviado con exito")
-  //   } catch (error) {
-  //   }
-  // }
-
-  
+  const buy_cart= () =>{
+    buyCart()
+  }
 
   return (
     <div id='cartFinalOrder' className='p-3 mb-3 mx-2 rounded-3' >
@@ -54,7 +44,7 @@ const cartOrders = () => {
          </Form>
           
           <Col className='mt-3 d-flex flex-row justify-content-between cartOrderSub'>
-            <p className='mb-0 p-0'>Numero de productos:</p><span>{totalCart}</span>
+            <p className='mb-0 p-0'>Numero de productos:</p><span>{totalProducts}</span>
           </Col>
           <Col className=''>
             <hr className=' m-0 p-0 hr'/>
@@ -77,7 +67,7 @@ const cartOrders = () => {
             <p className=''>Total:</p><span>{totalOrder} CLP</span>
           </Col>
         
-          <Button type='submit' variant='info' className='buttonCheckout'>Comprar</Button>
+          <Button type='submit' variant='info' className='buttonCheckout' onClick={buy_cart}>Comprar</Button>
         </Row>
       </Container>
     </div>

@@ -7,18 +7,137 @@ const CartContext= createContext()
 
 const CartProvider = ({children}) => {
   const [cart,setCart]=useState([])
+  const [total, setTotal] = useState(0)
   const [discount,setDiscount] = useState(0)
-  const { products } = useContext(ProductContext)
+  const [totalProducts, setTotalProducts] = useState(0)
   const { user } = useContext(UserContext)
   
-  
-  let total= cart.reduce((accumulator ,item) => {
-    return accumulator += (parseInt(item.product_price)*parseInt(item.total_quantity))}, 0)
 
-  let totalCart= cart.reduce((accumulator ,item) => {
-    return accumulator += parseInt(item.total_quantity)}, 0)
+  const getCart = async () =>{
+    try {
+      const res= await axios.get("http://localhost:3000/api/carrito/",{
+        headers:{
+          Authorization:`Bearer ${user.token}`,
+      }})     
+      setCart (res.data.cart);
+      setTotal (res.data.total_price)
+      setTotalProducts(res.data.total_products)
+    } catch (error) {
+      console.log(error); 
+    }
+  }
+
+  const quantityMinus = async(id) =>{
+    let count = product.total_quantity-1
+    
+    const res = await axios.post("http://localhost:3000/api/carrito/editar", {id_product: id, total_quantity: count},{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+      },
+    });
+    getCart()
+  }
+
+  const quantityPlus = async(id) =>{
+    let count = product.total_quantity+1
+    
+    const res = await axios.post("http://localhost:3000/api/carrito/editar", {id_product: id, total_quantity: count},{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+      },
+    });
+    getCart()
+  }
   
-  const delivery=3000
+  let delivery = 0
+  if(cart.length>0){
+    delivery = 3000
+  } 
+
+  const eraseProduct = async (id) =>{
+    const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: id, total_quantity: 0},{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+    },
+  });
+  getCart()
+  }
+
+  const addCart = async (idProduct)=>{
+    
+    // if (cart.some(product => product.product_id == idProduct)){
+    //   const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
+    //     headers:{
+    //       Authorization:`Bearer ${user.token}`,
+    //   },})
+      // getCart()
+    // } else{
+    //   const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
+    //     headers:{
+    //       Authorization:`Bearer ${user.token}`,
+    //   },})
+    //  getCart()}
+  }
+
+  const buyCart= async() =>{
+ 
+    try {
+      const res = await axios.post("http://localhost:3000/api/carrito/comprar",{
+        headers:{
+          Authorization:`Bearer ${user.token}`,
+      },
+    });
+
+        
+           if (res.data.msg=="Carrito fue comprado con éxito"){
+            getCart()
+             Swal.fire({
+               title: "Carrito fue comprado con éxito",
+               icon: "success",
+               confirmButtonColor: "#68D5E8",
+               color:"#323232"
+             })
+
+           } else if (res.data.msg=="No se pudo enviar la orden") {
+             Swal.fire({
+               title: "No se pudo enviar la orden",
+               icon: "error",
+               confirmButtonColor: "#68D5E8",
+               color:"#323232"
+             })
+
+           } else if(res.data.msg=="Carrito esta vacio"){
+             Swal.fire({
+               title: "Carrito esta vacio",
+               icon: "error",
+               confirmButtonColor: "#68D5E8",
+               color:"#323232"
+             })
+             
+           } else {
+            Swal.fire({
+              title: "No se pudo comprar el carrito",
+              icon: "error",
+              confirmButtonColor: "#68D5E8",
+              color:"#323232"
+            })
+           }
+         
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  const eraseTotalCart = async() => {
+    const res = await axios.delete("http://localhost:3000/api/carrito/eliminar",{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+    },
+  });
+  getCart()
+  }
+ 
   const Order=total+delivery-discount
 
   const totalCLP= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(total)
@@ -26,80 +145,10 @@ const CartProvider = ({children}) => {
   const totalDiscount = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(discount)
   const totalOrder= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(Order)
 
-  const addCart= async(id)=> {
-    const searchProduct=products.find(product => product.id_product===id)
-    
-    if(cart.length===0){
-      setCart([{...searchProduct,total_quantity:1}])
-    } else{
 
-        if(cart.some(idProduct =>(idProduct.id_product==id))==true){
-          const newAdd=cart.map(cartN =>{
-            if(cartN.id_product===id){
-              return {...cartN,total_quantity:cartN.total_quantity+1}
-            }
-            return cartN
-          })
-          setCart(newAdd)
-
-        } else {
-          setCart([...cart,{...searchProduct,total_quantity:1}])
-        } 
-      }
-    }
-
-    const eraseTotalCart = () => {
-      setCart([])
-      setDiscount(0)
-    }
-
-    const eraseProdCart = (id) =>{
-      const index = cart.findIndex(prod => (prod.id_product==id));
-      const newArray = cart.toSpliced(index,1);
-      setCart(newArray);
-    }
-
-
-    // try {
-      //   const response= await axios.post("http://localhost:3001/api/carrito", {userLog})
-  
-      //    Swal.fire({
-          //   title: "Perfil editado con exito",
-          //   icon: "success",
-          //   confirmButtonColor: "#68D5E8",
-          //   color:"#323232"
-          // })
-      // } catch (error) {
-        // console.error("Error al editar datos:", error);
-      // }
-    // const newAdd=cart.map(cartN =>{
-    //   if(cartN.id===id){
-    //     return {...cartN,total_quantity:1}
-    //   }
-    //   return cartN
-    // })
-    // console.log(newAdd);
-    // setCart(newAdd)
   
 
-
-
-
-
-  const getCart = async () =>{
-    try {
-      const res= await axios.get("http://localhost:3000/api/carrito/",{
-        headers:{
-          Authorization:`Bearer ${user.token}`,
-      }})
-      
-      setCart (res.data);
-    } catch (error) {
-      console.log(error); 
-    }
-  }
-
-  return <CartContext.Provider value={{cart,setCart,addCart,totalCLP,totalDelivery,totalDiscount, totalCart, totalOrder,setDiscount, eraseTotalCart,eraseProdCart, getCart}}>
+  return <CartContext.Provider value={{cart, setCart, totalProducts, totalCLP, totalDelivery, totalDiscount, totalOrder, setDiscount, getCart, quantityMinus, quantityPlus, eraseProduct, buyCart, addCart, eraseTotalCart}}>
     {children}
   </CartContext.Provider>
 }

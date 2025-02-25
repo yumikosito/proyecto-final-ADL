@@ -13,12 +13,15 @@ import axios from 'axios';
 
 
 const NavbarComponent = () => {
-  let {user,setUser,userLog,setUserLog} = useContext(UserContext)
-  
+  let { user,setUser,userLog,setUserLog } = useContext(UserContext)
+  const { getCart, totalOrder } = useContext(CartContext)
   const userLogged=userLog
-  const {totalOrder}=useContext(CartContext)
-  
   let {activeLink,setActiveLink,setProfileActive} = useContext(ActiveContext);
+
+  useEffect(()=>{
+    getCart()
+  },[])
+  
 
   const onUpdateActiveLink = (value)=>{
     setActiveLink(value);
@@ -56,10 +59,10 @@ const NavbarComponent = () => {
             {userLogged===true ? (<Nav.Link as={Link} className={activeLink==='profile'? 'backHover active navbar-link':'backHover'} onClick={()=>[ onUpdateActiveLink('profile'),setProfileActive('about-me')]} to="/perfil">Mi Perfil</Nav.Link>):null}
             {!userLogged===true ? (<Nav.Link as={Link} className={activeLink==='register'? 'backHover active navbar-link':'backHover'} onClick={()=> onUpdateActiveLink('register')} to="/registro">Registro</Nav.Link>):null}
             {!userLogged===true ? (<Nav.Link as={Link} className={activeLink==='login'? 'backHover active navbar-link':'backHover'} onClick={()=> onUpdateActiveLink('login')} to="/login">Iniciar sesión</Nav.Link>):null}
-            {/* {userLogged===true ? (<Nav.Link as={Link} className={activeLink==='newPost'? 'backHover active navbar-link':'backHover'} onClick={()=> onUpdateActiveLink('newPost')} to="/perfil/nueva-venta">Nueva venta</Nav.Link>):null}
-            {userLogged===true ? (<Nav.Link as={Link} className={activeLink==='products'? 'backHover active navbar-link':'backHover'} onClick={()=> onUpdateActiveLink('products')} to="/mis-productos">Mis productos</Nav.Link>):null} */}
             {userLogged===true ? (<Nav.Link as={Link} className='backHover' onClick={logoutButton} to="/">Cerrar sesión</Nav.Link>):null}
-            {userLogged===true ? (<Nav.Link as={Link} className={activeLink==='cart'? 'backHover active navbar-link':'backHover'} onClick={()=> onUpdateActiveLink('cart')} to="/carrito"><CartFill size={23}/> {totalOrder}</Nav.Link>):null}
+            {userLogged===true ? (<Nav.Link as={Link} className={activeLink==='cart'? 'backHover active navbar-link':'backHover'} onClick={()=> onUpdateActiveLink('cart')} to="/carrito"><CartFill size={23}/> 
+            {totalOrder}
+            </Nav.Link>):null}
             
           </Nav>
         </Navbar.Collapse>

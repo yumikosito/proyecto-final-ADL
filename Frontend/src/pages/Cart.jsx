@@ -9,15 +9,9 @@ import { UserContext } from '../context/UserContext.jsx'
 
 const Cart = () => {
   const {cart, eraseTotalCart,getCart}=useContext(CartContext)
-  const {user} = useContext(UserContext)
-  // const cartTrue= cart.filter(item=>(item.add===true))
   
-  const eraseCart = async() => {
-    const res = await axios.delete("http://localhost:3000/api/carrito/eliminar",{
-      headers:{
-        Authorization:`Bearer ${user.token}`,
-    },
-  });
+  const eraseCart = () => {
+    eraseTotalCart()
   }
 
   useEffect(()=>{
