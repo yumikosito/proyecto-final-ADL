@@ -8,50 +8,13 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 const Address = () => {
-  const {user, userLog,setUserLog,profileUser} = useContext(UserContext)
+  const {user, editAddress} = useContext(UserContext)
   
   const addressChange=useInput("")
 
   const handleSubmit = async (e)=>{
     e.preventDefault()
-    console.log(addressChange);
-    
-    try {
-      const res =  await axios.put("http://localhost:3000/api/usuarios/editar-direccion", {addressChange: addressChange.value},{
-      headers:{
-              Authorization:`Bearer ${user.token}`,
-          },})
-
-       if (res.data.msg=="La dirección se modificó con éxito"){
-          profileUser()
-
-          Swal.fire({
-            title:"La dirección se modificó con éxito",
-            icon: "success",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else if (res.data.msg="Dirección es la misma que tenía antes") {
-          Swal.fire({
-            title: "Dirección es la misma que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        } else {
-          Swal.fire({
-            title: "No se pudo modificar la dirección del usuario",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        }
-      
-      
-    } catch (error) {
-      console.error("Error al editar datos:", error);
-    }
+    editAddress(addressChange)
   }
 
 

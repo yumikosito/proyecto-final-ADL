@@ -11,10 +11,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const NewPostForm = () => {
-  
-    const {user}=useContext(UserContext);
-  const {products,setProducts} = useContext(ProductContext)
-  const navigate = useNavigate()
+  const {newProduct} = useContext(ProductContext)
 
   const product_name=useInput("");
   const product_price=useInput("");
@@ -27,39 +24,13 @@ const NewPostForm = () => {
   
   const handleSubmit = async (e)=> {
     e.preventDefault()
+    newProduct(product_name, product_price, product_quantity, product_photo, product_description, product_category) 
+  }
 
-      const newProduct={
-        product_name:product_name.value,
-        product_price:parseInt(product_price.value),
-        product_quantity:product_quantity.value,
-        product_photo:product_photo.value,
-        product_description:product_description.value,
-        product_category:product_category.value,
-      }
-      console.log(newProduct);
-      
-
-      try {
-      const res= await axios.post("http://localhost:3000/api/productos/mis-productos/agregar", newProduct,{
-        headers:{
-                Authorization:`Bearer ${user.token}`,
-            },})
-
-       Swal.fire({
-          title: "Producto agregado con exito",
-          icon: "success",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
-    } catch (error) {
-      console.error("Error al agregar producto nuevo:", error);
-    }
-        }
-
-    const handleSubmitSearch = (e)=> {
-      e.preventDefault()
-      // const response= await axios.get("http://localhost:3001/api/mis-productos/", {search})
-    }
+  const handleSubmitSearch = (e)=> {
+    e.preventDefault()
+    // const response= await axios.get("http://localhost:3000/api/mis-productos/", {search})
+  }
 
 
   return (

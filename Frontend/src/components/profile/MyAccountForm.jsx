@@ -4,13 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useInput from '../../assets/hooks/useInput';
 import { UserContext } from '../../context/UserContext';
-import axios from 'axios';
-import Swal from 'sweetalert2';
 
 const MyAccountForm = () => {
 
-  const {user,profileUser,userLog,setUserLog, setUser}=useContext(UserContext);
-  const [userChange, setUserChange] = useState([])
+  const {user,profileUser, editProfile}=useContext(UserContext);
+
   useEffect(()=>{
     profileUser()
   },[])
@@ -21,79 +19,11 @@ const MyAccountForm = () => {
   const passwordChange=useInput("")
   const emailChange=useInput("");
 
-  
   const handleSubmit = async (e)=> {
     e.preventDefault()
-
-      try {
-      const res =  await axios.put("http://localhost:3000/api/usuarios/editar-perfil", {nameChange: nameChange.value, lastnameChange: lastnameChange.value, passwordChange: passwordChange.value, emailChange: emailChange.value},{
-      headers:{
-              Authorization:`Bearer ${user.token}`,
-          },})
-
-       if (res.data.msg=="El usuario se modificó con éxito"){
-
-          profileUser()
-
-
-            Swal.fire({
-              title: "Perfil editado con exito",
-              icon: "success",
-              confirmButtonColor: "#68D5E8",
-              color:"#323232"
-            })
-
-        } else if (res.data.msg="Email es el mismo que tenía antes") {
-          Swal.fire({
-            title: "Email es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        } else if(res.data.msg=="Email ya existe en uso"){
-          Swal.fire({
-            title: "Email ya existe en uso",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
-          Swal.fire({
-            title: "Nombre es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        } else if(res.data.msg=="Apellido es el mismo que tenía antes"){
-          Swal.fire({
-            title: "Apellido es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        } else if(res.data.msg=="Contraseña es la misma que tenía antes"){
-          Swal.fire({
-            title: "Nombre es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        } else {
-          Swal.fire({
-            title: "No se pudo modificar el usuario",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        }
-      
-      
-    } catch (error) {
-      console.error("Error al editar datos:", error);
-    }
-  
-  
+    editProfile(nameChange, lastnameChange, passwordChange, emailChange)
   }
+
   return (
     <div className='myAccount'>
       <Container className='whiteColor mb-3'>

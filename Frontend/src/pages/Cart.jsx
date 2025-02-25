@@ -4,8 +4,6 @@ import CartOrder from '../components/cart/CartOrder'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { CartContext } from '../context/CartContext'
 import Cartaddress from '../components/cart/CartAdress'
-import axios from 'axios'
-import { UserContext } from '../context/UserContext.jsx'
 
 const Cart = () => {
   const {cart, eraseTotalCart,getCart}=useContext(CartContext)
