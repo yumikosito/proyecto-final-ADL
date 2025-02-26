@@ -9,118 +9,100 @@ const UserProvider = ({children}) => {
   const navigate = useNavigate()
   const [user,setUser] = useState([])
   const [userLog,setUserLog] = useState(false)
-  
 
   const registerUser = async (datos)  => {
-    try {
-      const res= await axios.post("http://localhost:3000/api/usuarios/registro",{email: datos.email,
-        email_confirm:datos.email_confirm,
-        password: datos.password,
-        password_confirm:datos.password_confirm,
-        username:datos.username,
-        name: datos.name,
-        lastname: datos.lastname,
-        birthday: datos.birthday
+    const res= await axios.post("http://localhost:3000/api/usuarios/registro",{email: datos.email,
+      email_confirm:datos.email_confirm,
+      password: datos.password,
+      password_confirm:datos.password_confirm,
+      username:datos.username,
+      name: datos.name,
+      lastname: datos.lastname,
+      birthday: datos.birthday
+    })
+
+    if (res.data.msg=="Usuario registrado satisfactoriamente"){
+      Swal.fire({
+        title: "Registro correcto",
+        icon: "success",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
       })
-  
-      if (res.data.msg=="Usuario registrado satisfactoriamente"){
-        Swal.fire({
-          title: "Registro correcto",
-          icon: "success",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
-  
-      } else if (res.data.msg=="El email ya esta en uso"){
-        Swal.fire({
-          title: "El email ya esta en uso",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
-  
-      } else if (res.data.msg=="El usuario ya esta en uso"){
-        Swal.fire({
-          title: "El usuario ya esta en uso",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        }) 
-  
-      } else if (res.data.msg=="La contraseña o el email de confirmación no son iguales"){
-        Swal.fire({
-          title: "La contraseña o el email de confirmación no son iguales",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        }) 
-  
-      } else if (res.data.msg=="El usuario y el email ya estan en uso"){
-        Swal.fire({
-          title: "El usuario y el email ya estan en uso",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        }) 
-  
-      } else {
-        Swal.fire({
-          title: "No se pudo registrar nuevo usuario",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        }) 
-      }
-    } catch (error) {
-      console.log(error); 
-    }  
+
+    } else if (res.data.msg=="El email ya esta en uso"){
+      Swal.fire({
+        title: "El email ya esta en uso",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      }) 
+
+    } else if (res.data.msg=="El usuario ya esta en uso"){
+      Swal.fire({
+        title: "El usuario ya esta en uso",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      }) 
+
+    } else if (res.data.msg=="La contraseña o el email de confirmación no son iguales"){
+      Swal.fire({
+        title: "La contraseña o el email de confirmación no son iguales",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      }) 
+
+    } else if (res.data.msg=="El usuario y el email ya estan en uso"){
+      Swal.fire({
+        title: "El usuario y el email ya estan en uso",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      }) 
+
+    } else {
+      Swal.fire({
+        title: "No se pudo registrar nuevo usuario",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      }) 
+    }
   }
 
 
 
   const logInUser = async (datos) => {
-    try {
-      const res= await axios.post("http://localhost:3000/api/usuarios/iniciar-sesion", {email: datos.email, password: datos.password})
-
-        if (res.data.msg=="Autentificación correcta"){
-          setUserLog(true)
-          const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
-            headers:{
-              Authorization:`Bearer ${res.data.token}`,
-            },
-          })
-          const userData=res.data;
-          setUser({...userData, "token": user.token})
-          navigate('/')
-          
-          
-          Swal.fire({
-            title: "Autentificación correcta",
-            icon: "success",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        }
+    const res= await axios.post("http://localhost:3000/api/usuarios/iniciar-sesion", {email: datos.email, password: datos.password})
+    
+    
+    if (res.data.msg=="Autentificación correcta"){
+      setUserLog(true)
+      setUser({"token":res.data.token})
+      navigate('/')
       
-        
-       else if (res.statusCode == 404 && res.data.msg=="Contraseña incorrecta") {
-        Swal.fire({
-          title: "Contraseña incorrecta",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
-      }
-      else if(res.data.msg=="Usuario no encontrado"){
-        Swal.fire({
-          title: "No existe el usuario",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
-      }
-    } catch (error) {
-      console.log(error);
+      
+      Swal.fire({
+        title: "Autentificación correcta",
+        icon: "success",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      })
+    } else if (res.data.msg=="Contraseña incorrecta") {
+      Swal.fire({
+        title: "Contraseña incorrecta",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      })
+    } else if(res.data.msg=="Usuario no encontrado"){
+      Swal.fire({
+        title: "No existe el usuario",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      })
     }
   }
 
@@ -128,21 +110,18 @@ const UserProvider = ({children}) => {
 
   const profileUser = async()=>{
 
-      const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
-        headers:{
-          Authorization:`Bearer ${user.token}`,
-        },
-      })
-      const userData=res.data;
-      setUser({...userData, "token": user.token})
-
+    const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+      },
+    })
+    const userData=res.data;
+    setUser({...userData, "token": user.token})
   }
 
 
 
   const editProfile = async(nameChange, lastnameChange, passwordChange, emailChange) => {
-    console.log(nameChange, lastnameChange, passwordChange, emailChange);
-    
     try {
       const res =  await axios.put("http://localhost:3000/api/usuarios/editar-perfil", {nameChange: nameChange.value, lastnameChange: lastnameChange.value, passwordChange: passwordChange.value, emailChange: emailChange.value},{
       headers:{
@@ -158,6 +137,22 @@ const UserProvider = ({children}) => {
               confirmButtonColor: "#68D5E8",
               color:"#323232"
             })
+
+        } else if (res.data.msg="Email es el mismo que tenía antes") {
+          Swal.fire({
+            title: "Email es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+
+        } else if(res.data.msg=="Email ya existe en uso"){
+          Swal.fire({
+            title: "Email ya existe en uso",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
 
         } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
           Swal.fire({
@@ -183,24 +178,6 @@ const UserProvider = ({children}) => {
             color:"#323232"
           })
 
-        } else if(res.data.msg=="Email ya existe en uso"){
-          Swal.fire({
-            title: "Email ya existe en uso",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else if (res.data.msg="Email es el mismo que tenía antes") {
-          Swal.fire({
-            title: "Email es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        
-
         } else {
           Swal.fire({
             title: "No se pudo modificar el usuario",
@@ -208,7 +185,8 @@ const UserProvider = ({children}) => {
             confirmButtonColor: "#68D5E8",
             color:"#323232"
           })
-        } 
+        }
+      
       
     } catch (error) {
       console.error("Error al editar datos:", error);
@@ -253,8 +231,8 @@ const UserProvider = ({children}) => {
       
     } catch (error) {
       console.error("Error al editar datos:", error);
+      }
     }
-  } 
 
 
     
@@ -267,15 +245,16 @@ const UserProvider = ({children}) => {
       });
       setUser([])
       setUserLog(false);
-
     } catch (error) {
       console.log(error);
+      
     }
+  
   }
 
 
 
-  const delete_user = async () =>{
+  const deleteUser = async () =>{
     await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
       headers:{
         Authorization:`Bearer ${user.token}`,
@@ -285,9 +264,7 @@ const UserProvider = ({children}) => {
 
 
 
-  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, editProfile,profileUser, editAddress, logoutUser
-    , delete_user
-   }}>
+  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, profileUser, editProfile, editAddress, logoutUser, deleteUser}}>
   {children}
   </UserContext.Provider>
 
