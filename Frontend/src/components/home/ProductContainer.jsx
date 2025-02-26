@@ -15,28 +15,23 @@ const ProductContainer = () => {
   const [sort, setSort] = useState("");
   const [products, setProducts] = useState(filteredProducts);
 
-  // Manejo del filtro de búsqueda por nombre
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  // Manejo del filtro de ordenamiento
   const handleSort = (e) => {
     setSort(e.target.value);
   };
 
-  // Filtrar y ordenar los productos en base a los cambios de búsqueda y orden
   useEffect(() => {
     let filtered = [...filteredProducts];
 
-    // Filtrado por búsqueda de nombre
     if (search) {
       filtered = filtered.filter((product) =>
         product.product_name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
-    // Ordenamiento por precio
     if (sort === "asc") {
       filtered = filtered.sort((a, b) => a.product_price - b.product_price);
     } else if (sort === "desc") {

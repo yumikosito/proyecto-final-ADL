@@ -15,7 +15,6 @@ const ProductProvider = ({ children }) => {
     categoria: "",
   });
 
-  // Obtener productos desde el backend
   const getProducts = async () => {
     try {
       const response = await axios.get(
@@ -28,7 +27,6 @@ const ProductProvider = ({ children }) => {
     }
   };
 
-  // Obtener productos filtrados desde el backend
   const getFilteredProducts = async () => {
     try {
       const { precio_min, precio_max, categoria } = filters;
