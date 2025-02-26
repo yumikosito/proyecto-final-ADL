@@ -1,29 +1,58 @@
 import axios from 'axios'
 import {createContext,useContext,useEffect,useState} from 'react'
-import { getProducts } from '../mockproducts'
 import { UserContext } from './UserContext'
 
-const ProductContext= createContext()
+const ProductContext = createContext();
 
-const ProductProvider = ({children}) => {
-  const [products,setProducts]=useState([])
+const ProductProvider = ({ children }) => {
   const { user } = useContext(UserContext)
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [limits, setLimits] = useState(6);
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({
+    precio_min: "",
+    precio_max: "",
+    categoria: "",
+  });
 
-  
+  const getProducts = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/productos?limits=${limits}&page=${page}`
+      );
+      setProducts(response.data.results);
+      setTotalProducts(response.data.total);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    }
+  };
 
+  const getFilteredProducts = async () => {
+    try {
+      const { precio_min, precio_max, categoria } = filters;
+      const response = await axios.get(
+        `http://localhost:3000/api/productos/filtros?precio_min=${precio_min}&precio_max=${precio_max}&categoria=${categoria}`
+      );
+      setFilteredProducts(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error("Error al obtener productos filtrados:", error);
+    }
+  };
 
-  const getData = async () =>{
-    const data= await getProducts()
-     // const response = await axios.get("http://localhost:3001/api/productos");
-        // setProducts(response.data);
-        // console.log(response.data)
-        // let newData=data.map(item =>({...item, total_quantity:0}))
-      setProducts(data)
-  }
+  useEffect(() => {
+    getProducts();
+  }, [page]);
 
-  useEffect (()=>{
-    getData()
-  },[])
+  useEffect(() => {
+    if (filters.precio_min || filters.precio_max || filters.categoria) {
+      getFilteredProducts();
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [filters, products, page]);
 
   const newProduct = async(product_name, product_price, product_quantity, product_photo, product_description, product_category) => {
     const newProduct={
@@ -52,9 +81,17 @@ const ProductProvider = ({children}) => {
   }
   }
 
-  return <ProductContext.Provider value={{products,setProducts, newProduct}}>
+  return <ProductContext.Provider value={{
+    products,
+    filteredProducts,
+    totalProducts,
+    limits,
+    setPage,
+    setFilters,
+    newProduct
+    }}>
     {children}
   </ProductContext.Provider>
 }
 
-export {ProductProvider, ProductContext} 
+export { ProductProvider, ProductContext };
