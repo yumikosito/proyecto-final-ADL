@@ -48,16 +48,16 @@ exports.registerUsers = async(req,res) => {
       res.status(201).json({msg:"Usuario registrado satisfactoriamente",'user_details': { 'username': username, 'email': email}})
 
     } else if (passEmailC && !emailV && usernameV){
-      res.status(409).json({msg:"El email ya esta en uso"})
+      res.json({msg:"El email ya esta en uso"})
 
     } else if (passEmailC && emailV && !usernameV){
-      res.status(409).json({msg:"El usuario ya esta en uso"})
+      res.json({msg:"El usuario ya esta en uso"})
 
     } else if (!passEmailC){
-      res.status(400).json({msg:"La contraseña o el email de confirmación no son iguales"})
+      res.json({msg:"La contraseña o el email de confirmación no son iguales"})
 
     } else if (passEmailC && !emailV && !usernameV) {
-      res.status(409).json({msg:"El usuario y el email ya estan en uso"})
+      res.json({msg:"El usuario y el email ya estan en uso"})
     }
 
   } catch (error) {
@@ -73,11 +73,11 @@ exports.loginUsers = async(req,res) =>{
     const user = await loginUser(email);
 
     if(!user){
-      return res.status(404).json({msg:"Usuario no encontrado"})
+      return res.json({msg:"Usuario no encontrado"})
     } 
 
     if(!bcrypt.compareSync(password,user.password)){
-      res.status(401).json({msg:"Contraseña incorrecta"})
+      res.json({msg:"Contraseña incorrecta"})
       } else {
         const token = jwt.sign(
           {id_user: user.id_user,
@@ -119,10 +119,10 @@ exports.editUsers = async (req,res) =>{
       email = emailChange;
 
     } else if( await inputEmpty(emailChange) && email== emailChange){
-      return res.status(409).json({msg:"Email es el mismo que tenía antes"})
+      return res.json({msg:"Email es el mismo que tenía antes"})
 
     } else if(!emailChangeValid){
-      return res.status(409).json({msg:"Email ya existe en uso"})
+      return res.json({msg:"Email ya existe en uso"})
     }
 
 
@@ -130,7 +130,7 @@ exports.editUsers = async (req,res) =>{
       name = nameChange;
       
     } else if(await inputEmpty(nameChange) && name== nameChange){
-      return res.status(409).json({msg:"Nombre es el mismo que tenía antes"})
+      return res.json({msg:"Nombre es el mismo que tenía antes"})
     }
 
 
@@ -138,7 +138,7 @@ exports.editUsers = async (req,res) =>{
       lastname = lastnameChange;
       
     } else if(await inputEmpty(lastnameChange) && lastname== lastnameChange){
-      return res.status(409).json({msg:"Apellido es el mismo que tenía antes"})
+      return res.json({msg:"Apellido es el mismo que tenía antes"})
     }
 
 
@@ -146,7 +146,7 @@ exports.editUsers = async (req,res) =>{
       password = await bcrypt.hash(passwordChange,12)
       
     } else if(await inputEmpty(passwordChange) && passwordC){
-      return res.status(409).json({msg:"Contraseña es la misma que tenía antes"})
+      return res.json({msg:"Contraseña es la misma que tenía antes"})
     }
 
     await editUser(id_user, email, name, lastname, password)

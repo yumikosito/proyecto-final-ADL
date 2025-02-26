@@ -82,28 +82,31 @@ const UserProvider = ({children}) => {
   const logInUser = async (datos) => {
     try {
       const res= await axios.post("http://localhost:3000/api/usuarios/iniciar-sesion", {email: datos.email, password: datos.password})
-      localStorage.setItem("token", res.data.token)
+
+        if (res.data.msg=="Autentificación correcta"){
+          setUserLog(true)
+          setUser({"token":res.data.token})
+          navigate('/')
+          
+          
+          Swal.fire({
+            title: "Autentificación correcta",
+            icon: "success",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        }
       
-      if (res.data.msg=="Autentificación correcta"){
-        setUserLog(true)
-        setUser({"token":res.data.token})
-        navigate('/')
         
-        
-        Swal.fire({
-          title: "Autentificación correcta",
-          icon: "success",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
-      } else if (res.data.msg=="Contraseña incorrecta") {
+       else if (res.statusCode == 404 && res.data.msg=="Contraseña incorrecta") {
         Swal.fire({
           title: "Contraseña incorrecta",
           icon: "error",
           confirmButtonColor: "#68D5E8",
           color:"#323232"
         })
-      } else if(res.data.msg=="Usuario no encontrado"){
+      }
+      else if(res.data.msg=="Usuario no encontrado"){
         Swal.fire({
           title: "No existe el usuario",
           icon: "error",
@@ -111,7 +114,6 @@ const UserProvider = ({children}) => {
           color:"#323232"
         })
       }
-      
     } catch (error) {
       console.log(error);
     }
@@ -264,18 +266,18 @@ const UserProvider = ({children}) => {
 
 
 
-  // const deleteUser = async () =>{
-  //   await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
-  //     headers:{
-  //       Authorization:`Bearer ${user.token}`,
-  //     },
-  //   })
-  // }
+  const delete_user = async () =>{
+    await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+      },
+    })
+  }
 
 
 
   return <UserContext.Provider value={{user, registerUser, logInUser, userLog, editProfile,profileUser, editAddress, logoutUser
-    // , deleteUser
+    , delete_user
    }}>
   {children}
   </UserContext.Provider>
