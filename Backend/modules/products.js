@@ -1,5 +1,6 @@
 const pool = require('../config/database');
-const format = require("pg-format")
+const format = require("pg-format");
+const { getUserName } = require('./users');
 
 const obtenerTotal = async() => {
   const {rows} = await pool.query("SELECT COUNT (*) FROM products");
@@ -11,7 +12,14 @@ exports.getProducts = async ({limits = 5, page = 1}) => {
     const formatted = format("SELECT * FROM products LIMIT %s OFFSET %s", limits, offset)
     const {rows} = await pool.query(formatted) 
     const total = await obtenerTotal() 
-    return HATEOASFormat(rows, total)
+
+    let rowsNew = await Promise.all (rows.map(async (item) => {
+      let sellerName = await getUserName(item.seller);
+      return {...item,
+      seller_name: sellerName,};  
+    }))
+
+    return HATEOASFormat(rowsNew, total)
 
   } catch (error) {
     throw new Error("No se pudo obtener los productos");
@@ -48,10 +56,17 @@ exports.filters = async ({precio_min, precio_max, categoria}) => {
 
 const HATEOASFormat = (array_products, total) => {
     const products = array_products.map((product) => ({
-        name: product.product_name,
-        href: `/api/productos/${product.id_product}`            
-        
+      id_product: product.id_product,  
+      product_name: product.product_name,
+      product_description: product.product_description, 
+      product_quantity: product.product_quantity, 
+      product_price: product.product_price,
+      product_photo: product.product_photo,
+      product_category: product.product_category,
+      seller_name:product.seller_name,
+      href: `/api/productos/${product.id_product}`               
     }))
+    
     const resProducts = {
         "total": total,
         "results": products

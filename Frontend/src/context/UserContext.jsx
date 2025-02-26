@@ -9,6 +9,8 @@ const UserProvider = ({children}) => {
   const navigate = useNavigate()
   const [user,setUser] = useState([])
   const [userLog,setUserLog] = useState(false)
+  console.log(user);
+  
 
   const registerUser = async (datos)  => {
     try {
@@ -118,18 +120,15 @@ const UserProvider = ({children}) => {
 
 
   const profileUser = async()=>{
-    try {
-      const token= user.token
+
       const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
         headers:{
-          Authorization:`Bearer ${token}`,
+          Authorization:`Bearer ${user.token}`,
         },
       })
       const userData=res.data;
-      setUser({...userData, token})
-    } catch (error) {
-      console.log(error);
-    }
+      setUser({...userData, "token": user.token})
+
   }
 
 
@@ -265,17 +264,19 @@ const UserProvider = ({children}) => {
 
 
 
-  const deleteUser = async () =>{
-    await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
-      headers:{
-        Authorization:`Bearer ${user.token}`,
-      },
-    })
-  }
+  // const deleteUser = async () =>{
+  //   await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
+  //     headers:{
+  //       Authorization:`Bearer ${user.token}`,
+  //     },
+  //   })
+  // }
 
 
 
-  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, editProfile, editAddress, logoutUser, deleteUser}}>
+  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, editProfile,profileUser, editAddress, logoutUser
+    // , deleteUser
+   }}>
   {children}
   </UserContext.Provider>
 

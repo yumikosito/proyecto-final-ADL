@@ -60,20 +60,27 @@ const CartProvider = ({children}) => {
   getCart()
   }
 
-  const addCart = async (idProduct)=>{
-    
-    // if (cart.some(product => product.product_id == idProduct)){
-    //   const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
-    //     headers:{
-    //       Authorization:`Bearer ${user.token}`,
-    //   },})
-      // getCart()
-    // } else{
-    //   const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
-    //     headers:{
-    //       Authorization:`Bearer ${user.token}`,
-    //   },})
-    //  getCart()}
+  const addCart = async (idProduct)=>{ 
+    if (!cart.some(product => product.product_id == idProduct)){
+      try {
+        const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
+          headers:{
+            Authorization:`Bearer ${user.token}`,
+        },})
+        getCart()
+      } catch (error) {
+        console.log(error);
+        
+        
+      }
+      
+    } else{
+      const product = cart.find(item => item.product_id == idProduct);   
+      const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
+        headers:{
+          Authorization:`Bearer ${user.token}`,
+      },})
+     getCart()}
   }
 
   const buyCart= async() =>{
