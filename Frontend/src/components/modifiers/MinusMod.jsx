@@ -7,7 +7,7 @@ const MinusMod = ({product}) => {
   const {quantityMinus} = useContext(CartContext)
 
   const Mod_quantity = (id) =>{
-    quantityMinus(id)
+    quantityMinus(id,product)
   }
   
   return (

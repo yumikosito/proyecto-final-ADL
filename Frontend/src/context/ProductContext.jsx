@@ -1,16 +1,17 @@
-import axios from "axios";
-import { createContext, useEffect, useState, useContext } from "react";
-import { UserContext } from './UserContext'
+import axios from 'axios'
+import {createContext,useContext,useEffect,useState} from 'react'
+import { UserContext } from './UserContext';
+import Swal from 'sweetalert2';
 
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
+  const { user } = useContext(UserContext)
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [limits, setLimits] = useState(6);
   const [page, setPage] = useState(1);
-  const { user } = useContext(UserContext)
   const [filters, setFilters] = useState({
     precio_min: "",
     precio_max: "",

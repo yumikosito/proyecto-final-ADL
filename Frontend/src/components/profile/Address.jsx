@@ -4,8 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useInput from '../../assets/hooks/useInput';
 import { UserContext } from '../../context/UserContext';
-import Swal from 'sweetalert2';
-import axios from 'axios';
 
 const Address = () => {
   const {user, editAddress} = useContext(UserContext)

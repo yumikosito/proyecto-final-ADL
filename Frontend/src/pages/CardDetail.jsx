@@ -11,7 +11,7 @@ import { CartContext } from "../context/CartContext.jsx";
 
 const CardDetail = () => {
   const {user} = useContext(UserContext)
-  const { cart } = useContext(CartContext)
+  const { addCart } = useContext(CartContext)
   const navigate = useNavigate()
   const { id } = useParams();
   const { products } = useContext(ProductContext)
@@ -35,37 +35,19 @@ const CardDetail = () => {
 
         const id_params = Number(id)
         const productFound = products.find(prod => prod.id_product === id_params )
-      
-  
         setProduct(productFound);
       }
-
-  
     };
     getProduct();
   }, [id, products]);
 
-  const buttonCart = async (idProduct)=>{
-    console.log(product => product.product_id == idProduct);
-    
-    if (cart.some(product => product.product_id == idProduct)){
-      const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
-        headers:{
-          Authorization:`Bearer ${user.token}`,
-      },})
-      
-  } else{
-    const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
-      headers:{
-        Authorization:`Bearer ${user.token}`,
-    },})
-  }
+  const buttonCart = (idProduct)=>{
+    addCart(idProduct)
   }
 
   const goback = () =>{
     navigate('/')
   }
-
 
   const totalCLP= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(product.product_price)
 
@@ -83,7 +65,7 @@ const CardDetail = () => {
 
                 <h2 className="title-acme">{product.product_name}</h2>
                 <h1 className="textPrice pb-2"> {totalCLP} CLP</h1>
-                <h4 className="pb-2 textShop">Vendido por: {product.seller}</h4>
+                <h4 className="pb-2 textShop">Vendido por: {product.seller_name}</h4>
                 <h6 className="pb-5">Descripción: {product.product_description}</h6>
                 <div>
                   <h6>Cantidad disponible: {product.product_quantity}</h6>

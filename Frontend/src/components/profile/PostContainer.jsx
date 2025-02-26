@@ -1,27 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import PostCard from "./PostCard";
 import { Container, Row, Col } from "react-bootstrap";
-import { UserContext } from "../../context/UserContext";
-import axios from "axios";
 
-const PostContainer = ({products}) => {
-
-  const { user } = useContext(UserContext);
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:3001/api/mis-productos", {
-  //         headers: { Authorization: `Bearer ${user.token}` }
-  //       });
-  //       setProducts(response.data);
-  //       console.log(response.data)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-
-  //   };
-  //   fetchProducts();
-  // }, [user.token]);
+const PostContainer = ({ products, handleDelete }) => {
 
   return (
     <Container>
@@ -34,13 +15,11 @@ const PostContainer = ({products}) => {
       </Row>
       <Row className="m-3 d-flex justify-content-center">
         <Col>
-      
-            {products.map(
-              (
-                prod 
-              ) => <PostCard key={prod.id_product} {...prod} />
-            )}
-         
+          {products
+            ? products.map((prod) => (
+                <PostCard key={prod.id_product} {...prod} handleDelete={handleDelete} />
+              ))
+            : "No hay productos que mostrar"}
         </Col>
       </Row>
     </Container>

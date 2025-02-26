@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CartFill } from 'react-bootstrap-icons';
 import { ActiveContext } from '../context/ActiveContext';
 import { Link } from 'react-router-dom';
@@ -18,9 +18,14 @@ const NavbarComponent = () => {
   const userLogged=userLog
   let {activeLink,setActiveLink,setProfileActive} = useContext(ActiveContext);
 
+  
   useEffect(()=>{
-    getCart()
+    if(userLog){
+      getCart()
+    }
   },[])
+
+  
   
 
   const onUpdateActiveLink = (value)=>{

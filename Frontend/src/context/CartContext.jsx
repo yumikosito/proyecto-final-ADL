@@ -27,7 +27,7 @@ const CartProvider = ({children}) => {
     }
   }
 
-  const quantityMinus = async(id) =>{
+  const quantityMinus = async(id,product) =>{
     let count = product.total_quantity-1
     
     const res = await axios.post("http://localhost:3000/api/carrito/editar", {id_product: id, total_quantity: count},{
@@ -38,7 +38,7 @@ const CartProvider = ({children}) => {
     getCart()
   }
 
-  const quantityPlus = async(id) =>{
+  const quantityPlus = async(id,product) =>{
     let count = product.total_quantity+1
     
     const res = await axios.post("http://localhost:3000/api/carrito/editar", {id_product: id, total_quantity: count},{
@@ -49,10 +49,7 @@ const CartProvider = ({children}) => {
     getCart()
   }
   
-  let delivery = 0
-  if(cart.length>0){
-    delivery = 3000
-  } 
+
 
   const eraseProduct = async (id) =>{
     const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: id, total_quantity: 0},{
@@ -63,69 +60,74 @@ const CartProvider = ({children}) => {
   getCart()
   }
 
-  const addCart = async (idProduct)=>{
-    
-    // if (cart.some(product => product.product_id == idProduct)){
-    //   const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
-    //     headers:{
-    //       Authorization:`Bearer ${user.token}`,
-    //   },})
-      // getCart()
-    // } else{
-    //   const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
-    //     headers:{
-    //       Authorization:`Bearer ${user.token}`,
-    //   },})
-    //  getCart()}
+  const addCart = async (idProduct)=>{ 
+    if (!cart.some(product => product.product_id == idProduct)){
+      try {
+        const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
+          headers:{
+            Authorization:`Bearer ${user.token}`,
+        },})
+        getCart()
+      } catch (error) {
+        console.log(error);
+        
+        
+      }
+      
+    } else{
+      const product = cart.find(item => item.product_id == idProduct);   
+      const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
+        headers:{
+          Authorization:`Bearer ${user.token}`,
+      },})
+     getCart()}
   }
 
   const buyCart= async() =>{
- 
     try {
       const res = await axios.post("http://localhost:3000/api/carrito/comprar",{
         headers:{
           Authorization:`Bearer ${user.token}`,
-      },
-    });
+        },
+      });
 
         
-           if (res.data.msg=="Carrito fue comprado con éxito"){
-            getCart()
-             Swal.fire({
-               title: "Carrito fue comprado con éxito",
-               icon: "success",
-               confirmButtonColor: "#68D5E8",
-               color:"#323232"
-             })
+      if (res.data.msg=="Carrito fue comprado con éxito"){
+      getCart()
+        Swal.fire({
+          title: "Carrito fue comprado con éxito",
+          icon: "success",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
-           } else if (res.data.msg=="No se pudo enviar la orden") {
-             Swal.fire({
-               title: "No se pudo enviar la orden",
-               icon: "error",
-               confirmButtonColor: "#68D5E8",
-               color:"#323232"
-             })
+      } else if (res.data.msg=="No se pudo enviar la orden") {
+        Swal.fire({
+          title: "No se pudo enviar la orden",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
-           } else if(res.data.msg=="Carrito esta vacio"){
-             Swal.fire({
-               title: "Carrito esta vacio",
-               icon: "error",
-               confirmButtonColor: "#68D5E8",
-               color:"#323232"
-             })
-             
-           } else {
-            Swal.fire({
-              title: "No se pudo comprar el carrito",
-              icon: "error",
-              confirmButtonColor: "#68D5E8",
-              color:"#323232"
-            })
-           }
+      } else if(res.data.msg=="Carrito esta vacio"){
+        Swal.fire({
+          title: "Carrito esta vacio",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+        
+      } else {
+      Swal.fire({
+        title: "No se pudo comprar el carrito",
+        icon: "error",
+        confirmButtonColor: "#68D5E8",
+        color:"#323232"
+      })
+      }
          
     } catch (error) {
       console.log(error);
-      
     }
   }
 
@@ -138,6 +140,10 @@ const CartProvider = ({children}) => {
   getCart()
   }
  
+  let delivery = 0
+  if(cart.length>0){
+    delivery = 3000
+  } 
   const Order=total+delivery-discount
 
   const totalCLP= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(total)

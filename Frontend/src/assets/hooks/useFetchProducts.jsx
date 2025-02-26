@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { getProducts } from "../../mockproducts";
+//import { getProducts } from "../../mockproducts";
 import { UserContext } from "../../context/UserContext";
 const useFetchProducts = () => {
   const [products, setProducts] = useState([]);
@@ -12,13 +12,10 @@ const useFetchProducts = () => {
         // const response = await getProducts()
         const response = await axios.get("http://localhost:3000/api/productos/mis-productos", {
           headers: { Authorization: `Bearer ${user.token}` }
-        }
-        );
+        });
         setProducts(response.data);
-        console.log(response.data);
         // console.log(response.data)
         // setProducts(response)
-        
       } catch (error) {
         console.log(error);
       }
@@ -26,25 +23,8 @@ const useFetchProducts = () => {
     fetchProducts();
   }, [user.token]);
 
-  return products ;
+  return {products, setProducts} ;
 };
-
-
- // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:3001/api/productos");
-  //       setProducts(response.data);
-  //       console.log(response.data)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-
-  //   };
-  //   fetchProducts();
-  // }, []);
-
-  // return {products}
 
 export default useFetchProducts;
 
