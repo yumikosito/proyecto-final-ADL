@@ -1,7 +1,7 @@
 import axios from 'axios'
-import {createContext,useContext,useEffect,useState} from 'react'
-import { ProductContext } from './ProductContext'
+import {createContext,useContext,useState} from 'react'
 import { UserContext } from './UserContext'
+import Swal from 'sweetalert2'
 
 const CartContext= createContext()
 
@@ -57,22 +57,31 @@ const CartProvider = ({children}) => {
         Authorization:`Bearer ${user.token}`,
     },
   });
-  getCart()
+    if(cart.length==1){
+      setDiscount(0)
+    }
+    getCart()
   }
 
   const addCart = async (idProduct)=>{ 
     if (!cart.some(product => product.product_id == idProduct)){
-      try {
         const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
           headers:{
             Authorization:`Bearer ${user.token}`,
         },})
-        getCart()
-      } catch (error) {
-        console.log(error);
         
+        if (res.data.msg=="Producto agregado con exito"){
+          getCart()
         
-      }
+         } else if(res.data.msg==="No puedes agregar al carrito un producto tuyo"){
+            Swal.fire({
+              title: "No puedes agregar al carrito un producto tuyo",
+              icon: "error",
+              confirmButtonColor: "#68D5E8",
+              color:"#323232"
+            })
+         }
+  
       
     } else{
       const product = cart.find(item => item.product_id == idProduct);   
@@ -80,11 +89,24 @@ const CartProvider = ({children}) => {
         headers:{
           Authorization:`Bearer ${user.token}`,
       },})
-     getCart()}
+          if (res.data.msg=="Producto editado con exito"){
+          getCart()
+        
+         } else if(res.data.msg=="Sobrepasaste el stock disponible del producto"){
+            Swal.fire({
+              title: "Sobrepasaste el stock disponible del producto",
+              icon: "error",
+              confirmButtonColor: "#68D5E8",
+              color:"#323232"
+            })
+         }
+    }
   }
 
   const buyCart= async() =>{
     try {
+      console.log(user.token);
+      
       const res = await axios.post("http://localhost:3000/api/carrito/comprar",{
         headers:{
           Authorization:`Bearer ${user.token}`,
@@ -116,15 +138,7 @@ const CartProvider = ({children}) => {
           confirmButtonColor: "#68D5E8",
           color:"#323232"
         })
-        
-      } else {
-      Swal.fire({
-        title: "No se pudo comprar el carrito",
-        icon: "error",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      })
-      }
+      } 
          
     } catch (error) {
       console.log(error);
@@ -137,7 +151,8 @@ const CartProvider = ({children}) => {
         Authorization:`Bearer ${user.token}`,
     },
   });
-  getCart()
+    setDiscount(0)
+    getCart()
   }
  
   let delivery = 0

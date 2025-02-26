@@ -37,7 +37,7 @@ exports.editProductInCartController = async(req,res) =>{
     const productValid = await myProductInCart(id_user, id_product);
 
     if (!productValid){
-      return res.status(409).json({msg:"No puedes agregar al carrito un producto tuyo"});
+      return res.json({msg:"No puedes agregar al carrito un producto tuyo"});
 
     } else if(productValid) {
       if(total_quantity===0){
@@ -72,7 +72,7 @@ exports.editProductInCartController = async(req,res) =>{
             res.status(200).json({msg:"Producto editado con exito",'cart':cart.cart});
 
           } else if(!stock){
-            res.status(400).json({msg:"Sobrepasaste el stock disponible del producto"});
+            res.json({msg:"Sobrepasaste el stock disponible del producto"});
           }
         }
       }

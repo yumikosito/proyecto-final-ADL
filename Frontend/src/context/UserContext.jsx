@@ -9,7 +9,6 @@ const UserProvider = ({children}) => {
   const navigate = useNavigate()
   const [user,setUser] = useState([])
   const [userLog,setUserLog] = useState(false)
-  console.log(user);
   
 
   const registerUser = async (datos)  => {
@@ -85,7 +84,13 @@ const UserProvider = ({children}) => {
 
         if (res.data.msg=="Autentificación correcta"){
           setUserLog(true)
-          setUser({"token":res.data.token})
+          const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+            headers:{
+              Authorization:`Bearer ${res.data.token}`,
+            },
+          })
+          const userData=res.data;
+          setUser({...userData, "token": user.token})
           navigate('/')
           
           
@@ -136,6 +141,8 @@ const UserProvider = ({children}) => {
 
 
   const editProfile = async(nameChange, lastnameChange, passwordChange, emailChange) => {
+    console.log(nameChange, lastnameChange, passwordChange, emailChange);
+    
     try {
       const res =  await axios.put("http://localhost:3000/api/usuarios/editar-perfil", {nameChange: nameChange.value, lastnameChange: lastnameChange.value, passwordChange: passwordChange.value, emailChange: emailChange.value},{
       headers:{
@@ -151,22 +158,6 @@ const UserProvider = ({children}) => {
               confirmButtonColor: "#68D5E8",
               color:"#323232"
             })
-
-        } else if (res.data.msg="Email es el mismo que tenía antes") {
-          Swal.fire({
-            title: "Email es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else if(res.data.msg=="Email ya existe en uso"){
-          Swal.fire({
-            title: "Email ya existe en uso",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
 
         } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
           Swal.fire({
@@ -192,6 +183,24 @@ const UserProvider = ({children}) => {
             color:"#323232"
           })
 
+        } else if(res.data.msg=="Email ya existe en uso"){
+          Swal.fire({
+            title: "Email ya existe en uso",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+
+        } else if (res.data.msg="Email es el mismo que tenía antes") {
+          Swal.fire({
+            title: "Email es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+
+        
+
         } else {
           Swal.fire({
             title: "No se pudo modificar el usuario",
@@ -199,7 +208,7 @@ const UserProvider = ({children}) => {
             confirmButtonColor: "#68D5E8",
             color:"#323232"
           })
-        }
+        } 
       
     } catch (error) {
       console.error("Error al editar datos:", error);
