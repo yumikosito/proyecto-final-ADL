@@ -32,6 +32,8 @@ exports.editProductInCartController = async(req,res) =>{
   try {
     let { id_user } = await getUser(req);
     const { id_product, total_quantity } = req.body;
+    console.log(total_quantity);
+    
     const productValid = await myProductInCart(id_user, id_product);
 
     if (!productValid){
@@ -41,7 +43,7 @@ exports.editProductInCartController = async(req,res) =>{
       if(total_quantity===0){
         await deleteProductInCart(id_user, id_product);
         let cart =  await getCartFull(id_user);
-        res.status(200).json({msg:"Producto eliminado con éxito",'cart':cart});
+        res.status(200).json({msg:"Producto eliminado con éxito",'cart':cart.cart});
   
       } else if (total_quantity===1) {
         const checkProduct = await checkProductInCart(id_user, id_product)
@@ -49,12 +51,13 @@ exports.editProductInCartController = async(req,res) =>{
         if(checkProduct){   
           await editProductInCart(id_user, id_product, total_quantity);
           let cart =  await getCartFull(id_user);
-          res.status(200).json({msg:"Producto editado con exito",'cart':cart});
+          
+          res.status(200).json({msg:"Producto editado con exito",'cart':cart.cart});
   
         } else {
           await addProductInCart(id_user, id_product, total_quantity)
           let cart =  await getCartFull(id_user);
-          res.status(200).json({msg:"Producto agregado con exito",'cart':cart});
+          res.status(200).json({msg:"Producto agregado con exito",'cart':cart.cart});
         }
         
       } else {
@@ -66,7 +69,7 @@ exports.editProductInCartController = async(req,res) =>{
           let stock = await editProductInCart(id_user,id_product, total_quantity);
           if (stock){
             let cart =  await getCartFull(id_user);
-            res.status(200).json({msg:"Producto editado con exito",'cart':cart});
+            res.status(200).json({msg:"Producto editado con exito",'cart':cart.cart});
 
           } else if(!stock){
             res.status(400).json({msg:"Sobrepasaste el stock disponible del producto"});
@@ -86,6 +89,8 @@ exports.buyProductsToOrderController = async(req,res) =>{
   try {
     let { id_user } = await getUser(req);
     let cart = await getCartFull(id_user)
+    cart = cart.cart
+    
     
     if(cart.length==0){
       res.status(400).json({msg:"Carrito esta vacio"});

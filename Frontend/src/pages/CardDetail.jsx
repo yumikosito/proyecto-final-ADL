@@ -11,7 +11,7 @@ import { CartContext } from "../context/CartContext.jsx";
 
 const CardDetail = () => {
   const {user} = useContext(UserContext)
-  const { addCart } = useContext(CartContext)
+  const { cart } = useContext(CartContext)
   const navigate = useNavigate()
   const { id } = useParams();
   const { products } = useContext(ProductContext)
@@ -45,9 +45,22 @@ const CardDetail = () => {
     getProduct();
   }, [id, products]);
 
-  const buttonCart = (idProduct)=>{
-    addCart(idProduct)  
-}
+  const buttonCart = async (idProduct)=>{
+    console.log(product => product.product_id == idProduct);
+    
+    if (cart.some(product => product.product_id == idProduct)){
+      const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
+        headers:{
+          Authorization:`Bearer ${user.token}`,
+      },})
+      
+  } else{
+    const res = await axios.get("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
+      headers:{
+        Authorization:`Bearer ${user.token}`,
+    },})
+  }
+  }
 
   const goback = () =>{
     navigate('/')

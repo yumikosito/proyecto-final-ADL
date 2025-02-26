@@ -12,14 +12,27 @@ exports.getCartFull = async (id_user) =>{
         let sellerName = await getUserName(productInfo.seller)
   
         return {...item,
-        seller_Name: sellerName,
+        seller_name: sellerName,
         product_name: productInfo.product_name ,
         product_price: productInfo.product_price ,
         product_quantity:productInfo.product_quantity ,
         product_photo: productInfo.product_photo};  
       }
       ))
-    return cartNew
+
+      let totalPrice = 0;
+      let totalPriceOrder = cartNew.map((productPrice) =>{
+        totalPrice += (productPrice.product_price * productPrice.total_quantity);
+        return totalPrice
+      })
+      totalPriceOrder = Number(totalPriceOrder.slice(-1))
+
+      let total_number = 0
+      let total_product = cartNew.map(prod =>{
+        total_number += prod.total_quantity
+      })
+      
+    return {cart: cartNew, total_price: totalPriceOrder, total_products: total_number}
 
   } catch (error) {
     throw new Error("Error al obtener el carrito");

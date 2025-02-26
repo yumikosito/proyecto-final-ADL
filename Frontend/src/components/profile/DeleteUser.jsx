@@ -4,11 +4,9 @@ import { UserContext } from '../../context/UserContext'
 import Swal from 'sweetalert2'
 
 const DeleteUser = () => {
-  // const {userLog} = UserContext(UserContext)
-  // console.log(userLog);
+  const {deleteUser} = UserContext(UserContext)
   
-
-  const deleteButton = (id_user) =>{
+  const deleteButton = () =>{
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-danger",
@@ -32,7 +30,7 @@ const DeleteUser = () => {
           icon: "success"
         });
       } else if (
-        // await axios.put("http://localhost:3000/api/perfil", {userLog.id_user}
+        // deleteUser();
         result.dismiss === Swal.DismissReason.cancel
       ) {
         swalWithBootstrapButtons.fire({
@@ -52,7 +50,7 @@ const DeleteUser = () => {
      </Row>
       <Col className="deletebuttonDiv d-flex justify-content-end">
         <Button className='deleteButton mt-1 py-0 px-2 ms-0' variant="danger" type="submit"
-        // onClick={deleteButton(id_user)}
+        // onClick={deleteButton()}
         >
             <p className='registerLoginButtonText align-items-end'>Al hacer click en el boton se va a ELIMINAR la cuenta</p>
         </Button>

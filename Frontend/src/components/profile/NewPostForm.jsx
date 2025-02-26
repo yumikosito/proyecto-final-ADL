@@ -8,10 +8,10 @@ import { Search } from 'react-bootstrap-icons';
 import { ProductContext } from '../../context/ProductContext';
 import Swal from 'sweetalert2';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const NewPostForm = () => {
-  const {products,setProducts} = useContext(ProductContext)
-  const navigate = useNavigate()
+  const {newProduct} = useContext(ProductContext)
 
   const product_name=useInput("");
   const product_price=useInput("");
@@ -22,45 +22,15 @@ const NewPostForm = () => {
   const search=useInput("")
   
   
-  const handleSubmit = (e)=> {
+  const handleSubmit = async (e)=> {
     e.preventDefault()
+    newProduct(product_name, product_price, product_quantity, product_photo, product_description, product_category) 
+  }
 
-      const newProduct={
-        id_product:parseInt(Date.now() * Math.random()),
-        product_name:product_name.value,
-        product_price:parseInt(product_price.value),
-        product_quantity:product_quantity.value,
-        product_photo:product_photo.value,
-        product_description:product_description.value,
-        product_category:product_category.value,
-      }
-      
-      setProducts([...products,newProduct])
-      Swal.fire({
-        title:"Producto agregado con éxito",
-        icon:"success",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      })
-
-      // try {
-    //   const response= await axios.post("http://localhost:3001/api/mis-productos/agregar", {newProduct})
-
-    //    Swal.fire({
-        //   title: "Producto agregado con exito",
-        //   icon: "success",
-        //   confirmButtonColor: "#68D5E8",
-        //   color:"#323232"
-        // })
-    // } catch (error) {
-      // console.error("Error al agregar producto nuevo:", error);
-    // }
-        }
-
-    const handleSubmitSearch = (e)=> {
-      e.preventDefault()
-      // const response= await axios.get("http://localhost:3001/api/mis-productos/", {search})
-    }
+  const handleSubmitSearch = (e)=> {
+    e.preventDefault()
+    // const response= await axios.get("http://localhost:3000/api/mis-productos/", {search})
+  }
 
 
   return (
