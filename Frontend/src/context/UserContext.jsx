@@ -138,22 +138,7 @@ const UserProvider = ({children}) => {
               color:"#323232"
             })
 
-        } else if (res.data.msg="Email es el mismo que tenía antes") {
-          Swal.fire({
-            title: "Email es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else if(res.data.msg=="Email ya existe en uso"){
-          Swal.fire({
-            title: "Email ya existe en uso",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
+        
         } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
           Swal.fire({
             title: "Nombre es el mismo que tenía antes",
@@ -177,6 +162,24 @@ const UserProvider = ({children}) => {
             confirmButtonColor: "#68D5E8",
             color:"#323232"
           })
+
+        } else if(res.data.msg=="Email ya existe en uso"){
+          Swal.fire({
+            title: "Email ya existe en uso",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+          
+        } else if (res.data.msg="Email es el mismo que tenía antes") {
+          Swal.fire({
+            title: "Email es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+
+     
 
         } else {
           Swal.fire({
