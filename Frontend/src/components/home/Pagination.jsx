@@ -1,27 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-const PaginationComponent = ({filteredProducts}) => {
-  const [active, setActive] = useState(1); 
- 
+const PaginationComponent = ({ totalProducts, limits, setPage }) => {
+  const [active, setActive] = useState(1);
+  const totalPages = Math.ceil(totalProducts / limits); 
 
-  let items = [filteredProducts];
-  for (let number = 1; number <= 5; number++) {
-    items.push(
-      <Pagination.Item 
-        key={number} 
-        active={number === active} 
-        onClick={() => setActive(number)} 
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
+  const handlePageChange = (number) => {
+    setActive(number);
+    setPage(number); 
+  };
 
   return (
-    <div >
-      <Pagination>{items}</Pagination>
-    </div>
+    <Pagination>
+      {[...Array(totalPages)].map((_, index) => (
+        <Pagination.Item
+          key={index + 1}
+          active={index + 1 === active}
+          onClick={() => {
+            handlePageChange(index + 1)
+            
+          }
+          
+          }
+        >
+          {index + 1}
+        </Pagination.Item>
+      ))}
+    </Pagination>
   );
 };
 

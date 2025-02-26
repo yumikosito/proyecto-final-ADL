@@ -5,13 +5,13 @@ import PaginationComponent from "./Pagination";
 import { Container, Row, Col, Form, Button, Offcanvas } from "react-bootstrap";
 import { Funnel, Search } from "react-bootstrap-icons";
 
-const ProductContainer = ({ products }) => {
+const ProductContainer = ({ products, totalProducts, limits, setPage }) => {
+
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [categories, setCategories] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 200000]);
   const [search, setSearch] = useState("");
-
   const [sort, setSort] = useState("");
 
   const handleSort = (e) => {
@@ -27,7 +27,7 @@ const ProductContainer = ({ products }) => {
   useEffect(() => {
     let filtered = products.filter(
       (product) =>
-        categories.length === 0 || categories.includes(product.category)
+        categories.length === 0 || categories.includes(product.product_category)
     );
     filtered = filtered.filter(
       (product) =>
@@ -105,7 +105,7 @@ const ProductContainer = ({ products }) => {
             </Col>
 
           <Col className="d-flex justify-content-center m-4">
-            <PaginationComponent productos={filteredProducts} />
+            <PaginationComponent productos={filteredProducts} totalProducts={totalProducts} limits={limits} setPage={setPage} />
           </Col>
           </Container>
           </Col>

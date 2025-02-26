@@ -6,24 +6,30 @@ const ProductContext= createContext()
 
 const ProductProvider = ({children}) => {
   const [products,setProducts]=useState([])
-
+  const [page, setPage] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const limits = 6;
   
-
-
   const getData = async () =>{
-    const data= await getProducts()
-     // const response = await axios.get("http://localhost:3001/api/productos");
-        // setProducts(response.data);
-        // console.log(response.data)
-        // let newData=data.map(item =>({...item, total_quantity:0}))
-      setProducts(data)
+    // const data= await getProducts()
+    try {
+      const response = await axios.get(`http://localhost:3000/api/productos?limits=${limits}&page=${page}`);
+        const data = response.data.results;
+        setTotalProducts(response.data.total)
+        setProducts(data)
+        console.log(response.data)
+    } catch (error) {
+      console.error("Error al obtener productos", error)
+    }
+  
+      // setProducts(data)
   }
 
   useEffect (()=>{
     getData()
-  },[])
+  },[page])
 
-  return <ProductContext.Provider value={{products,setProducts}}>
+  return <ProductContext.Provider value={{products,setProducts, totalProducts, limits, setPage}}>
     {children}
   </ProductContext.Provider>
 }

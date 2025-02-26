@@ -5,13 +5,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import { ProductContext } from "../context/ProductContext";
 
 const Home = () => {
-  const {products} = useContext(ProductContext)
+  const {products, totalProducts, limits, setPage} = useContext(ProductContext)
 
   return (
     <>
     <Container fluid className="mt-4">
       <Row>
-          <ProductContainer products= {products} />
+          <ProductContainer products= {products} totalProducts={totalProducts} limits={limits} setPage={setPage} />
       </Row>
     </Container>
 
@@ -20,4 +20,3 @@ const Home = () => {
 };
 
 export default Home;
-
