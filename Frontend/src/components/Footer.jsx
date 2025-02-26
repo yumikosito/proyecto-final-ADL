@@ -78,7 +78,7 @@ const Footer = () => {
 
           <Row >
             <Col className='footer-text'>
-             <p >Final Fantasy es propiedad de SQUARE ENIX ©. Página realizada por Jocelyn Araya y Millaray Painemil</p>
+             <p >Final Fantasy es propiedad de SQUARE ENIX ©. Página realizada por Jocelyn Araya y Millaray Painemil.</p>
             </Col>
           </Row>
 

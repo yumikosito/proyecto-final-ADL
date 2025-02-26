@@ -57,7 +57,6 @@ exports.getMyProductsByIdController = async (req, res) => {
     const productoId = req.params.idProducto
 
     const productUser = await getMyProductsById(userId, productoId)
-    console.log(productUser)
     res.json(productUser);
   } catch (error) {
     res.status(500).json({ error: error.message, msg: "Error interno del servidor" });

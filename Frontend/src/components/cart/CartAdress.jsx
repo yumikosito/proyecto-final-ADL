@@ -5,8 +5,6 @@ import { UserContext } from '../../context/UserContext';
 
 const Cartaddress = () => {
   const {user} = useContext(UserContext)
-  console.log(user);
-  
 
   return (
     <div id='cartAddress' className='p-3 mb-3 mx-2 rounded-3 border-2' >

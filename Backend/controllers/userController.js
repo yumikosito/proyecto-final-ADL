@@ -109,9 +109,6 @@ exports.editUsers = async (req,res) =>{
     let { id_user, email, password, name, lastname } = await getUser(req)
     let { nameChange, lastnameChange, passwordChange, emailChange} = req.body;
 
-    console.log(nameChange, lastnameChange,passwordChange,emailChange);
-    
-
     const passwordC = await bcrypt.compare(passwordChange, password);
     const emailChangeValid = await emailValid(emailChange);
     
@@ -162,9 +159,7 @@ exports.editUsers = async (req,res) =>{
 exports.editAddressUsers = async (req,res) =>{
   try {
     let { id_user, address } = await getUser(req);
-    let { addressChange } = req.body;
-    console.log(address, addressChange);
-    
+    let { addressChange } = req.body;  
 
     if( inputEmpty(addressChange) && address != addressChange ){
       address= addressChange;

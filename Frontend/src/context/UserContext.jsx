@@ -137,55 +137,54 @@ const UserProvider = ({children}) => {
               confirmButtonColor: "#68D5E8",
               color:"#323232"
             })
+      } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
+        Swal.fire({
+          title: "Nombre es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
-        } else if (res.data.msg="Email es el mismo que tenía antes") {
-          Swal.fire({
-            title: "Email es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
+      } else if(res.data.msg=="Apellido es el mismo que tenía antes"){
+        Swal.fire({
+          title: "Apellido es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
-        } else if(res.data.msg=="Email ya existe en uso"){
-          Swal.fire({
-            title: "Email ya existe en uso",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
+      } else if(res.data.msg=="Contraseña es la misma que tenía antes"){
+        Swal.fire({
+          title: "Nombre es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
-        } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
-          Swal.fire({
-            title: "Nombre es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
+      } else if(res.data.msg=="Email ya existe en uso"){
+        Swal.fire({
+          title: "Email ya existe en uso",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+        
+      } else if (res.data.msg="Email es el mismo que tenía antes") {
+        Swal.fire({
+          title: "Email es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
-        } else if(res.data.msg=="Apellido es el mismo que tenía antes"){
-          Swal.fire({
-            title: "Apellido es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else if(res.data.msg=="Contraseña es la misma que tenía antes"){
-          Swal.fire({
-            title: "Nombre es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else {
-          Swal.fire({
-            title: "No se pudo modificar el usuario",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        }
+      } else {
+        Swal.fire({
+          title: "No se pudo modificar el usuario",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+      }
       
       
     } catch (error) {
