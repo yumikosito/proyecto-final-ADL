@@ -35,12 +35,8 @@ const CardDetail = () => {
 
         const id_params = Number(id)
         const productFound = products.find(prod => prod.id_product === id_params )
-      
-  
         setProduct(productFound);
       }
-
-  
     };
     getProduct();
   }, [id, products]);
@@ -52,7 +48,6 @@ const CardDetail = () => {
   const goback = () =>{
     navigate('/')
   }
-
 
   const totalCLP= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(product.product_price)
 

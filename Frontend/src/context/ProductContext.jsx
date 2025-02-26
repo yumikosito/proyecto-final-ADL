@@ -82,15 +82,7 @@ const ProductProvider = ({ children }) => {
   }
   }
 
-  return <ProductContext.Provider value={{
-    products,
-    filteredProducts,
-    totalProducts,
-    limits,
-    setPage,
-    setFilters,
-    newProduct
-    }}>
+  return <ProductContext.Provider value={{products,setProducts, newProduct, filteredProducts,totalProducts,limits,setPage,setFilters}}>
     {children}
   </ProductContext.Provider>
 }

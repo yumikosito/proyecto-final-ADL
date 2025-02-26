@@ -39,7 +39,7 @@ function App() {
         <Route path="/perfil/" element={userLog ? <Profile />:<Navigate to='/login'/>} /> 
         <Route path="/perfil/nueva-venta" element={userLog? <NuevaVenta />:<Navigate to='/login'/>} />
         <Route path="/perfil/mis-productos" element={userLog ? <MyProducts />:<Navigate to='/login'/>} />
-        <Route path="/perfil/mis-productos/:id" element={userLog ? <EditPost/>:<Navigate to='/login'/>} /> 
+        <Route path="/perfil/mis-productos/editar/:id" element={userLog ? <EditPost/>:<Navigate to='/login'/>} /> 
         <Route path="/perfil/pedidos-anteriores" element={userLog ? <MyOrders />:<Navigate to='/login'/>} />
         <Route path="/perfil/pedidos-anteriores/:id" element={userLog ? <OrderDetail />:<Navigate to='/login'/>} />
         <Route path="/carrito" element={userLog ? <Cart />:<Navigate to='/login'/>} />
