@@ -3,11 +3,11 @@ import Pagination from "react-bootstrap/Pagination";
 
 const PaginationComponent = ({ totalProducts, limits, setPage }) => {
   const [active, setActive] = useState(1);
-  const totalPages = Math.ceil(totalProducts / limits); 
+  const totalPages = Math.ceil(totalProducts / limits); // Calcular total de páginas
 
   const handlePageChange = (number) => {
     setActive(number);
-    setPage(number); 
+    setPage(number); // Actualizar la página en el componente padre
   };
 
   return (
