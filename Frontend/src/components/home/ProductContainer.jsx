@@ -17,10 +17,12 @@ const ProductContainer = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+    setFilters((prev) => ({ ...prev, search: e.target.value }));
   };
 
   const handleSort = (e) => {
     setSort(e.target.value);
+    setFilters((prev) => ({ ...prev, sort: e.target.value }));
   };
 
   useEffect(() => {
@@ -100,14 +102,14 @@ const ProductContainer = () => {
 
           <Container fluid>
             <Col className="d-flex flex-wrap justify-content-around">
-              {products.map((prod, index) => (
+              {filteredProducts.map((prod, index) => (
                 <ProductCard key={index} {...prod} />
               ))}
             </Col>
 
             <Col className="d-flex justify-content-center m-4">
               <PaginationComponent
-                productos={products}
+                productos={filteredProducts}
                 totalProducts={totalProducts}
                 limits={limits}
                 setPage={setPage}
