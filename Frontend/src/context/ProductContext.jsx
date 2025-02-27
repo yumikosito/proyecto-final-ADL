@@ -9,7 +9,6 @@ const ProductContext = createContext();
 const ProductProvider = ({ children }) => {
   const navigate = useNavigate()
   const { user } = useContext(UserContext)
-  const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [limits, setLimits] = useState(6);
@@ -20,44 +19,29 @@ const ProductProvider = ({ children }) => {
     precio_min: "",
     precio_max: "",
     categoria: "",
+    limits: 6,
+    search: "",
+    sort: "asc",
   });
-
-  const getProducts = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/productos?limits=${limits}&page=${page}`
-      );
-      setProducts(response.data.results);
-      setTotalProducts(response.data.total);
-    } catch (error) {
-      console.error("Error al obtener productos:", error);
-    }
-  };
 
   const getFilteredProducts = async () => {
     try {
-      const { precio_min, precio_max, categoria } = filters;
+      const { precio_min, precio_max, categoria, search, sort, limits } = filters;
       const response = await axios.get(
-        `http://localhost:3000/api/productos/filtros?precio_min=${precio_min}&precio_max=${precio_max}&categoria=${categoria}`
+        `http://localhost:3000/api/productos/?limits=${limits}&page=${page}&sort=${sort}&search=${search}&precio_min=${precio_min}&precio_max=${precio_max}&categoria=${categoria}`
       );
-      setFilteredProducts(response.data);
-      console.log(response.data)
+      setFilteredProducts(response.data.results);
+      setTotalProducts(response.data.total);
+      console.log("fetchproducts", response.data, page)
     } catch (error) {
       console.error("Error al obtener productos filtrados:", error);
     }
   };
 
   useEffect(() => {
-    getProducts();
-  }, [page]);
-
-  useEffect(() => {
-    if (filters.precio_min || filters.precio_max || filters.categoria) {
       getFilteredProducts();
-    } else {
-      setFilteredProducts(products);
-    }
-  }, [filters, products, page]);
+  }, [filters, page]);
+
 
   const newProduct = async(product_name, product_price, product_quantity, product_photo, product_description, product_category) => {
     const newProduct={
@@ -82,14 +66,14 @@ const ProductProvider = ({ children }) => {
               confirmButtonColor: "#68D5E8",
               color:"#323232"
             })
-              
+            getFilteredProducts();
         }
   } catch (error) {
     console.error("Error al agregar producto nuevo:", error);
   }
   }
 
-  return <ProductContext.Provider value={{products,setProducts, newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct}}>
+  return <ProductContext.Provider value={{products,setProducts, newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct,  page}}>
     {children}
   </ProductContext.Provider>
 }

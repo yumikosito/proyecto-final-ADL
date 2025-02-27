@@ -17,17 +17,6 @@ const CardDetail = () => {
   const { products } = useContext(ProductContext)
   // const products = useFetchProducts()
   const [product, setProduct] = useState({});
-  const [counter, setCounter] = useState(0);
-  // const increaseQuantity = () => {
-  //   counter < product.cantidad
-  //     ? setCounter(counter + 1)
-  //     : setCounter(counter);
-  // };
-  // const decreaseQuantity = () => {
-  //   if (counter > 0) {
-  //     setCounter(counter - 1);
-  //   }
-  // };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -70,9 +59,6 @@ const CardDetail = () => {
                 <div>
                   <h6>Cantidad disponible: {product.product_quantity}</h6>
                   <div className="d-flex align-items-baseline">
-                    <MinusMod product={product}/>
-                    <p className="px-2">{counter}</p>
-                    <PlusMod product={product}/>
                   </div>
                 </div>
                 
