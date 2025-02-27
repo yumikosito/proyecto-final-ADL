@@ -52,14 +52,14 @@ const MyAccountForm = () => {
               <Form.Group className="mb-3" controlId="formBasicUsername">
                 <Form.Label>Nombre de usuario</Form.Label>
                 <Form.Control disabled className='registerLoginColor' type="text"
-                placeholder={user.username}
+                value={user.username}
                 />
               </Form.Group>
 
               <FormGroup className="mb-3" controlId="formBasicBirthday">
                 <Form.Label>Fecha de nacimiento</Form.Label>
                 <Form.Control disabled className='registerLoginColor' type="text"
-                placeholder={user.birthday}
+                value={user.birthday}
                 />
               </FormGroup>
 
@@ -68,7 +68,7 @@ const MyAccountForm = () => {
             <Col md={12} lg={6} className='px-5 mb-4'>
              <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Contraseña</Form.Label>
-                <Form.Control disabled className='registerLoginColor' type="text" placeholder="**********" />
+                <Form.Control value= {"********"} disabled className='registerLoginColor disabledColor' type="text" placeholder="**********" />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicpasswordChange">
@@ -81,7 +81,7 @@ const MyAccountForm = () => {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Correo electronico</Form.Label>
                 <Form.Control disabled className='registerLoginColor' type="email"
-                placeholder={user.email}
+                value={user.email}
                 />
               </Form.Group>
 
