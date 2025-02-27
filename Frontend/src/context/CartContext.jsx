@@ -105,8 +105,6 @@ const CartProvider = ({children}) => {
 
   const buyCart= async() =>{
     try {
-      console.log(user.token);
-      
       const res = await axios.post("http://localhost:3000/api/carrito/comprar",{},{
         headers:{
           Authorization:`Bearer ${user.token}`,

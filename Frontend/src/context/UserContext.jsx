@@ -253,7 +253,9 @@ const UserProvider = ({children}) => {
 
 
 
-  const deleteUser = async () =>{
+  const delete_user = async () =>{
+    console.log("deleteToken",user.token);
+    
     await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
       headers:{
         Authorization:`Bearer ${user.token}`,
@@ -263,7 +265,7 @@ const UserProvider = ({children}) => {
 
 
 
-  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, profileUser, editProfile, editAddress, logoutUser, deleteUser}}>
+  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, profileUser, editProfile, editAddress, logoutUser, delete_user}}>
   {children}
   </UserContext.Provider>
 

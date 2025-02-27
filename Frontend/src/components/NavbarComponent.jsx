@@ -19,11 +19,16 @@ const NavbarComponent = () => {
   let {activeLink,setActiveLink,setProfileActive} = useContext(ActiveContext);
 
   
-  useEffect(()=>{
+  const cartHome = async() =>{
     if(userLog){
-      getCart()
+      await getCart()
     }
+  }
+
+  useEffect(()=>{
+    cartHome()
   },[])
+   
 
   
   

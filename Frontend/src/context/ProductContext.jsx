@@ -2,10 +2,12 @@ import axios from 'axios'
 import {createContext,useContext,useEffect,useState} from 'react'
 import { UserContext } from './UserContext';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
+  const navigate = useNavigate()
   const { user } = useContext(UserContext)
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -70,13 +72,16 @@ const ProductProvider = ({ children }) => {
       headers:{
               Authorization:`Bearer ${user.token}`,
           },})
-
-     Swal.fire({
-        title: "Producto agregado con exito",
-        icon: "success",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      })
+      if (res.data.msg=="Producto registrado satisfactoriamente"){
+        navigate('/')
+          Swal.fire({
+              title: "Producto agregado con exito",
+              icon: "success",
+              confirmButtonColor: "#68D5E8",
+              color:"#323232"
+            })
+              
+        }
   } catch (error) {
     console.error("Error al agregar producto nuevo:", error);
   }

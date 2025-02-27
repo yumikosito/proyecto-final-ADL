@@ -115,7 +115,6 @@ exports.tokenIDRemove = async(token) =>{
 
 exports.deleteUser = async(id_user) => {
   try {
-    const { rows: products } = await pool.query('DELETE FROM products WHERE seller = $1',[id_user])
     const { rows: cart } = await pool.query('DELETE FROM cart WHERE user_id = $1',[id_user])
     const { rows: orders } = await pool.query('SELECT * FROM orders WHERE order_user = $1',[id_user])
     
@@ -125,11 +124,14 @@ exports.deleteUser = async(id_user) => {
     })) 
   
     const { rows: finalorders } = await pool.query('DELETE FROM orders WHERE order_user = $1',[id_user])
+    const { rows: productsDelete } = await pool.query('DELETE FROM products WHERE seller = $1',[id_user])
     const { rows: user } = await pool.query('DELETE FROM users WHERE id_user = $1',[id_user])
     
     return true
 
   } catch (error) {
+    console.log(error);
+    
     throw new Error("Error al eliminar el usuario");
   }
 }
