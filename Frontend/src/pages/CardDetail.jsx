@@ -14,21 +14,20 @@ const CardDetail = () => {
   const { addCart } = useContext(CartContext)
   const navigate = useNavigate()
   const { id } = useParams();
-  const { products } = useContext(ProductContext)
-  // const products = useFetchProducts()
+  const { filteredProducts} = useContext(ProductContext)
   const [product, setProduct] = useState({});
 
   useEffect(() => {
     const getProduct = async () => {
-      if(products.length > 0) {
+      if(filteredProducts.length > 0) {
 
         const id_params = Number(id)
-        const productFound = products.find(prod => prod.id_product === id_params )
+        const productFound = filteredProducts.find(prod => prod.id_product === id_params )
         setProduct(productFound);
       }
     };
     getProduct();
-  }, [id, products]);
+  }, [id, filteredProducts]);
 
   const buttonCart = (idProduct)=>{
     addCart(idProduct)
@@ -64,7 +63,7 @@ const CardDetail = () => {
                 
                 <Col className="">
                    <Button
-                  //  disabled={user.logged ? "":"false"}
+                  //  disabled={userLog ? "":"false"}
                    onClick={()=>buttonCart(product.id_product)}
                    className="addCartButton mt-3 px-3 mx-2" variant="warning">
                       Agregar al carrito

@@ -30,9 +30,7 @@ const DeleteUser = () => {
           icon: "success"
         });
       } else if (
-        
         result.dismiss === Swal.DismissReason.cancel
-        
       ) { 
         swalWithBootstrapButtons.fire({
           title: "Se canceló el borrar usuario",

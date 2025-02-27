@@ -17,7 +17,7 @@ const Address = () => {
 
 
   return (
-    <div className='myAccount'>
+    <div className='myAccount mb-3'>
       <Container className='whiteColor mb-3'>
         <Row>
           <Col>
