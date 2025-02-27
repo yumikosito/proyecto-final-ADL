@@ -194,7 +194,6 @@ exports.logout = async(req,res) =>{
 exports.deleteUsers = async(req,res) => {
   try {
     const { id_user } = await getUser(req)
-    console.log(id_user);
     
     let deleteUserConfirm = await deleteUser(id_user);
 

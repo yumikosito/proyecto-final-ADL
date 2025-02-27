@@ -75,7 +75,7 @@ exports.filters = async ({ limits = 6, page = 1, precio_min, precio_max, categor
   let {rows} = await pool.query(text, values)
 
   const total = await obtenerTotal(filtros, values.slice(0, -2))
-  console.log(total)
+
   let rowsNew = await Promise.all(rows.map(async (item) => {
     let sellerName = await getUserName(item.seller);
     return { ...item, seller_name: sellerName };
