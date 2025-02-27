@@ -2,78 +2,107 @@ const pool = require('../config/database');
 const format = require("pg-format");
 const { getUserName } = require('./users');
 
-const obtenerTotal = async() => {
-  const {rows} = await pool.query("SELECT COUNT (*) FROM products");
-  return parseInt(rows[0].count)
-}
-exports.getProducts = async ({limits = 5, page = 1}) => {
-  try {
-    const offset = Math.abs((page - 1) * limits ) ;
-    const formatted = format("SELECT * FROM products LIMIT %s OFFSET %s", limits, offset)
-    const {rows} = await pool.query(formatted) 
-    const total = await obtenerTotal() 
-
-    let rowsNew = await Promise.all (rows.map(async (item) => {
-      let sellerName = await getUserName(item.seller);
-      return {...item,
-      seller_name: sellerName,};  
-    }))
-
-    return HATEOASFormat(rowsNew, total)
-
-  } catch (error) {
-    throw new Error("No se pudo obtener los productos");
+const obtenerTotal = async (filtros, values) => {
+  let queryTotal = "SELECT COUNT(*) FROM products";
+  if (filtros.length > 0) {
+      queryTotal += ` WHERE ${filtros.join(" AND ")}`;
   }
-}
+  const { rows } = await pool.query(queryTotal, values);
+  return parseInt(rows[0].count);
+};
+// exports.getProducts = async ({ limits = 5, page = 1 }) => {
+//   try {
+//     const offset = Math.abs((page - 1) * limits);
+//     const formatted = format("SELECT * FROM products LIMIT %s OFFSET %s", limits, offset)
+//     const { rows } = await pool.query(formatted)
+//     const total = await obtenerTotal()
 
-exports.filters = async ({precio_min, precio_max, categoria}) => {
-    let filtros = [];
-    let values = [];
-    const agregar = (campo, comparador, valor) => {
-        values.push(valor)
-        const { length } = filtros
-        filtros.push(`${campo} ${comparador} $${length + 1}`)
-        }
-    if(precio_min){
-        agregar("product_price", ">=", precio_min)
-    }
-    if(precio_max){
-        agregar("product_price", "<=", precio_max)
-    }
-    if(categoria){
-        agregar("product_category", "=", categoria)
-    }
-    let text = "SELECT * FROM products";
+//     let rowsNew = await Promise.all(rows.map(async (item) => {
+//       let sellerName = await getUserName(item.seller);
+//       return {
+//         ...item,
+//         seller_name: sellerName,
+//       };
+//     }))
 
-    if (filtros.length > 0) {
-        filtros = filtros.join(" AND ")
-        text += ` WHERE ${filtros}`
-        }
-    let result = await pool.query(text, values)
-    return result.rows 
+//     return HATEOASFormat(rowsNew, total)
 
+//   } catch (error) {
+//     throw new Error("No se pudo obtener los productos");
+//   }
+// }
+
+exports.filters = async ({ limits = 6, page = 1, precio_min, precio_max, categoria, sort, search }) => {
+  const offset = Math.abs((page - 1) * limits);
+
+  let filtros = [];
+  let values = [];
+
+  const agregar = (campo, comparador, valor) => {
+    values.push(valor)
+    const { length } = filtros
+    filtros.push(`${campo} ${comparador} $${length + 1}`)
+  }
+  if (precio_min) {
+    agregar("product_price", ">=", precio_min)
+  }
+  if (precio_max) {
+    agregar("product_price", "<=", precio_max)
+  }
+  if (categoria) {
+    agregar("product_category", "=", categoria)
+  }
+
+  if (search) {
+    agregar("product_name", "ILIKE", `%${search}%`)
+  }
+
+  let text = "SELECT * FROM products";
+
+  if (filtros.length > 0) {
+    text += ` WHERE ${filtros.join(" AND ")}`;
+
+  }
+
+  if (sort) {
+    const direction = sort === "desc" ? "desc" : "asc";
+    text += ` ORDER BY product_price ${direction}`;
+  }
+
+  values.push(limits, offset);
+  text += ` LIMIT $${values.length - 1} OFFSET $${values.length}`;
+
+  let {rows} = await pool.query(text, values)
+
+  const total = await obtenerTotal(filtros, values.slice(0, -2))
+  console.log(total)
+  let rowsNew = await Promise.all(rows.map(async (item) => {
+    let sellerName = await getUserName(item.seller);
+    return { ...item, seller_name: sellerName };
+}));
+
+return HATEOASFormat(rowsNew, total);
 }
 
 const HATEOASFormat = (array_products, total) => {
-    const products = array_products.map((product) => ({
-      id_product: product.id_product,  
-      product_name: product.product_name,
-      product_description: product.product_description, 
-      product_quantity: product.product_quantity, 
-      product_price: product.product_price,
-      product_photo: product.product_photo,
-      product_category: product.product_category,
-      seller_name:product.seller_name,
-      href: `/api/productos/${product.id_product}`               
-    }))
-    
-    const resProducts = {
-        "total": total,
-        "results": products
-    }
-    return resProducts
-}
+  const products = array_products.map((product) => ({
+    id_product: product.id_product,
+    product_name: product.product_name,
+    product_description: product.product_description,
+    product_quantity: product.product_quantity,
+    product_price: product.product_price,
+    product_photo: product.product_photo,
+    product_category: product.product_category,
+    seller_name: product.seller_name,
+    href: `/api/productos/${product.id_product}`
+  }))
 
+  const resProducts = {
+    "total": total,
+    "results": products
+  }
+  return resProducts
+}
 
 
 
