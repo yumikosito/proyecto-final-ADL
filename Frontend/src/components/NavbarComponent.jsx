@@ -19,14 +19,6 @@ const NavbarComponent = () => {
   let {activeLink,setActiveLink,setProfileActive} = useContext(ActiveContext);
 
   
-  useEffect(()=>{
-    if(userLog){
-      getCart()
-    }
-  },[])
-
-  
-  
 
   const onUpdateActiveLink = (value)=>{
     setActiveLink(value);

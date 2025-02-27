@@ -79,8 +79,17 @@ const UserProvider = ({children}) => {
     
     if (res.data.msg=="Autentificación correcta"){
       setUserLog(true)
-      setUser({"token":res.data.token})
+      // setUser({"token":res.data.token})
       navigate('/')
+
+      const res2= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+        headers:{
+          Authorization:`Bearer ${res.data.token}`,
+        },
+      })
+      const userData=res2.data;
+      setUser({...userData, "token": res.data.token})
+
       
       
       Swal.fire({
@@ -137,58 +146,54 @@ const UserProvider = ({children}) => {
               confirmButtonColor: "#68D5E8",
               color:"#323232"
             })
+      } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
+        Swal.fire({
+          title: "Nombre es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
+      } else if(res.data.msg=="Apellido es el mismo que tenía antes"){
+        Swal.fire({
+          title: "Apellido es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+
+      } else if(res.data.msg=="Contraseña es la misma que tenía antes"){
+        Swal.fire({
+          title: "Nombre es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+
+      } else if(res.data.msg=="Email ya existe en uso"){
+        Swal.fire({
+          title: "Email ya existe en uso",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
         
-        } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
-          Swal.fire({
-            title: "Nombre es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
+      } else if (res.data.msg="Email es el mismo que tenía antes") {
+        Swal.fire({
+          title: "Email es el mismo que tenía antes",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
 
-        } else if(res.data.msg=="Apellido es el mismo que tenía antes"){
-          Swal.fire({
-            title: "Apellido es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else if(res.data.msg=="Contraseña es la misma que tenía antes"){
-          Swal.fire({
-            title: "Nombre es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-        } else if(res.data.msg=="Email ya existe en uso"){
-          Swal.fire({
-            title: "Email ya existe en uso",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-          
-        } else if (res.data.msg="Email es el mismo que tenía antes") {
-          Swal.fire({
-            title: "Email es el mismo que tenía antes",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-
-     
-
-        } else {
-          Swal.fire({
-            title: "No se pudo modificar el usuario",
-            icon: "error",
-            confirmButtonColor: "#68D5E8",
-            color:"#323232"
-          })
-        }
+      } else {
+        Swal.fire({
+          title: "No se pudo modificar el usuario",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+      }
       
       
     } catch (error) {
@@ -257,7 +262,9 @@ const UserProvider = ({children}) => {
 
 
 
-  const deleteUser = async () =>{
+  const delete_user = async () =>{
+    console.log("deleteToken",user.token);
+    
     await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
       headers:{
         Authorization:`Bearer ${user.token}`,
@@ -267,7 +274,7 @@ const UserProvider = ({children}) => {
 
 
 
-  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, profileUser, editProfile, editAddress, logoutUser, deleteUser}}>
+  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, profileUser, editProfile, editAddress, logoutUser, delete_user}}>
   {children}
   </UserContext.Provider>
 

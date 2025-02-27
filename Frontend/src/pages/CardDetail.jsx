@@ -14,8 +14,7 @@ const CardDetail = () => {
   const { addCart } = useContext(CartContext)
   const navigate = useNavigate()
   const { id } = useParams();
-  const { filteredProducts } = useContext(ProductContext)
-  // const products = useFetchProducts()
+  const { filteredProducts} = useContext(ProductContext)
   const [product, setProduct] = useState({});
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const CardDetail = () => {
                 
                 <Col className="">
                    <Button
-                  //  disabled={user.logged ? "":"false"}
+                  //  disabled={userLog ? "":"false"}
                    onClick={()=>buttonCart(product.id_product)}
                    className="addCartButton mt-3 px-3 mx-2" variant="warning">
                       Agregar al carrito

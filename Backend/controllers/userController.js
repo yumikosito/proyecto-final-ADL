@@ -109,9 +109,6 @@ exports.editUsers = async (req,res) =>{
     let { id_user, email, password, name, lastname } = await getUser(req)
     let { nameChange, lastnameChange, passwordChange, emailChange} = req.body;
 
-    console.log(nameChange, lastnameChange,passwordChange,emailChange);
-    
-
     const passwordC = await bcrypt.compare(passwordChange, password);
     const emailChangeValid = await emailValid(emailChange);
     
@@ -162,9 +159,7 @@ exports.editUsers = async (req,res) =>{
 exports.editAddressUsers = async (req,res) =>{
   try {
     let { id_user, address } = await getUser(req);
-    let { addressChange } = req.body;
-    console.log(address, addressChange);
-    
+    let { addressChange } = req.body;  
 
     if( inputEmpty(addressChange) && address != addressChange ){
       address= addressChange;
@@ -199,6 +194,8 @@ exports.logout = async(req,res) =>{
 exports.deleteUsers = async(req,res) => {
   try {
     const { id_user } = await getUser(req)
+    console.log(id_user);
+    
     let deleteUserConfirm = await deleteUser(id_user);
 
     if (deleteUserConfirm) {
@@ -208,6 +205,6 @@ exports.deleteUsers = async(req,res) => {
     return res.status(404).json({ msg: "No se encontró el usuario para eliminar" });
 
   } catch (error) {
-    res.status(500).json({msg:"No se pudo eliminar el usuario", 'error': error.message})
+    res.status(500).json({msg:"No se pudo eliminar el usuario", 'error': error})
   }
 }

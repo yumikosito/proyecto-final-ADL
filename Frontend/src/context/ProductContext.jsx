@@ -2,15 +2,19 @@ import axios from 'axios'
 import {createContext,useContext,useEffect,useState} from 'react'
 import { UserContext } from './UserContext';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
+  const navigate = useNavigate()
   const { user } = useContext(UserContext)
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [limits, setLimits] = useState(6);
   const [page, setPage] = useState(1);
+  const [result, setResult] = useState([])
+  const [resultProduct, setResultProduct] = useState([])
   const [filters, setFilters] = useState({
     precio_min: "",
     precio_max: "",
@@ -54,20 +58,22 @@ const ProductProvider = ({ children }) => {
       headers:{
               Authorization:`Bearer ${user.token}`,
           },})
-
-     Swal.fire({
-        title: "Producto agregado con exito",
-        icon: "success",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      });
-      getFilteredProducts();
+      if (res.data.msg=="Producto registrado satisfactoriamente"){
+        navigate('/')
+          Swal.fire({
+              title: "Producto agregado con exito",
+              icon: "success",
+              confirmButtonColor: "#68D5E8",
+              color:"#323232"
+            })
+            getFilteredProducts();
+        }
   } catch (error) {
     console.error("Error al agregar producto nuevo:", error);
   }
   }
 
-  return <ProductContext.Provider value={{newProduct, filteredProducts,totalProducts,limits,setPage,setFilters, page}}>
+  return <ProductContext.Provider value={{newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct,  page}}>
     {children}
   </ProductContext.Provider>
 }

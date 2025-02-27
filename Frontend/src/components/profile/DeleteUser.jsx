@@ -23,16 +23,15 @@ const DeleteUser = () => {
       cancelButtonText: "¡No, se cancela!",
       reverseButtons: true
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed) { delete_user()
         swalWithBootstrapButtons.fire({
           title: "¡Usuario borrado!",
           text: "Tu usuario, productos y todo lo relacionado han sido eliminados",
           icon: "success"
         });
       } else if (
-        // deleteUser();
         result.dismiss === Swal.DismissReason.cancel
-      ) {
+      ) { 
         swalWithBootstrapButtons.fire({
           title: "Se canceló el borrar usuario",
           text: "Tu usuario NO ha sido eliminado",

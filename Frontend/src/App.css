@@ -109,7 +109,7 @@ hr{
 
 #header {
   margin-top: 0;
-  padding: 6rem 0 5rem 0;
+  padding: 4rem 0 5rem 0;
   background-image: url('./assets/img/Vivi-header.jpg');
   background-position: center;
   background-size: cover;
@@ -118,15 +118,15 @@ hr{
 
 
 #header .box {
-  padding: 3rem 3rem;
-  background: rgba(12, 12, 12, 0.65);
+  padding: 2rem 3rem;
+  background: rgba(12, 12, 12, 0.8);
   margin: auto;
   text-align: center;
 }
 
 #header h1 {
   color: var(--whiteColor);
-  font-size: 2.8rem;
+  font-size: 2rem;
   font-weight: 600;
   letter-spacing: 0.2rem;
   font-family: 'MedievalSharp', sans-serif !important
@@ -134,7 +134,7 @@ hr{
 
 #header p {
   color: var(--whiteColor);
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   letter-spacing: 0.1rem;
 }
 #header hr{
@@ -377,9 +377,7 @@ hr{
 }
 
 .searchButton{
-  background-color: var(--skyBlue);
-  color: var(--blackColor);
-  border: var(--skyBlue);
+  color: var(--skyBlue);
 }
 
 .deleteButton {
@@ -388,6 +386,25 @@ hr{
 
 }
 
+#searchBar{
+  width: 100%;
+}
+.resultListArea {
+  width: 100%;
+  background-color: var(--whiteColor);
+  box-shadow: 0px 0px 8px var(--redColor);
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+#search-result:hover{
+  font-weight: 700;
+  background-color: var(--yellowColor);
+}
+
+.form-control::placeholder{
+  color: #d3d3d3;
+}
 /* CSS NotFound */
 
 .moogleImg{

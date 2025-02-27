@@ -6,11 +6,16 @@ const useInput = (initialValue) => {
   const handleChange = (e) => {
     setValue(e.target.value);
   };
+
+  const changevalue = (value) => {
+    setValue(value);
+    return ''
+  };
   
 
   return {
     value,
-    onChange: handleChange,
+    onChange: handleChange
   };
 };
 

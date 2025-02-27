@@ -212,3 +212,15 @@ exports.newProduct = async (product_name, product_description, product_price, pr
   }
  
 }
+
+exports.searchProduct = async() =>{
+  try {
+    const {rows: productsTotal } = await pool.query('SELECT * FROM products')
+    return productsTotal
+
+  } catch (error) {
+    throw new Error("No se pudo obtener todos los productos");
+  }
+ 
+  
+}

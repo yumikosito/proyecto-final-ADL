@@ -32,7 +32,6 @@ exports.editProductInCartController = async(req,res) =>{
   try {
     let { id_user } = await getUser(req);
     const { id_product, total_quantity } = req.body;
-    console.log(total_quantity);
     
     const productValid = await myProductInCart(id_user, id_product);
 
@@ -93,7 +92,7 @@ exports.buyProductsToOrderController = async(req,res) =>{
     
     
     if(cart.length==0){
-      res.status(400).json({msg:"Carrito esta vacio"});
+      res.json({msg:"Carrito esta vacio"});
     } else{
       let orderConfirm = await buyProductToOrder(id_user,cart);
       
@@ -106,7 +105,7 @@ exports.buyProductsToOrderController = async(req,res) =>{
           res.status(400).json({msg:"No se pudo borrar el carrito"});
         }
       } else {
-        res.status(400).json({msg:"No se pudo enviar la orden"});
+        res.json({msg:"No se pudo enviar la orden"});
       }
     }
   } catch (error) {

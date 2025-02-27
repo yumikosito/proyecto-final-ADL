@@ -1,18 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect} from 'react'
 import { Col, Container, FloatingLabel, FormGroup, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useInput from '../../assets/hooks/useInput';
-import { UserContext } from '../../context/UserContext';
-import { Search } from 'react-bootstrap-icons';
 import { ProductContext } from '../../context/ProductContext';
-import Swal from 'sweetalert2';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import SearchProducts from '../search/SearchProducts';
+import SearchResult from '../search/SearchResult';
+
 
 const NewPostForm = () => {
-  const {newProduct} = useContext(ProductContext)
+  const {newProduct, resultProduct, setResultProduct} = useContext(ProductContext)
 
+  
   const product_name=useInput("");
   const product_price=useInput("");
   const product_quantity=useInput("");
@@ -20,16 +19,20 @@ const NewPostForm = () => {
   const product_description=useInput("");
   const product_category=useInput("");
   const search=useInput("")
-  
-  
+
+  useEffect(() => {
+    if (resultProduct.product_name){
+      product_name.onChange({target: {value: resultProduct.product_name}})
+      product_photo.onChange({target: {value: resultProduct.product_photo}})
+      product_category.onChange({target: {value: resultProduct.product_category}})
+      product_description.onChange({target: {value: resultProduct.product_description}})
+    }
+  }, [resultProduct]);
+
+
   const handleSubmit = async (e)=> {
     e.preventDefault()
     newProduct(product_name, product_price, product_quantity, product_photo, product_description, product_category) 
-  }
-
-  const handleSubmitSearch = (e)=> {
-    e.preventDefault()
-    // const response= await axios.get("http://localhost:3000/api/mis-productos/", {search})
   }
 
 
@@ -42,20 +45,9 @@ const NewPostForm = () => {
           </Col>
         </Row>
       </Container>
-
-
-      <Container className='align-items-center mt-1 mb-4'>
-        <Form.Label>Buscar producto existente</Form.Label>
-        <Form onSubmit={handleSubmitSearch} className=''>
-          <Row>
-            <Col xs={10} sm={9}>
-              <Form.Control type="text" placeholder="Figura Zidane FFXIV" className=" mr-sm-2 newPostColor" {...search}/>
-            </Col>
-            <Col xs={2} sm={3}>
-              <Button variant="info" type="submit" className='searchButton'><Search size={20}/></Button>
-            </Col>
-          </Row>
-        </Form>
+      <Container className='d-flex flex-column justify-content-center align-items-start'>
+        <SearchProducts/>
+        <SearchResult/>
       </Container>
 
       <Container>
@@ -69,7 +61,13 @@ const NewPostForm = () => {
             <Col xs={12} sm={5}>
               <Form.Group controlId="formProductName" className='mb-3'>
                 <Form.Label>Nombre del producto</Form.Label>
-                <Form.Control required className='newPostColor' type="name" placeholder="Figura Garnet FFXIV" {...product_name}/>
+
+                  <Form.Control required className='newPostColor' type="name" placeholder="Figura Garnet FFXIV" {...product_name }/>
+
+
+
+
+
               </Form.Group>
             </Col>
             <Col xs={12} sm={5}>
