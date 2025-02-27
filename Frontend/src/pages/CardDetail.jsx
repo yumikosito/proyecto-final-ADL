@@ -14,21 +14,21 @@ const CardDetail = () => {
   const { addCart } = useContext(CartContext)
   const navigate = useNavigate()
   const { id } = useParams();
-  const { products } = useContext(ProductContext)
+  const { filteredProducts } = useContext(ProductContext)
   // const products = useFetchProducts()
   const [product, setProduct] = useState({});
 
   useEffect(() => {
     const getProduct = async () => {
-      if(products.length > 0) {
+      if(filteredProducts.length > 0) {
 
         const id_params = Number(id)
-        const productFound = products.find(prod => prod.id_product === id_params )
+        const productFound = filteredProducts.find(prod => prod.id_product === id_params )
         setProduct(productFound);
       }
     };
     getProduct();
-  }, [id, products]);
+  }, [id, filteredProducts]);
 
   const buttonCart = (idProduct)=>{
     addCart(idProduct)
