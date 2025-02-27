@@ -17,17 +17,6 @@ const CardDetail = () => {
   const { products } = useContext(ProductContext)
   // const products = useFetchProducts()
   const [product, setProduct] = useState({});
-  const [counter, setCounter] = useState(0);
-  // const increaseQuantity = () => {
-  //   counter < product.cantidad
-  //     ? setCounter(counter + 1)
-  //     : setCounter(counter);
-  // };
-  // const decreaseQuantity = () => {
-  //   if (counter > 0) {
-  //     setCounter(counter - 1);
-  //   }
-  // };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -35,24 +24,19 @@ const CardDetail = () => {
 
         const id_params = Number(id)
         const productFound = products.find(prod => prod.id_product === id_params )
-      
-  
         setProduct(productFound);
       }
-
-  
     };
     getProduct();
   }, [id, products]);
 
   const buttonCart = (idProduct)=>{
-    addCart(idProduct)  
-}
+    addCart(idProduct)
+  }
 
   const goback = () =>{
     navigate('/')
   }
-
 
   const totalCLP= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(product.product_price)
 
@@ -70,14 +54,11 @@ const CardDetail = () => {
 
                 <h2 className="title-acme">{product.product_name}</h2>
                 <h1 className="textPrice pb-2"> {totalCLP} CLP</h1>
-                <h4 className="pb-2 textShop">Vendido por: {product.seller}</h4>
+                <h4 className="pb-2 textShop">Vendido por: {product.seller_name}</h4>
                 <h6 className="pb-5">Descripción: {product.product_description}</h6>
                 <div>
                   <h6>Cantidad disponible: {product.product_quantity}</h6>
                   <div className="d-flex align-items-baseline">
-                    <MinusMod product={product}/>
-                    <p className="px-2">{counter}</p>
-                    <PlusMod product={product}/>
                   </div>
                 </div>
                 

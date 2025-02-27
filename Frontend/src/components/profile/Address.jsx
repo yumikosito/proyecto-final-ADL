@@ -6,37 +6,13 @@ import useInput from '../../assets/hooks/useInput';
 import { UserContext } from '../../context/UserContext';
 
 const Address = () => {
-  const {userLog,setUserLog} = useContext(UserContext)
+  const {user, editAddress} = useContext(UserContext)
   
-  let address = userLog.address;
   const addressChange=useInput("")
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async (e)=>{
     e.preventDefault()
-  
-    if(addressChange.value!=""){
-      address=addressChange.value
-    }
-    setUserLog({...userLog,address})
-    Swal.fire({
-      title: "Direccion editada con exito",
-      icon: "success",
-      confirmButtonColor: "#68D5E8",
-      color:"#323232"
-    })
-
-      // try {
-    //   const response= await axios.put("http://localhost:3001/api/perfil", {userLog})
-
-    //    Swal.fire({
-        //   title: "Direccion editada con exito",
-        //   icon: "success",
-        //   confirmButtonColor: "#68D5E8",
-        //   color:"#323232"
-        // })
-    // } catch (error) {
-      // console.error("Error al editar direccion:", error);
-    // }
+    editAddress(addressChange)
   }
 
 
@@ -52,7 +28,7 @@ const Address = () => {
           <Row>
             <Col xs={12} sm={8}>
               <Form.Group className="mb-3"  controlId="formBasicAddress">
-               <Form.Label>Direccion actual: {userLog.address}</Form.Label>
+               <Form.Label>Direccion actual: {user.address}</Form.Label>
                <Form.Control className='addressColor' type="text" placeholder="Numero calle, comuna, ciudad, region, pais, codigo postal" {...addressChange} />
               </Form.Group>
             </Col>

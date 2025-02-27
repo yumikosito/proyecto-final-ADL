@@ -5,7 +5,6 @@ import { Container, Col, Row, Form, FormGroup, Button } from "react-bootstrap";
 import MenuProfile from "../components/profile/MenuProfile";
 import { UserContext } from "../context/UserContext";
 import useInput from "../assets/hooks/useInput";
-import useFetchProducts from "../assets/hooks/useFetchProducts";
 import axios from "axios";
 
 const EditPost = () => {
@@ -20,65 +19,61 @@ const EditPost = () => {
   const photo = useInput("");
   const category = useInput("");
 
-  const products = useFetchProducts();
-
-  useEffect(() => {
-    const getProduct = async () => {
-      if (products.length > 0) {
-        const id_params = Number(id);
-        const productFound = products.find(
-          (prod) => prod.id_product === id_params
-        );
-        setProduct(productFound);
-      }
-    };
-    getProduct();
-  }, [id, products]);
-
-  // const handleEdit = async (e) => {
-  //   e.preventDefault();
-
-  //   const newDataUser = {
-  //     product_name: name.value,
-  //     product_description: description.value,
-  //     product_price: price.value,
-  //     product_quantity: quantity.value,
-  //     product_photo: photo.value,
-  //     category: category.value,
-  //   };
-
-  //   try {
-  //     await axios.put(
-  //       `http://localhost:3001/api/mis-productos/${id}`,
-  //       newDataUser,
-  //       {
-  //         headers: { Authorization: `Bearer ${user.token}` },
-  //       }
-  //     );
-  //     alert("Producto actualizado correctamente");
-  //   } catch (error) {
-  //     console.error("Error al actualizar el producto:", error);
-  //   }
-  // };
-
   // useEffect(() => {
-  //   const fetchProduct = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:3001/api/mis-productos/${id}`,
-  //         {
-  //           headers: { Authorization: `Bearer ${user.token}` },
-  //         }
+  //   const getProduct = async () => {
+  //     if (products.length > 0) {
+  //       const id_params = Number(id);
+  //       const productFound = products.find(
+  //         (prod) => prod.id_product === id_params
   //       );
-  //       setProduct(response.data);
-
-  //     } catch (error) {
-  //       console.error("Error al obtener el producto:", error);
+  //       setProduct(productFound);
   //     }
   //   };
+  //   getProduct();
+  // }, [id, products]);
+  const handleEdit = async (e) => {
+    e.preventDefault();
 
-  //   fetchProduct();
-  // }, [id]);
+    const newDataUser = {
+      product_name: name.value,
+      product_description: description.value,
+      product_price: price.value,
+      product_quantity: quantity.value,
+      product_photo: photo.value,
+      product_category: category.value,
+    };
+
+    try {
+      await axios.put(
+        `http://localhost:3000/api/productos/mis-productos/${id}`,
+        newDataUser,
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
+      );
+      alert("Producto actualizado correctamente");
+    } catch (error) {
+      console.error("Error al actualizar el producto:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/productos/mis-productos/${id}`,
+          {
+            headers: { Authorization: `Bearer ${user.token}` },
+          }
+        );
+        setProduct(response.data);
+        console.log(response.data);
+      } catch (error) {a
+        console.error("Error al obtener el producto:", error);
+      }
+    };
+    fetchProduct();
+  }, [id]);
 
   return (
     <div>
@@ -90,7 +85,7 @@ const EditPost = () => {
               <h2 className="title-acme">Editar producto</h2>
             </Col>
           </Row>
-          <Form>
+          <Form onSubmit={handleEdit}>
             <Row>
               <Col md={12} lg={6} className="px-5">
                 <Form.Group className="mb-3" controlId="formBasicName">
@@ -99,6 +94,7 @@ const EditPost = () => {
                     className="editPostColor"
                     type="text"
                     placeholder={product.product_name || name.value}
+                    {...name}
                   />
                 </Form.Group>
 
@@ -108,20 +104,23 @@ const EditPost = () => {
                     className="editPostColor"
                     type="text"
                     placeholder={product.product_photo || photo.value}
+                    {...photo}
+
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicUsername">
+                <Form.Group className="mb-3" controlId="formBasicUsername" {...category}
+                >
                   <Form.Label>Categoría</Form.Label>
 
                   <Form.Select className="editPostColor">
-                    <option>{product.category || category.value}</option>
-                    <option value="Figura">Figura</option>
+                  <option value="">Selecciona una categoría</option>
+                  <option value="Figura">Figura</option>
                   <option value="Peluche">Peluche</option>
                   <option value="Pixel art">Pixel art</option>
                   <option value="Musica">Música</option>
                   <option value="Juego fisico">Juego físico</option>
-                  <option value="papeleriaa">Papelería</option>
+                  <option value="Papeleria">Papelería</option>
                   <option value="Vajilla">Vajilla</option>
                   <option value="Accesorio">Accesorios</option>
                   <option value="Ropa">Ropa</option>
@@ -135,6 +134,8 @@ const EditPost = () => {
                     className="editPostColor"
                     type="text"
                     placeholder={product.product_price || price.value}
+                    {...price}
+
                   />
                 </Form.Group>
 
@@ -144,17 +145,18 @@ const EditPost = () => {
                     className="editPostColor"
                     type="text"
                     placeholder={product.product_quantity || description.value}
+                    {...quantity}
                   />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Descripción</Form.Label>
                   <Form.Control
-                    required
                     className="editPostColor"
                     as="textarea"
                     rows={6}
                     placeholder={product.product_description || description.value}
+                    {...description}
                   />
                 </Form.Group>
               </Col>

@@ -1,37 +1,15 @@
 import React from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
-import { useContext } from "react";
-import useFetchProducts from "../../assets/hooks/useFetchProducts";
-const PostCard = ({ product_name, product_description, product_photo, id_product, product_price, product_quantity }) => {
+
+const PostCard = ({ product_name, product_description, product_photo, id_product, product_price, product_quantity, handleDelete }) => {
   const navigate = useNavigate();
   const edit = (idProduct) => {
-    navigate(`/perfil/mis-productos/${idProduct}`);
+    navigate(`/perfil/mis-productos/editar/${idProduct}`);
   };
 
   const totalFormat= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(product_price)
-  const {user} = useContext(UserContext)
 
-  // const handleDelete = (id) => {
-
-  //   const confirm = window.confirm("¿Estás seguro de eliminar este producto?");
-  //   if(!confirm) return;
-  //   if (confirm) {
-  //     try {
-  //       axios.delete(
-  //         `http://localhost:3001/api/mis-productos/${id}`,
-  //         {
-  //           headers: { Authorization: `Bearer ${user.token}` },
-  //         }
-  //       );
-  //       alert("Producto eliminado con id: ", id);
-  //       navigate("/perfil/mis-productos");
-  //     } catch (error) {
-  //       console.log(error)
-  //     } 
-  //   }
-  // };
 
   return (
     <Container>

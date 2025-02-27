@@ -62,8 +62,7 @@ const Register = () => {
           username:username.value,
           name: name.value,
           lastname: lastname.value,
-          birthday: birthday.value,
-          address:"No tiene direccion agregada"
+          birthday: birthday.value
         })
     }
 

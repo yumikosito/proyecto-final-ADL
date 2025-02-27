@@ -1,26 +1,25 @@
 import React, { useContext } from 'react'
-import { Button, Card, Col, Container, Row, Form } from 'react-bootstrap'
+import { Button, Col, Container, Row, Form } from 'react-bootstrap'
 import Minus from '../modifiers/MinusMod';
 import PlusMod from '../modifiers/PlusMod'
 import { Trash3 } from 'react-bootstrap-icons';
-import moogle from '../../assets/img/moogle.png'
 import { CartContext } from '../../context/CartContext';
 
-
 const CartCard = (product) => {
-  const {eraseProdCart} = useContext(CartContext)
+  const { eraseProduct } = useContext(CartContext)
+  
   const precioFormat= product.product_price
   const count=product.total_quantity
 
   const plusTotal=precioFormat*count
   const totalFormat= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(plusTotal)
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const handleSubmit = (e) =>{
+    e.preventDefault()
   }
 
-  const eraseProduct = (id) =>{
-    eraseProdCart(id)
+  const erase_product = async (id) =>{
+    eraseProduct(id)
   }
 
   return (
@@ -38,7 +37,7 @@ const CartCard = (product) => {
 
               <Col xs={7} className='mx-2 d-flex flex-column align-items-start justify-content-center'>
                 <h6 className='cartProductTitle'>{product.product_name}</h6>
-                <p className='cartProductShop'>Vendido por: {product.seller}</p>
+                <p className='cartProductShop'>Vendido por: {product.seller_name}</p>
               </Col>
               </Row>
             </Col>
@@ -57,7 +56,7 @@ const CartCard = (product) => {
               <Col className='px-0 py-1 cartProductPrice pr-3'>{totalFormat}</Col>
 
               <Col className='mx-3 py-1'>
-                <Button onClick={()=>eraseProduct(product.id_product)} className='buttonErase' variant="danger"><Trash3/></Button>
+                <Button onClick={()=>erase_product(product.id_product)} className='buttonErase' variant="danger"><Trash3/></Button>
               </Col>
             </Row>
           </Col>

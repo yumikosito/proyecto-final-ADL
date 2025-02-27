@@ -45,8 +45,6 @@ describe ("Operaciones CRUD del carrito", () =>{
       .set("Authorization",`Bearer ${token}`) 
       .set("Content-Type", "application/json")
       .set("Accept", "application/json");
-
-      console.log(response.body.msg);
       
 
     expect(response.body.msg).toBe("Tienes que añadir el producto primero")

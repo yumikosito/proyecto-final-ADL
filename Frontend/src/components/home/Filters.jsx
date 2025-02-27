@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
 
-const Filters = ({ filterChange }) => {
+const Filters = ({ setFilters }) => {
   const [categories, setCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 200000]);
 
@@ -32,44 +32,38 @@ const Filters = ({ filterChange }) => {
   const handleCategory = (e) => {
     const category = e.target.value;
     setCategories((prevCategories) => {
-      if (prevCategories.includes(category)) {
-        return prevCategories.filter((item) => item !== category);
-      } else {
-        return [...prevCategories, category];
-      }
+      const newCategories = prevCategories.includes(category)
+        ? prevCategories.filter((item) => item !== category)
+        : [...prevCategories, category];
+      setFilters((prev) => ({ ...prev, categoria: newCategories.join(",") }));
+      return newCategories;
     });
   };
 
   const handleMinPrice = (e) => {
-    const min = e.target.value;
-    const value = Number(min)
+    const value = Number(e.target.value);
     setValueMin(value);
-    setPriceRange([valueMin, priceRange[1]]);
+    setPriceRange([value, priceRange[1]]);
+    setFilters((prev) => ({ ...prev, precio_min: value || undefined }));
   };
-
+  
   const handleMaxPrice = (e) => {
-    const max = e.target.value;
-    const value = Number(max);
-    setValueMax(value)
+    const value = Number(e.target.value);
+    setValueMax(value);
     setPriceRange([priceRange[0], value]);
+    setFilters((prev) => ({ ...prev, precio_max: value || undefined }));
   };
-
-  useEffect(() => {
-    filterChange(categories, priceRange);
-  }, [categories, filterChange, priceRange]);
 
   return (
     <div id="filters" className="mb-2">
       <Container>
         <Row>
           <Col>
-            <h4 id="titleText" className="text-center filterText">
-              Filtros
-            </h4>
+            <h4 id="titleText" className="text-center filterText">Filtros</h4>
           </Col>
         </Row>
         <Row>
-          <Col className=" bg-warning-subtle d-flex flex-column rounded-3">
+          <Col className="bg-warning-subtle d-flex flex-column rounded-3">
             <h4 className="p-3 categoryText">Categoría</h4>
             <Form>
               {filtersArray.map((filter, index) => (
@@ -86,7 +80,7 @@ const Filters = ({ filterChange }) => {
               ))}
             </Form>
             <hr />
-            <h4 className=" pt-0 p-3 categoryText">Precio</h4>
+            <h4 className="pt-0 p-3 categoryText">Precio</h4>
             <Form.Group className="px-3">
               <Form.Label className="priceRangeText">
                 Precio mínimo: <span className="priceRange">{valueMinCLP}</span>
