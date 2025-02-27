@@ -14,6 +14,8 @@ const ProductProvider = ({ children }) => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [limits, setLimits] = useState(6);
   const [page, setPage] = useState(1);
+  const [result, setResult] = useState([])
+  const [resultProduct, setResultProduct] = useState([])
   const [filters, setFilters] = useState({
     precio_min: "",
     precio_max: "",
@@ -87,7 +89,7 @@ const ProductProvider = ({ children }) => {
   }
   }
 
-  return <ProductContext.Provider value={{products,setProducts, newProduct, filteredProducts,totalProducts,limits,setPage,setFilters}}>
+  return <ProductContext.Provider value={{products,setProducts, newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct}}>
     {children}
   </ProductContext.Provider>
 }

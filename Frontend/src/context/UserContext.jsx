@@ -79,8 +79,17 @@ const UserProvider = ({children}) => {
     
     if (res.data.msg=="Autentificación correcta"){
       setUserLog(true)
-      setUser({"token":res.data.token})
+      // setUser({"token":res.data.token})
       navigate('/')
+
+      const res2= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+        headers:{
+          Authorization:`Bearer ${res.data.token}`,
+        },
+      })
+      const userData=res2.data;
+      setUser({...userData, "token": res.data.token})
+
       
       
       Swal.fire({

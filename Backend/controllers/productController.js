@@ -1,4 +1,4 @@
-const { getProducts, getProductById, getMyProducts, newProduct, getMyProductsById, putMyProductsById, deleteMyProductsById, filters } = require('../modules/products.js');
+const { getProducts, getProductById, getMyProducts, newProduct, getMyProductsById, putMyProductsById, deleteMyProductsById, filters, searchProduct } = require('../modules/products.js');
 const { getUser } = require('../modules/users.js');
 
 
@@ -120,8 +120,18 @@ exports.newProductController = async (req, res) => {
 
     let { product_name, product_description, product_price, product_quantity, product_photo, product_category } = req.body
     await newProduct(product_name, product_description, product_price, product_quantity, product_photo, product_category, id_user)
-    res.status(201).json({ msg: 'Producto registrado satisfactoriamente' })
+    res.status(201).json({ msg: "Producto registrado satisfactoriamente" })
 
+  } catch (error) {
+    res.status(500).json({ error: error.message, msg: "Error interno del servidor" });
+  }
+
+}
+
+exports.searchProductController = async (req,res) =>{
+  try {
+    const products = await searchProduct()
+    res.send(products)
   } catch (error) {
     res.status(500).json({ error: error.message, msg: "Error interno del servidor" });
   }

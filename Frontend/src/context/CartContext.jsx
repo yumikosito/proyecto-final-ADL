@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {createContext,useContext,useState} from 'react'
+import {createContext,useContext,useEffect,useState} from 'react'
 import { UserContext } from './UserContext'
 import Swal from 'sweetalert2'
 
@@ -12,7 +12,12 @@ const CartProvider = ({children}) => {
   const [totalProducts, setTotalProducts] = useState(0)
   const { user } = useContext(UserContext)
   
-
+useEffect(()=>{
+  if(user.token){
+    getCart()
+  }
+  
+},[user])
   const getCart = async () =>{
     try {
       const res= await axios.get("http://localhost:3000/api/carrito/",{
@@ -167,7 +172,7 @@ const CartProvider = ({children}) => {
 
   
 
-  return <CartContext.Provider value={{cart, setCart, totalProducts, totalCLP, totalDelivery, totalDiscount, totalOrder, setDiscount, getCart, quantityMinus, quantityPlus, eraseProduct, buyCart, addCart, eraseTotalCart}}>
+  return <CartContext.Provider value={{cart, setCart, totalProducts, totalCLP, totalDelivery, totalDiscount, totalOrder, setDiscount, getCart, quantityMinus, quantityPlus, eraseProduct, buyCart, addCart, eraseTotalCart, setTotal,setTotalProducts}}>
     {children}
   </CartContext.Provider>
 }
