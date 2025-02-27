@@ -4,7 +4,6 @@ import { Container, Form, Row } from 'react-bootstrap';
 
 const SearchResult = () => {
   const {result, setResult,resultProduct, setResultProduct } = useContext(ProductContext);
-  console.log("resultado", resultProduct);
 
   const clickSearch = (valor) => {
     setResultProduct(valor)
