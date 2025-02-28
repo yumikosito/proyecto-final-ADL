@@ -9,6 +9,8 @@ const UserProvider = ({children}) => {
   const navigate = useNavigate()
   const [user,setUser] = useState([])
   const [userLog,setUserLog] = useState(false)
+  console.log(userLog);
+  
 
   const registerUser = async (datos)  => {
     const res= await axios.post("http://localhost:3000/api/usuarios/registro",{email: datos.email,
@@ -137,62 +139,88 @@ const UserProvider = ({children}) => {
               Authorization:`Bearer ${user.token}`,
           },})
 
-      if (res.data.msg=="El usuario se modificó con éxito"){
-          profileUser()
-
-            Swal.fire({
-              title: "Perfil editado con exito",
-              icon: "success",
-              confirmButtonColor: "#68D5E8",
-              color:"#323232"
-            })
+      if(res.data.msg=="No hay ningun campo para editar"){
+          Swal.fire({
+            title: "No hay ningun campo para editar",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+        } else if (res.data.msg=="El usuario se modificó con éxito"){
+          
+          
+           if(emailChange.length!=0 || passwordChange.length!=0){
+            setUserLog(false);
+            navigate('/')
+            
+          } else if(nameChange.length!=0 || lastnameChange.length!=0){
+            navigate('/')
+          }
+          Swal.fire({
+            title: "Perfil editado con exito",
+            icon: "success",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+          
+  
       } else if(res.data.msg=="Nombre es el mismo que tenía antes"){
-        Swal.fire({
-          title: "Nombre es el mismo que tenía antes",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
+          Swal.fire({
+            title: "Nombre es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
 
       } else if(res.data.msg=="Apellido es el mismo que tenía antes"){
-        Swal.fire({
-          title: "Apellido es el mismo que tenía antes",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
+          Swal.fire({
+            title: "Apellido es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
 
       } else if(res.data.msg=="Contraseña es la misma que tenía antes"){
-        Swal.fire({
-          title: "Nombre es el mismo que tenía antes",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
+          Swal.fire({
+            title: "Contraseña es la misma que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+
+      } else if(res.data.msg=="Contraseña no tiene 8 carácteres o más"){
+          Swal.fire({
+            title: "Contraseña no tiene 8 carácteres o más",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
 
       } else if(res.data.msg=="Email ya existe en uso"){
-        Swal.fire({
-          title: "Email ya existe en uso",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
+          Swal.fire({
+            title: "Email ya existe en uso",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
         
       } else if (res.data.msg="Email es el mismo que tenía antes") {
-        Swal.fire({
-          title: "Email es el mismo que tenía antes",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
+          Swal.fire({
+            title: "Email es el mismo que tenía antes",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
+
+      
 
       } else {
-        Swal.fire({
-          title: "No se pudo modificar el usuario",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
+          Swal.fire({
+            title: "No se pudo modificar el usuario",
+            icon: "error",
+            confirmButtonColor: "#68D5E8",
+            color:"#323232"
+          })
       }
       
       

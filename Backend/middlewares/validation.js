@@ -36,7 +36,7 @@ exports.passEmailConfirm = async (email,email_confirm, password, password_confir
     let emailConfirm = false;
     let passConfirm = false;
   
-    if(password==password_confirm){
+    if(password==password_confirm && password.length>=8){
           passConfirm = true;
         } else{
           throw new Error("Las contraseñas no coinciden",error);
@@ -48,7 +48,7 @@ exports.passEmailConfirm = async (email,email_confirm, password, password_confir
       throw new Error("Los emails no coinciden",error);
     }
 
-    if(emailConfirm && passConfirm){
+    if(emailConfirm && passConfirm ){
       return true
     }
   } catch (error) {
@@ -57,9 +57,11 @@ exports.passEmailConfirm = async (email,email_confirm, password, password_confir
 
 }
 
-exports.inputEmpty = async (value) =>{
+exports.inputNotEmpty =  (value) =>{
   if(value.length!=0){
     return true
+  } else {
+    return false
   }
 }
 

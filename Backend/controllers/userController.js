@@ -4,7 +4,7 @@ require('dotenv').config();
 const crypto = require("crypto");
 
 const { getUser, registerUser, loginUser, editUser, editAddressUser, deleteUser, tokenIDAdd, tokenIDRemove } = require('../modules/users');
-const { passEmailConfirm, emailValid, usernameValid, inputEmpty } = require('../middlewares/validation');
+const { passEmailConfirm, emailValid, usernameValid, inputEmpty, inputNotEmpty } = require('../middlewares/validation');
 
 
 
@@ -108,46 +108,76 @@ exports.editUsers = async (req,res) =>{
   try {
     let { id_user, email, password, name, lastname } = await getUser(req)
     let { nameChange, lastnameChange, passwordChange, emailChange} = req.body;
+    let passlength = false;
+ 
+    if (passwordChange.length>=8){
+      passlength = true;
+    }
+
+    let passLogout = false;
+    let emailLogout = false;
+
+    console.log(passwordChange);
+    console.log(emailChange);
+    
+    
+
 
     const passwordC = await bcrypt.compare(passwordChange, password);
     const emailChangeValid = await emailValid(emailChange);
     
-    if( await inputEmpty(emailChange) && email != emailChange && emailChangeValid ){
-      email = emailChange;
 
-    } else if( await inputEmpty(emailChange) && email== emailChange){
+    if(!inputNotEmpty(nameChange) && !inputNotEmpty(lastnameChange) && !inputNotEmpty(passwordChange) && !inputNotEmpty(emailChange)){
+      return res.json({msg:"No hay ningun campo para editar"})
+    }
+
+    if( inputNotEmpty(nameChange) && name != nameChange ){
+      name = nameChange;
+
+    } else if( inputNotEmpty(nameChange) && name== nameChange){
+      return res.json({msg:"Nombre es el mismo que tenía antes"})
+    }
+
+    if( inputNotEmpty(lastnameChange) && lastname!= lastnameChange ){
+      lastname = lastnameChange;
+      
+    } else if( inputNotEmpty(lastnameChange) && lastname== lastnameChange){
+      return res.json({msg:"Apellido es el mismo que tenía antes"})
+    }
+
+    if( inputNotEmpty(passwordChange) && !passwordC && passlength== true){
+      password = await bcrypt.hash(passwordChange,12)
+      passLogout = true;
+      
+    } else if(inputNotEmpty(passwordChange) && passwordC){
+      return res.json({msg:"Contraseña es la misma que tenía antes"})
+
+    } else if(inputNotEmpty(passwordChange) && passlength==false){
+      return res.json({msg:"Contraseña no tiene 8 carácteres o más"})
+    }
+
+    if(inputNotEmpty(emailChange) && email != emailChange && emailChangeValid ){
+      email = emailChange;
+      emailLogout = true;
+
+    } else if(inputNotEmpty(emailChange) && email== emailChange){
       return res.json({msg:"Email es el mismo que tenía antes"})
 
-    } else if(!emailChangeValid){
+    } else if(inputNotEmpty(emailChange) && email != emailChange && !emailChangeValid){
       return res.json({msg:"Email ya existe en uso"})
     }
 
 
-    if( await inputEmpty(nameChange) && name != nameChange ){
-      name = nameChange;
-      
-    } else if(await inputEmpty(nameChange) && name== nameChange){
-      return res.json({msg:"Nombre es el mismo que tenía antes"})
-    }
-
-
-    if(await  inputEmpty(lastnameChange) && lastname!= lastnameChange ){
-      lastname = lastnameChange;
-      
-    } else if(await inputEmpty(lastnameChange) && lastname== lastnameChange){
-      return res.json({msg:"Apellido es el mismo que tenía antes"})
-    }
-
-
-    if(await  inputEmpty(passwordChange) && !passwordC){
-      password = await bcrypt.hash(passwordChange,12)
-      
-    } else if(await inputEmpty(passwordChange) && passwordC){
-      return res.json({msg:"Contraseña es la misma que tenía antes"})
-    }
-
     await editUser(id_user, email, name, lastname, password)
-    res.status(200).json({msg:"El usuario se modificó con éxito"})
+   
+    
+    if(passLogout || emailLogout){
+      const Authorization = req.header("Authorization")
+      const token = Authorization.split("Bearer ")[1]
+      await tokenIDRemove(token)
+    }
+
+    res.json({msg:"El usuario se modificó con éxito"})
 
   } catch (error) {
     res.status(500).json({msg:"No se pudo modificar el usuario", 'error': error.message})
@@ -186,7 +216,7 @@ exports.logout = async(req,res) =>{
     res.status(200).json({msg:"El usuario cerró sesión con éxito"})
 
   } catch (error) {
-    res.status(500).json({msg:"No se pudo desloguear al usuario"})
+    res.status(500).json({msg:"No se pudo desloguear al usuario", "error": error})
 }}
 
 
