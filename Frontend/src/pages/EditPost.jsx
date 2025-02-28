@@ -6,6 +6,7 @@ import MenuProfile from "../components/profile/MenuProfile";
 import { UserContext } from "../context/UserContext";
 import useInput from "../assets/hooks/useInput";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const EditPost = () => {
   const { id } = useParams();
@@ -51,8 +52,12 @@ const EditPost = () => {
           headers: { Authorization: `Bearer ${user.token}` },
         }
       );
-      console.log(user.token)
-      alert("Producto actualizado correctamente");
+      Swal.fire({
+        title: "Edición exitosa",
+        icon: "success",
+        confirmButtonColor: "#68D5E8",
+        color: "#323232",
+      });
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
     }
@@ -68,9 +73,10 @@ const EditPost = () => {
           }
         );
         setProduct(response.data);
-        console.log(user.token)
+        console.log(user.token);
         console.log(response.data);
-      } catch (error) {a
+      } catch (error) {
+        a;
         console.error("Error al obtener el producto:", error);
       }
     };
@@ -107,25 +113,27 @@ const EditPost = () => {
                     type="text"
                     placeholder={product.product_photo || photo.value}
                     {...photo}
-
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicUsername" {...category}
+                <Form.Group
+                  className="mb-3"
+                  controlId="formBasicUsername"
+                  {...category}
                 >
                   <Form.Label>Categoría</Form.Label>
 
                   <Form.Select className="editPostColor">
-                  <option value="">Selecciona una categoría</option>
-                  <option value="Figura">Figura</option>
-                  <option value="Peluche">Peluche</option>
-                  <option value="Pixel art">Pixel art</option>
-                  <option value="Musica">Música</option>
-                  <option value="Juego fisico">Juego físico</option>
-                  <option value="Papeleria">Papelería</option>
-                  <option value="Vajilla">Vajilla</option>
-                  <option value="Accesorio">Accesorios</option>
-                  <option value="Ropa">Ropa</option>
+                    <option value="">Selecciona una categoría</option>
+                    <option value="Figura">Figura</option>
+                    <option value="Peluche">Peluche</option>
+                    <option value="Pixel art">Pixel art</option>
+                    <option value="Musica">Música</option>
+                    <option value="Juego fisico">Juego físico</option>
+                    <option value="Papeleria">Papelería</option>
+                    <option value="Vajilla">Vajilla</option>
+                    <option value="Accesorio">Accesorios</option>
+                    <option value="Ropa">Ropa</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -137,7 +145,6 @@ const EditPost = () => {
                     type="text"
                     placeholder={product.product_price || price.value}
                     {...price}
-
                   />
                 </Form.Group>
 
@@ -157,7 +164,9 @@ const EditPost = () => {
                     className="editPostColor"
                     as="textarea"
                     rows={6}
-                    placeholder={product.product_description || description.value}
+                    placeholder={
+                      product.product_description || description.value
+                    }
                     {...description}
                   />
                 </Form.Group>

@@ -32,7 +32,6 @@ const ProductProvider = ({ children }) => {
       );
       setFilteredProducts(response.data.results);
       setTotalProducts(response.data.total);
-      console.log("fetchproducts", response.data, page)
     } catch (error) {
       console.error("Error al obtener productos filtrados:", error);
     }

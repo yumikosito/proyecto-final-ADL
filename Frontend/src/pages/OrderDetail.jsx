@@ -4,49 +4,69 @@ import { getOrders } from "../mockOrders";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { CheckLg } from "react-bootstrap-icons";
 import { CartContext } from "../context/CartContext";
+import axios from "axios";
+import { UserContext } from "../context/UserContext";
 
 const OrderDetail = () => {
   const { id } = useParams();
-  const [order, setOrder] = useState({});
-  const {cart,totalCart,totalCLP,totalDelivery,totalDiscount,totalOrder,setDiscount}=useContext(CartContext)
-
+  const [order, setOrder] = useState([]);
+  const {
+    cart,
+    totalCart,
+    totalCLP,
+    totalDelivery,
+    totalDiscount,
+    totalOrder,
+    setDiscount,
+  } = useContext(CartContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const data = await getOrders();
-      const orderFound = data.find((o) => o.id_compra === Number(id));
-      setOrder(orderFound);
-      console.log(orderFound);
+      const orderDetail = await axios.get(
+        `http://localhost:3000/api/pedidos/mis-pedidos/${id}`,
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
+      );
+
+      setOrder(orderDetail.data);
+      console.log(orderDetail.data);
+
     };
     fetchOrders();
+
   }, [id]);
+
 
   return (
     <Container>
       <Row>
         <Col>
           <h2 className="title-acme m-3 py-4">Detalle pedido anterior</h2>
-          <h3 className="title-acme m-3">Id de compra: {order.id_compra} </h3>
+          <h3 className="title-acme m-3">Id de compra: {order.id_order} </h3>
         </Col>
       </Row>
       <Row className="mb-5">
         <Col md={7}>
-          {order.productos_comprados
-            ? order.productos_comprados.map((producto, index) => (
+          {order.length > 0
+            ? order.map((product, index) => (
                 <Row id="cartCard" key={index} className="p-2 rounded-3 mb-2">
                   <Col xs={12} sm={6}>
                     <Row className="my-1 mx-0 py-2 d-flex justify-content-between align-items-center">
                       <Col xs="auto">
-                        <img src={producto.foto} className="imgCart" />
+                        <img src={product.product_photo} className="imgCart" />
                       </Col>
 
                       <Col
                         xs={7}
                         className="mx-2 d-flex flex-column align-items-start justify-content-center"
                       >
-                        <h6 className="cartProductTitle">{producto.nombre}</h6>
+                        <h6 className="cartProductTitle">
+                          {product.product_name}
+                        </h6>
                         <p className="cartProductShop">
-                          Vendido por: {producto.vendedor}
+                          Vendido por: {product.username}
                         </p>
                       </Col>
                     </Row>
@@ -62,14 +82,13 @@ const OrderDetail = () => {
                         xs={7}
                         className="mx-2 d-flex flex-column align-items-start justify-content-center"
                       >
-                       
                         <h5 className="cartProductTitle">
-                          Cantidad: {producto.cantidad}
+                          Cantidad: {product.product_order_quantity}
                         </h5>
                       </Col>
 
                       <Col className="px-0 py-1 cartProductPrice pr-3">
-                        Precio: ${producto.precio}
+                        Precio: ${product.product_price}
                       </Col>
                     </Row>
                   </Col>
@@ -79,46 +98,62 @@ const OrderDetail = () => {
         </Col>
 
         <Col md={4} className="ms-5">
-          <div id='cartFinalOrder' className='p-3 mb-3 mx-2 rounded-3' >
-                <Container>
-                    <p className='cartOrderTitle pt-2 mb-2'>Resumen de compra</p>
-                  <Row className='d-flex flex-column mb-3'>
-                   <p className='mb-1 cartOrderSub'>Cupón de descuento aplicado</p>
-                   <Form>
-                    <Col className='d-flex'>
-                      <Form.Control onInput={(e) => e.target.value = ("" + e.target.value).toUpperCase()} size="sm" className='me-3 cuponInput' value="VIVI100"></Form.Control>
-                      <Button className='button' type='submit'><CheckLg/></Button>
-                    </Col>
-                   </Form>
-                    
-                    <Col className='mt-3 d-flex flex-row justify-content-between cartOrderSub'>
-                      <p className='mb-0 p-0'>Numero de productos:</p><span>{totalCart}</span>
-                    </Col>
-                    <Col className=''>
-                      <hr className=' m-0 p-0 hr'/>
-                    </Col>
-          
-                    <Col className='mt-2 d-flex justify-content-between cartOrderSub'>
-                      <p className='mb-0'>Subtotal:</p><span>{totalCLP} CLP</span>
-                    </Col>
-                    <Col className='mt-0 d-flex justify-content-between cartOrderSub'>
-                      <p className='mb-0'>Descuentos</p><span>{totalDiscount} CLP</span>
-                    </Col>
-                    <Col className='mt-0 d-flex justify-content-between cartOrderSub'>
-                      <p className='mb-0'>Despacho:</p><span>{totalDelivery} CLP</span>
-                    </Col>
-                    <Col className=''>
-                      <hr className=' m-0 p-0 hr'/>
-                    </Col>
-          
-                    <Col className='mt-3 d-flex justify-content-between cartOrderTotal'>
-                      <p className=''>Total:</p><span>{totalOrder} CLP</span>
-                    </Col>
-          
-                    <Button type='submit' variant='info' className='buttonCheckout'>Pedir nuevamente</Button>
-                  </Row>
-                </Container>
-              </div>
+          <div id="cartFinalOrder" className="p-3 mb-3 mx-2 rounded-3">
+            <Container>
+              <p className="cartOrderTitle pt-2 mb-2">Resumen de compra</p>
+              <Row className="d-flex flex-column mb-3">
+                <p className="mb-1 cartOrderSub">Cupón de descuento aplicado</p>
+                <Form>
+                  <Col className="d-flex">
+                    <Form.Control
+                      onInput={(e) =>
+                        (e.target.value = ("" + e.target.value).toUpperCase())
+                      }
+                      size="sm"
+                      className="me-3 cuponInput"
+                      value="VIVI100"
+                    ></Form.Control>
+                    <Button className="button" type="submit">
+                      <CheckLg />
+                    </Button>
+                  </Col>
+                </Form>
+
+                <Col className="mt-3 d-flex flex-row justify-content-between cartOrderSub">
+                  <p className="mb-0 p-0">Numero de productos:</p>
+                  <span>{totalCart}</span>
+                </Col>
+                <Col className="">
+                  <hr className=" m-0 p-0 hr" />
+                </Col>
+
+                <Col className="mt-2 d-flex justify-content-between cartOrderSub">
+                  <p className="mb-0">Subtotal:</p>
+                  <span>{totalCLP} CLP</span>
+                </Col>
+                <Col className="mt-0 d-flex justify-content-between cartOrderSub">
+                  <p className="mb-0">Descuentos</p>
+                  <span>{totalDiscount} CLP</span>
+                </Col>
+                <Col className="mt-0 d-flex justify-content-between cartOrderSub">
+                  <p className="mb-0">Despacho:</p>
+                  <span>{totalDelivery} CLP</span>
+                </Col>
+                <Col className="">
+                  <hr className=" m-0 p-0 hr" />
+                </Col>
+
+                <Col className="mt-3 d-flex justify-content-between cartOrderTotal">
+                  <p className="">Total:</p>
+                  <span>{totalOrder} CLP</span>
+                </Col>
+
+                <Button type="submit" variant="info" className="buttonCheckout">
+                  Pedir nuevamente
+                </Button>
+              </Row>
+            </Container>
+          </div>
         </Col>
       </Row>
     </Container>
