@@ -8,77 +8,80 @@ const UserContext=createContext()
 const UserProvider = ({children}) => {
   const navigate = useNavigate()
   const [user,setUser] = useState([])
-  const [userLog,setUserLog] = useState(false)
-  console.log(userLog);
-  
+  const [userLog,setUserLog] = useState(false)  
 
   const registerUser = async (datos)  => {
-    const res= await axios.post("http://localhost:3000/api/usuarios/registro",{email: datos.email,
-      email_confirm:datos.email_confirm,
-      password: datos.password,
-      password_confirm:datos.password_confirm,
-      username:datos.username,
-      name: datos.name,
-      lastname: datos.lastname,
-      birthday: datos.birthday
-    })
-
-    if (res.data.msg=="Usuario registrado satisfactoriamente"){
-      Swal.fire({
-        title: "Registro correcto",
-        icon: "success",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
+    try {
+      const res= await axios.post("http://localhost:3000/api/usuarios/registro",{email: datos.email,
+        email_confirm:datos.email_confirm,
+        password: datos.password,
+        password_confirm:datos.password_confirm,
+        username:datos.username,
+        name: datos.name,
+        lastname: datos.lastname,
+        birthday: datos.birthday
       })
-
-    } else if (res.data.msg=="El email ya esta en uso"){
-      Swal.fire({
-        title: "El email ya esta en uso",
-        icon: "error",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      }) 
-
-    } else if (res.data.msg=="El usuario ya esta en uso"){
-      Swal.fire({
-        title: "El usuario ya esta en uso",
-        icon: "error",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      }) 
-
-    } else if (res.data.msg=="La contraseña o el email de confirmación no son iguales"){
-      Swal.fire({
-        title: "La contraseña o el email de confirmación no son iguales",
-        icon: "error",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      }) 
-
-    } else if (res.data.msg=="El usuario y el email ya estan en uso"){
-      Swal.fire({
-        title: "El usuario y el email ya estan en uso",
-        icon: "error",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      }) 
-
-    } else {
-      Swal.fire({
-        title: "No se pudo registrar nuevo usuario",
-        icon: "error",
-        confirmButtonColor: "#68D5E8",
-        color:"#323232"
-      }) 
+  
+      if (res.data.msg=="Usuario registrado satisfactoriamente"){
+        Swal.fire({
+          title: "Registro correcto",
+          icon: "success",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+  
+      } else if (res.data.msg=="El email ya esta en uso"){
+        Swal.fire({
+          title: "El email ya esta en uso",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        }) 
+  
+      } else if (res.data.msg=="El usuario ya esta en uso"){
+        Swal.fire({
+          title: "El usuario ya esta en uso",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        }) 
+  
+      } else if (res.data.msg=="La contraseña o el email de confirmación no son iguales"){
+        Swal.fire({
+          title: "La contraseña o el email de confirmación no son iguales",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        }) 
+  
+      } else if (res.data.msg=="El usuario y el email ya estan en uso"){
+        Swal.fire({
+          title: "El usuario y el email ya estan en uso",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        }) 
+  
+      } else {
+        Swal.fire({
+          title: "No se pudo registrar nuevo usuario",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        }) 
+      }
+    } catch (error) {
+      console.log("Error al registrar usuario nuevo",error);
+      
     }
+    
   }
 
 
 
   const logInUser = async (datos) => {
-    const res= await axios.post("http://localhost:3000/api/usuarios/iniciar-sesion", {email: datos.email, password: datos.password})
-    
-    
+    try {
+      const res= await axios.post("http://localhost:3000/api/usuarios/iniciar-sesion", {email: datos.email, password: datos.password})
     if (res.data.msg=="Autentificación correcta"){
       setUserLog(true)
       // setUser({"token":res.data.token})
@@ -115,19 +118,29 @@ const UserProvider = ({children}) => {
         color:"#323232"
       })
     }
+    } catch (error) {
+      console.log("Error al iniciar sesion",error);
+      
+    }
+    
   }
 
 
 
   const profileUser = async()=>{
-
-    const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
-      headers:{
-        Authorization:`Bearer ${user.token}`,
-      },
-    })
-    const userData=res.data;
-    setUser({...userData, "token": user.token})
+    try {
+      const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+        headers:{
+          Authorization:`Bearer ${user.token}`,
+        },
+      })
+      const userData=res.data;
+      setUser({...userData, "token": user.token})
+    } catch (error) {
+      console.log("Error al obtener el perfil",error);
+      
+    }
+    
   }
 
 
@@ -266,7 +279,7 @@ const UserProvider = ({children}) => {
         }
       
     } catch (error) {
-      console.error("Error al editar datos:", error);
+      console.error("Error al editar direccion:", error);
       }
     }
 
@@ -282,7 +295,7 @@ const UserProvider = ({children}) => {
       setUser([])
       setUserLog(false);
     } catch (error) {
-      console.log(error);
+      console.log("Error al cerrar sesion", error);
       
     }
   
@@ -290,17 +303,16 @@ const UserProvider = ({children}) => {
 
 
 
-  const delete_user = async () =>{
-    await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
-      headers:{
-        Authorization:`Bearer ${user.token}`,
-      },
-    })
-  }
+  // const delete_user = async () =>{
+  //   await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
+  //     headers:{
+  //       Authorization:`Bearer ${user.token}`,
+  //     },
+  //   })
+  // }
 
 
-
-  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, profileUser, editProfile, editAddress, logoutUser, delete_user}}>
+  return <UserContext.Provider value={{user, registerUser, logInUser, userLog, profileUser, editProfile, editAddress, logoutUser}}>
   {children}
   </UserContext.Provider>
 
