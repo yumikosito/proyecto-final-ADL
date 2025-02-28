@@ -11,6 +11,9 @@ const CartProvider = ({children}) => {
   const [discount,setDiscount] = useState(0)
   const [totalProducts, setTotalProducts] = useState(0)
   const { user } = useContext(UserContext)
+
+  console.log(cart);
+  
   
 useEffect(()=>{
   if(user.token){
@@ -95,8 +98,9 @@ useEffect(()=>{
           Authorization:`Bearer ${user.token}`,
       },})
           if (res.data.msg=="Producto editado con exito"){
-          getCart()
-        
+            getCart()
+            
+         
          } else if(res.data.msg=="Sobrepasaste el stock disponible del producto"){
             Swal.fire({
               title: "Sobrepasaste el stock disponible del producto",

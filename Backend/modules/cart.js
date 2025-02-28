@@ -6,7 +6,7 @@ const { getUserName } = require('./users');
 
 exports.getCartFull = async (id_user) =>{
   try {
-      const { rows:cart2} = await pool.query("SELECT * FROM cart WHERE user_id=$1", [id_user]);
+      const { rows:cart2} = await pool.query("SELECT * FROM cart WHERE user_id=$1 order by product_id ASC", [id_user]);
       let cartNew = await Promise.all (cart2.map(async (item) => {
         let productInfo = await getProductById(item.product_id);
         let sellerName = await getUserName(productInfo.seller)
