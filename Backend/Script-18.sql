@@ -49,7 +49,7 @@ constraint fk_order_details_orders foreign key (order_id) references orders(id_o
 constraint fk_order_details_products foreign key (order_product) references products(id_product)
 );
 
-
-
+INSERT INTO users(username, name, lastname, email, password, birthday,address) VALUES ('Vivi_tienda', 'Vivi', 'Ornitier', 'vivi@tienda.cl','12341234', '2000-01-01', 'No se registra dirección');
+INSERT INTO products(product_name, product_description, product_price, product_quantity, product_photo, product_category, seller) VALUES ('Polera ff9', 'Polera del juego de PS1 Final Fantasy 9', 20000, 15, 'https://cdnx.jumpseller.com/disenos-de-la-rata-otaku/image/32581477/thumb/1438/1438?1677423239', 'Ropa', 1);
 
 

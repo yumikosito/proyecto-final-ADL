@@ -117,12 +117,6 @@ exports.editUsers = async (req,res) =>{
     let passLogout = false;
     let emailLogout = false;
 
-    console.log(passwordChange);
-    console.log(emailChange);
-    
-    
-
-
     const passwordC = await bcrypt.compare(passwordChange, password);
     const emailChangeValid = await emailValid(emailChange);
     
@@ -167,10 +161,8 @@ exports.editUsers = async (req,res) =>{
       return res.json({msg:"Email ya existe en uso"})
     }
 
-
     await editUser(id_user, email, name, lastname, password)
-   
-    
+
     if(passLogout || emailLogout){
       const Authorization = req.header("Authorization")
       const token = Authorization.split("Bearer ")[1]
