@@ -45,12 +45,13 @@ const EditPost = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/productos/mis-productos/${id}`,
+        `http://localhost:3000/api/productos/mis-productos/editar/${id}`,
         newDataUser,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
       );
+      console.log(user.token)
       alert("Producto actualizado correctamente");
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
@@ -67,6 +68,7 @@ const EditPost = () => {
           }
         );
         setProduct(response.data);
+        console.log(user.token)
         console.log(response.data);
       } catch (error) {a
         console.error("Error al obtener el producto:", error);
