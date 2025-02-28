@@ -168,6 +168,7 @@ hr{
 .registerLoginColor{
   border: #4aab5f solid 2px;
   width: 20rem;
+  color: var(--blackColor);
 }
 
 .registerLoginButton{
@@ -265,6 +266,9 @@ hr{
 /* CSS cards home */
 .title-acme {
     font-family: "Acme", sans-serif;
+}
+.card-title{
+  color: var(--blackColor);
 }
 
 .textPrice{
@@ -368,6 +372,7 @@ hr{
 .newPostColor{
   border: var(--redColor) solid 2px;
   width: 100%;
+  color: var(--blackColor)
 }
 
 .textareaColor{
@@ -405,6 +410,7 @@ hr{
 .form-control::placeholder{
   color: #d3d3d3;
 }
+
 /* CSS NotFound */
 
 .moogleImg{

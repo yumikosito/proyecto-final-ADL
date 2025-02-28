@@ -61,13 +61,7 @@ const NewPostForm = () => {
             <Col xs={12} sm={5}>
               <Form.Group controlId="formProductName" className='mb-3'>
                 <Form.Label>Nombre del producto</Form.Label>
-
                   <Form.Control required className='newPostColor' type="name" placeholder="Figura Garnet FFXIV" {...product_name }/>
-
-
-
-
-
               </Form.Group>
             </Col>
             <Col xs={12} sm={5}>

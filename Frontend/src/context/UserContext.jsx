@@ -263,8 +263,6 @@ const UserProvider = ({children}) => {
 
 
   const delete_user = async () =>{
-    console.log("deleteToken",user.token);
-    
     await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
       headers:{
         Authorization:`Bearer ${user.token}`,
