@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { redirect, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { Container, Col, Row, Form, FormGroup, Button } from "react-bootstrap";
 import MenuProfile from "../components/profile/MenuProfile";
@@ -12,6 +12,7 @@ const EditPost = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const { user } = useContext(UserContext);
+  const navigate = useNavigate()
 
   const name = useInput("");
   const description = useInput("");
@@ -58,6 +59,7 @@ const EditPost = () => {
         confirmButtonColor: "#68D5E8",
         color: "#323232",
       });
+      navigate('/perfil/mis-productos/')
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
     }

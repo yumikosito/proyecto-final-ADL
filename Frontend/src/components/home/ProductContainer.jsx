@@ -12,6 +12,12 @@ const ProductContainer = () => {
 
   useEffect(() => {
     setPage(1);
+    setFilters({precio_min: "",
+      precio_max: "",
+      categoria: "",
+      limits: 6,
+      search: "",
+      sort: "asc"})
   }, [setPage]);
 
   const [showFilters, setShowFilters] = useState(false);
