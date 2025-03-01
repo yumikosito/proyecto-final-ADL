@@ -123,7 +123,7 @@ const Register = () => {
 
           <Row className='registerLoginInput'>
             <Form.Group className="mb-3" controlId="formCheckbox">
-              <Form.Check  className='registerLoginInput2' type="checkbox" label="Aceptas los terminos de contrato" />
+              <Form.Check required className='registerLoginInput2' type="checkbox" label="Aceptas los terminos de contrato" />
             </Form.Group>
               <Button className='registerLoginButton registerLoginInput' variant="info" type="submit">
                 <p className='registerLoginButtonText'>Registrarse</p>
