@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { getOrders } from "../mockOrders";
+// import { getOrders } from "../mockOrders";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { CheckLg } from "react-bootstrap-icons";
 import { CartContext } from "../context/CartContext";
@@ -10,16 +10,42 @@ import { UserContext } from "../context/UserContext";
 const OrderDetail = () => {
   const { id } = useParams();
   const [order, setOrder] = useState([]);
-  const {
-    cart,
-    totalCart,
-    totalCLP,
-    totalDelivery,
-    // totalDiscount,
-    totalOrder,
-    // setDiscount,
-  } = useContext(CartContext);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalOrderProducts, setTotalOrderProducts] = useState(0);
+  const { totalDelivery, getCart } = useContext(CartContext);
   const { user } = useContext(UserContext);
+
+  const getTotalProducts = () => {
+    let total = 0;
+    order.forEach((product) => {
+      total += product.product_order_quantity;
+    });
+    setTotalProducts(total);
+  };
+
+  const getTotalOrderProducts = () => {
+    let total = 0;
+    order.forEach((product) => {
+      total += product.product_order_quantity * product.product_price;
+    });
+    setTotalOrderProducts(total);
+  };
+
+  const reorder = async () => {
+    try {
+      await axios.post(
+        `http://localhost:3000/api/pedidos/repetir-pedido/${order[0].id_order}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
+      );
+      getCart()
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -31,12 +57,16 @@ const OrderDetail = () => {
       );
 
       setOrder(orderDetail.data);
-      console.log(orderDetail.data);
 
     };
-    fetchOrders();
 
+    fetchOrders();
   }, [id]);
+
+  useEffect(() => {
+    getTotalOrderProducts();
+    getTotalProducts();
+  })
 
   return (
     <Container>
@@ -120,7 +150,7 @@ const OrderDetail = () => {
 
                 <Col className="mt-3 d-flex flex-row justify-content-between cartOrderSub">
                   <p className="mb-0 p-0">Numero de productos:</p>
-                  <span>{totalCart}</span>
+                  <span>{totalProducts}</span>
                 </Col>
                 <Col className="">
                   <hr className=" m-0 p-0 hr" />
@@ -128,7 +158,7 @@ const OrderDetail = () => {
 
                 <Col className="mt-2 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Subtotal:</p>
-                  <span>{totalCLP} CLP</span>
+                  <span>{totalOrderProducts} CLP</span>
                 </Col>
                 {/* <Col className="mt-0 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Descuentos</p>
@@ -144,10 +174,10 @@ const OrderDetail = () => {
 
                 <Col className="mt-3 d-flex justify-content-between cartOrderTotal">
                   <p className="">Total:</p>
-                  <span>{totalOrder} CLP</span>
+                  <span>{totalOrderProducts + 3000} CLP</span>
                 </Col>
 
-                <Button type="submit" variant="info" className="buttonCheckout">
+                <Button variant="info" className="buttonCheckout" onClick={reorder}>
                   Pedir nuevamente
                 </Button>
               </Row>
