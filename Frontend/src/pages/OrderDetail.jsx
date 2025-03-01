@@ -14,6 +14,7 @@ const OrderDetail = () => {
   const [totalOrderProducts, setTotalOrderProducts] = useState(0);
   const { totalDelivery, getCart } = useContext(CartContext);
   const { user } = useContext(UserContext);
+  const [totalPlusDelivery, setTotalPlusDelivery] = useState(0)
 
   const getTotalProducts = () => {
     let total = 0;
@@ -28,13 +29,16 @@ const OrderDetail = () => {
     order.forEach((product) => {
       total += product.product_order_quantity * product.product_price;
     });
-    setTotalOrderProducts(total);
+    const totalFormatted = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(total)
+    const totalPlusDeliveryFormatted = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(total+3000)
+    setTotalOrderProducts(totalFormatted);
+    setTotalPlusDelivery(totalPlusDeliveryFormatted)
   };
 
   const reorder = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/pedidos/repetir-pedido/${order[0].id_order}`,
+        `http://localhost:3000/api/pedidos/repetir-pedido/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -73,7 +77,7 @@ const OrderDetail = () => {
       <Row>
         <Col>
           <h2 className="title-acme m-3 py-4">Detalle pedido anterior</h2>
-          <h3 className="title-acme m-3">Id de compra: {order.id_order} </h3>
+          <h3 className="title-acme m-3">Id de compra: {id} </h3>
         </Col>
       </Row>
       <Row className="mb-5">
@@ -117,7 +121,7 @@ const OrderDetail = () => {
                       </Col>
 
                       <Col className="px-0 py-1 cartProductPrice pr-3">
-                        Precio: ${product.product_price}
+                      Precio: {new Intl.NumberFormat('es-CL', { currency: 'CLP', style: 'currency' }).format(product.product_price)}
                       </Col>
                     </Row>
                   </Col>
@@ -174,7 +178,7 @@ const OrderDetail = () => {
 
                 <Col className="mt-3 d-flex justify-content-between cartOrderTotal">
                   <p className="">Total:</p>
-                  <span>{totalOrderProducts + 3000} CLP</span>
+                  <span>{totalPlusDelivery} CLP</span>
                 </Col>
 
                 <Button variant="info" className="buttonCheckout" onClick={reorder}>
