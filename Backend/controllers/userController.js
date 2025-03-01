@@ -4,7 +4,7 @@ require('dotenv').config();
 const crypto = require("crypto");
 
 const { getUser, registerUser, loginUser, editUser, editAddressUser, deleteUser, tokenIDAdd, tokenIDRemove } = require('../modules/users');
-const { passEmailConfirm, emailValid, usernameValid, inputEmpty, inputNotEmpty } = require('../middlewares/validation');
+const { passEmailConfirm, emailValid, usernameValid, inputNotEmpty } = require('../middlewares/validation');
 
 
 
@@ -183,10 +183,10 @@ exports.editAddressUsers = async (req,res) =>{
     let { id_user, address } = await getUser(req);
     let { addressChange } = req.body;  
 
-    if( inputEmpty(addressChange) && address != addressChange ){
+    if( inputNotEmpty(addressChange) && address != addressChange ){
       address= addressChange;
 
-    } else if( inputEmpty(addressChange) && address == addressChange){
+    } else if( inputNotEmpty(addressChange) && address == addressChange){
      return res.status(409).json({msg:"Dirección es la misma que tenía antes"})
     }
 

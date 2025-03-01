@@ -9,15 +9,15 @@ import SearchResult from '../search/SearchResult';
 
 
 const NewPostForm = () => {
-  const {newProduct, resultProduct} = useContext(ProductContext)
+  const {newProduct, resultProduct,setResultProduct} = useContext(ProductContext)
 
   
-  const product_name=useInput("");
-  const product_price=useInput("");
-  const product_quantity=useInput("");
-  const product_photo=useInput("");
-  const product_description=useInput("");
-  const product_category=useInput("");
+  let product_name=useInput("");
+  let product_price=useInput("");
+  let product_quantity=useInput("");
+  let product_photo=useInput("");
+  let product_description=useInput("");
+  let product_category=useInput("");
 
   useEffect(() => {
     if (resultProduct.product_name){
@@ -31,7 +31,17 @@ const NewPostForm = () => {
 
   const handleSubmit = async (e)=> {
     e.preventDefault()
-    newProduct(product_name, product_price, product_quantity, product_photo, product_description, product_category) 
+    newProduct(product_name, product_price, product_quantity, product_photo, product_description, product_category);
+
+    setResultProduct([{
+      product_name:"",
+      product_photo:"",
+      product_category:"",
+      product_description: "",
+      product_price: "",
+      product_quantity:""
+    }])
+    
   }
 
 

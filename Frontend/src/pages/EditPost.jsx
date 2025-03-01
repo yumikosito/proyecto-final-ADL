@@ -73,8 +73,14 @@ const EditPost = () => {
           }
         );
         setProduct(response.data);
-        console.log(user.token);
-        console.log(response.data);
+
+         name.onChange({target: {value: response.data.product_name}})
+         description.onChange({target: {value: response.data.product_description}})
+         price.onChange({target: {value: response.data.product_price}})
+         quantity.onChange({target: {value: response.data.product_quantity}})
+         photo.onChange({target: {value: response.data.product_photo}})
+         category.onChange({target: {value: response.data.product_category}})
+
       } catch (error) {
         a;
         console.error("Error al obtener el producto:", error);
