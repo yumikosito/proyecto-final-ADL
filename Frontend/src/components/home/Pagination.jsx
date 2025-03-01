@@ -1,14 +1,8 @@
 import { useState, useEffect } from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-const PaginationComponent = ({ totalProducts, limits, setPage }) => {
-  const [active, setActive] = useState(1);
+const PaginationComponent = ({ totalProducts, limits, setPage, handlePageChange, active, setActive }) => {
   const totalPages = Math.ceil(totalProducts / limits); 
-
-  const handlePageChange = (number) => {
-    setActive(number);
-    setPage(number); 
-  };
 
   return (
     <Pagination>
@@ -20,7 +14,6 @@ const PaginationComponent = ({ totalProducts, limits, setPage }) => {
             handlePageChange(index + 1)
             
           }
-          
           }
         >
           {index + 1}
