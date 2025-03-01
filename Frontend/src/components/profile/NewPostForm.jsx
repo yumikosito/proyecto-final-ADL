@@ -9,7 +9,7 @@ import SearchResult from '../search/SearchResult';
 
 
 const NewPostForm = () => {
-  const {newProduct, resultProduct, setResultProduct} = useContext(ProductContext)
+  const {newProduct, resultProduct} = useContext(ProductContext)
 
   
   const product_name=useInput("");
@@ -18,7 +18,6 @@ const NewPostForm = () => {
   const product_photo=useInput("");
   const product_description=useInput("");
   const product_category=useInput("");
-  const search=useInput("")
 
   useEffect(() => {
     if (resultProduct.product_name){

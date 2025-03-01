@@ -17,6 +17,8 @@ const SearchProducts = () => {
     const resultProd = data.filter((prod) => {
       return value && prod && prod.product_name && prod.product_name.toLowerCase().includes(value)
     })
+    console.log(resultProd);
+    
     setResult(resultProd)
   }
 

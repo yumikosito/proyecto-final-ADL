@@ -110,12 +110,12 @@ const Register = () => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formEmail">
-                <Form.Label>Correo electronico</Form.Label>
+                <Form.Label>Correo electrónico</Form.Label>
                 <Form.Control required className='registerLoginColor' type="email" placeholder="vivi@tienda.cl" {...email} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formEmailConfirm">
-                <Form.Label>Repite tu correo electronico</Form.Label>
+                <Form.Label>Repite tu correo electrónico</Form.Label>
                 <Form.Control required className='registerLoginColor' type="email" placeholder="vivi@tienda.cl" {...email_confirm} />
               </Form.Group>
             </Col>
