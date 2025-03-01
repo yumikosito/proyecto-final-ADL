@@ -47,7 +47,7 @@ const OrderDetail = () => {
         </Col>
       </Row>
       <Row className="mb-5">
-        <Col md={7}>
+        <Col xs={12} md={8} >
           {order.length > 0
             ? order.map((product, index) => (
                 <Row id="cartCard" key={index} className="p-2 rounded-3 mb-2">
@@ -96,7 +96,7 @@ const OrderDetail = () => {
             : "No hay productos"}
         </Col>
 
-        <Col md={4} className="ms-5">
+        <Col xs={12} md={4} className="">
           <div id="cartFinalOrder" className="p-3 mb-3 mx-2 rounded-3">
             <Container>
               <p className="cartOrderTitle pt-2 mb-2">Resumen de compra</p>
