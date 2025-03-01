@@ -29,6 +29,7 @@ const UserProvider = ({children}) => {
           confirmButtonColor: "#68D5E8",
           color:"#323232"
         })
+        navigate('/login')
   
       } else if (res.data.msg=="El email ya esta en uso"){
         Swal.fire({

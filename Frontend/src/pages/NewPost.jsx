@@ -2,7 +2,7 @@ import MenuProfile from '../components/profile/MenuProfile'
 import React from 'react'
 import NewPostForm from '../components/profile/NewPostForm';
 
-const NuevaVenta = () => {
+const NewPost = () => {
   return (
     <div>
       <MenuProfile/> 
@@ -11,4 +11,4 @@ const NuevaVenta = () => {
   )
 }
 
-export default NuevaVenta
+export default NewPost

@@ -12,7 +12,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import MyProducts from './pages/MyProducts.jsx';
-import NuevaVenta from './pages/NuevaVenta'
+import NewPost from './pages/NewPost.jsx'
 import Profile from './pages/Profile'
 import NavbarComponent from './components/NavbarComponent.jsx'
 import Footer from './components/Footer.jsx'
@@ -37,7 +37,7 @@ function App() {
         <Route path="/registro" element={!userLog ? <Register />:<Navigate to='/'/>} />
 
         <Route path="/perfil/" element={userLog ? <Profile />:<Navigate to='/login'/>} /> 
-        <Route path="/perfil/nueva-venta" element={userLog? <NuevaVenta />:<Navigate to='/login'/>} />
+        <Route path="/perfil/nueva-venta" element={userLog? <NewPost />:<Navigate to='/login'/>} />
         <Route path="/perfil/mis-productos" element={userLog ? <MyProducts />:<Navigate to='/login'/>} />
         <Route path="/perfil/mis-productos/editar/:id" element={userLog ? <EditPost/>:<Navigate to='/login'/>} /> 
         <Route path="/perfil/pedidos-anteriores" element={userLog ? <MyOrders />:<Navigate to='/login'/>} />

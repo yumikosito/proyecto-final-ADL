@@ -15,9 +15,9 @@ const OrderDetail = () => {
     totalCart,
     totalCLP,
     totalDelivery,
-    totalDiscount,
+    // totalDiscount,
     totalOrder,
-    setDiscount,
+    // setDiscount,
   } = useContext(CartContext);
   const { user } = useContext(UserContext);
 
@@ -37,7 +37,6 @@ const OrderDetail = () => {
     fetchOrders();
 
   }, [id]);
-
 
   return (
     <Container>
@@ -102,7 +101,7 @@ const OrderDetail = () => {
             <Container>
               <p className="cartOrderTitle pt-2 mb-2">Resumen de compra</p>
               <Row className="d-flex flex-column mb-3">
-                <p className="mb-1 cartOrderSub">Cupón de descuento aplicado</p>
+                {/* <p className="mb-1 cartOrderSub">Cupón de descuento aplicado</p>
                 <Form>
                   <Col className="d-flex">
                     <Form.Control
@@ -117,7 +116,7 @@ const OrderDetail = () => {
                       <CheckLg />
                     </Button>
                   </Col>
-                </Form>
+                </Form> */}
 
                 <Col className="mt-3 d-flex flex-row justify-content-between cartOrderSub">
                   <p className="mb-0 p-0">Numero de productos:</p>
@@ -131,10 +130,10 @@ const OrderDetail = () => {
                   <p className="mb-0">Subtotal:</p>
                   <span>{totalCLP} CLP</span>
                 </Col>
-                <Col className="mt-0 d-flex justify-content-between cartOrderSub">
+                {/* <Col className="mt-0 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Descuentos</p>
                   <span>{totalDiscount} CLP</span>
-                </Col>
+                </Col> */}
                 <Col className="mt-0 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Despacho:</p>
                   <span>{totalDelivery} CLP</span>
