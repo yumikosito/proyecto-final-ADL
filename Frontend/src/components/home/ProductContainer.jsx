@@ -10,10 +10,19 @@ const ProductContainer = () => {
   const { filteredProducts, totalProducts, limits, setPage, setFilters } =
     useContext(ProductContext);
 
+  useEffect(() => {
+    setPage(1);
+  }, [setPage]);
+
   const [showFilters, setShowFilters] = useState(false);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const [products, setProducts] = useState(filteredProducts);
+  const [active, setActive] = useState(1);
+  const handlePageChange = (number) => {
+    setActive(number);
+    setPage(number);
+  };
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -23,6 +32,7 @@ const ProductContainer = () => {
   const handleSort = (e) => {
     setSort(e.target.value);
     setFilters((prev) => ({ ...prev, sort: e.target.value }));
+    handlePageChange(1);
   };
 
   useEffect(() => {
@@ -91,7 +101,10 @@ const ProductContainer = () => {
                 </Button>
               </Col>
 
-              <Offcanvas show={showFilters} onHide={() => setShowFilters(false)}>
+              <Offcanvas
+                show={showFilters}
+                onHide={() => setShowFilters(false)}
+              >
                 <Offcanvas.Header closeButton></Offcanvas.Header>
                 <Offcanvas.Body>
                   <Filters setFilters={setFilters} />
@@ -113,6 +126,9 @@ const ProductContainer = () => {
                 totalProducts={totalProducts}
                 limits={limits}
                 setPage={setPage}
+                handlePageChange={handlePageChange}
+                setActive={setActive}
+                active={active}
               />
             </Col>
           </Container>
