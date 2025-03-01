@@ -14,7 +14,6 @@ const OrderDetail = () => {
   const [totalOrderProducts, setTotalOrderProducts] = useState(0);
   const { totalDelivery, getCart } = useContext(CartContext);
   const { user } = useContext(UserContext);
-  const [totalPlusDelivery, setTotalPlusDelivery] = useState(0)
 
   const getTotalProducts = () => {
     let total = 0;
@@ -29,10 +28,7 @@ const OrderDetail = () => {
     order.forEach((product) => {
       total += product.product_order_quantity * product.product_price;
     });
-    const totalFormatted = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(total)
-    const totalPlusDeliveryFormatted = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(total+3000)
-    setTotalOrderProducts(totalFormatted);
-    setTotalPlusDelivery(totalPlusDeliveryFormatted)
+    setTotalOrderProducts(total);
   };
 
   const reorder = async () => {
@@ -44,12 +40,20 @@ const OrderDetail = () => {
           headers: { Authorization: `Bearer ${user.token}` },
         }
       );
-      getCart()
+      getCart();
     } catch (error) {
       console.log(error);
     }
   };
-  
+  const subTotal = totalOrderProducts - 3000;
+  const subTotalFormat = new Intl.NumberFormat("es-CL", {
+    currency: "CLP",
+    style: "currency",
+  }).format(subTotal);
+  const totalOrderProductFormat = new Intl.NumberFormat("es-CL", {
+    currency: "CLP",
+    style: "currency",
+  }).format(totalOrderProducts);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -61,7 +65,6 @@ const OrderDetail = () => {
       );
 
       setOrder(orderDetail.data);
-
     };
 
     fetchOrders();
@@ -70,7 +73,7 @@ const OrderDetail = () => {
   useEffect(() => {
     getTotalOrderProducts();
     getTotalProducts();
-  })
+  });
 
   return (
     <Container>
@@ -81,7 +84,7 @@ const OrderDetail = () => {
         </Col>
       </Row>
       <Row className="mb-5">
-        <Col md={7}>
+        <Col xs={12} md={8}>
           {order.length > 0
             ? order.map((product, index) => (
                 <Row id="cartCard" key={index} className="p-2 rounded-3 mb-2">
@@ -121,7 +124,7 @@ const OrderDetail = () => {
                       </Col>
 
                       <Col className="px-0 py-1 cartProductPrice pr-3">
-                      Precio: {new Intl.NumberFormat('es-CL', { currency: 'CLP', style: 'currency' }).format(product.product_price)}
+                        Precio: {new Intl.NumberFormat("es-CL", {currency: "CLP",style: "currency",}).format(product.product_price)}
                       </Col>
                     </Row>
                   </Col>
@@ -130,7 +133,7 @@ const OrderDetail = () => {
             : "No hay productos"}
         </Col>
 
-        <Col md={4} className="ms-5">
+        <Col xs={12} md={4} className="">
           <div id="cartFinalOrder" className="p-3 mb-3 mx-2 rounded-3">
             <Container>
               <p className="cartOrderTitle pt-2 mb-2">Resumen de compra</p>
@@ -162,7 +165,7 @@ const OrderDetail = () => {
 
                 <Col className="mt-2 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Subtotal:</p>
-                  <span>{totalOrderProducts} CLP</span>
+                  <span>{subTotalFormat} CLP</span>
                 </Col>
                 {/* <Col className="mt-0 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Descuentos</p>
@@ -178,10 +181,14 @@ const OrderDetail = () => {
 
                 <Col className="mt-3 d-flex justify-content-between cartOrderTotal">
                   <p className="">Total:</p>
-                  <span>{totalPlusDelivery} CLP</span>
+                  <span>{totalOrderProductFormat} CLP</span>
                 </Col>
 
-                <Button variant="info" className="buttonCheckout" onClick={reorder}>
+                <Button
+                  variant="info"
+                  className="buttonCheckout"
+                  onClick={reorder}
+                >
                   Pedir nuevamente
                 </Button>
               </Row>
