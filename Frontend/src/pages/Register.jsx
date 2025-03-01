@@ -69,11 +69,11 @@ const Register = () => {
   }
 
   return (
-    <div className='registerForm'>
+    <div className='registerForm mx-1'>
       <h1 id='titleText'>Registrar nueva cuenta</h1>
       <div className=' py-2 my-3 '>
         <Container className='yellowColor py-5 rounded-3'>
-          <Form onSubmit={handleSubmit} className='whiteColor py-3 rounded-3 mx-5' >
+          <Form onSubmit={handleSubmit} className='whiteColor py-3 rounded-3 mx-4' >
           <Row>
             <Col md={12} lg={6} className='px-5'>
               <Form.Group className="mb-3"  controlId="formName">
