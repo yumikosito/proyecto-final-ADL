@@ -101,12 +101,12 @@ const Register = () => {
             <Col md={12} lg={6} className='px-5 mb-4'>
              <Form.Group className="mb-3" controlId="formPassword">
                 <Form.Label>Contraseña</Form.Label>
-                <Form.Control required className='registerLoginColor' type="text" placeholder="Minimo 8 caracteres" {...password} />
+                <Form.Control required className='registerLoginColor' type="password" placeholder="Minimo 8 caracteres" {...password} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formPasswordConfirm">
                 <Form.Label>Repite tu contraseña</Form.Label>
-                <Form.Control required className='registerLoginColor' type="text" placeholder="" {...password_confirm}/>
+                <Form.Control required className='registerLoginColor' type="password" placeholder="" {...password_confirm}/>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formEmail">
