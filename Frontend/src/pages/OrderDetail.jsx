@@ -45,7 +45,9 @@ const OrderDetail = () => {
       console.log(error);
     }
   };
-  
+  const subTotal = totalOrderProducts-3000;
+  const subTotalFormat = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(subTotal)
+  const totalOrderProductFormat= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(totalOrderProducts)
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -158,7 +160,7 @@ const OrderDetail = () => {
 
                 <Col className="mt-2 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Subtotal:</p>
-                  <span>{totalOrderProducts} CLP</span>
+                  <span>{subTotalFormat} CLP</span>
                 </Col>
                 {/* <Col className="mt-0 d-flex justify-content-between cartOrderSub">
                   <p className="mb-0">Descuentos</p>
@@ -174,7 +176,7 @@ const OrderDetail = () => {
 
                 <Col className="mt-3 d-flex justify-content-between cartOrderTotal">
                   <p className="">Total:</p>
-                  <span>{totalOrderProducts + 3000} CLP</span>
+                  <span>{totalOrderProductFormat} CLP</span>
                 </Col>
 
                 <Button variant="info" className="buttonCheckout" onClick={reorder}>
