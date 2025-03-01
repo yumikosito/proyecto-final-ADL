@@ -181,6 +181,17 @@ exports.putMyProductsById = async (idUser, idProduct, dataProduct) => {
 
 exports.deleteMyProductsById = async (idUser, idProduct) => {
   try {
+    await pool.query('DELETE FROM cart WHERE product_id = $1',[idProduct]);
+
+    const { rows: ordersDetails } = await pool.query('SELECT * FROM order_details WHERE order_product = $1',[idProduct])
+
+    console.log(ordersDetails);
+    
+    
+    await Promise.all (ordersDetails.map( async(product) => {
+      await pool.query('UPDATE order_details set order_product = $1 WHERE order_product = $2', [null, product.order_product])
+  
+    })) 
 
     const query = {
       text: "DELETE FROM products WHERE seller = $1 and id_product = $2",
@@ -193,6 +204,8 @@ exports.deleteMyProductsById = async (idUser, idProduct) => {
     }
     return { message: "Producto eliminado" };
   } catch (error) {
+    console.log(error);
+    
     throw new Error("No se pudo eliminar el producto");
   }
 }

@@ -178,7 +178,10 @@ exports.repeatOrderToCart = async (idUser , idOrder) => {
         const newQuantity = currentProduct[0].total_quantity + product_order_quantity;
         await exports.editProductInCart(idUser , order_product, newQuantity);
       } else {
-        await exports.addProductInCart(idUser , order_product, product_order_quantity);
+        if(product.order_product != null){
+          await exports.addProductInCart(idUser , order_product, product_order_quantity);
+        }
+        
       }
     }));
 

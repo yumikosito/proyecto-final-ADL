@@ -40,11 +40,11 @@ constraint fk_order_user foreign key(order_user) references users(id_user)
 );
 
 create table order_details(
+id_order_details serial primary key,
 order_id integer, 
 order_product integer,
 product_order_price integer,
 product_order_quantity integer,
-constraint pk_orders_products primary key(order_id, order_product),
 constraint fk_order_details_orders foreign key (order_id) references orders(id_order),
 constraint fk_order_details_products foreign key (order_product) references products(id_product)
 );
