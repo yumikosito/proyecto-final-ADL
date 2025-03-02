@@ -108,14 +108,15 @@ exports.deleteProductInCart = async(id_user, id_product ) =>{
 
 exports.buyProductToOrder = async (id_user, cart) =>{
   try {
-    let stock_valid = true
+    let stock_valid = []
     await Promise.all (cart.map( async (prodValid)=> {
       const valid = await stockValid(prodValid.product_id,prodValid.total_quantity)
-      stock_valid = valid
+      stock_valid.push(valid)   
 
     }))
+    
 
-    if(!stock_valid){
+    if(stock_valid.some(prod=>prod==false)){
       return false
     } else{
 
@@ -156,8 +157,8 @@ exports.buyProductToOrder = async (id_user, cart) =>{
     
     throw new Error("Error al enviar la orden");
   }
-    
-}
+} 
+
 
 
 
