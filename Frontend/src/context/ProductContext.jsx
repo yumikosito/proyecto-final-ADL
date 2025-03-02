@@ -51,12 +51,15 @@ const ProductProvider = ({ children }) => {
   
   useEffect(() => {
     getAllProducts();
-  }, []);
+  }, [filteredProducts]);
 
   useEffect(() => {
       getFilteredProducts();
-  }, [filters, page]);
+  }, [filteredProducts,filters, page]);
 
+
+
+  
 
   const newProduct = async(product_name, product_price, product_quantity, product_photo, product_description, product_category) => {
     const newProduct={
