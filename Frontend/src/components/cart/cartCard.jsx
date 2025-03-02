@@ -36,8 +36,9 @@ const CartCard = (product) => {
               </Col>
 
               <Col xs={7} className='mx-2 d-flex flex-column align-items-start justify-content-center'>
-                <h6 className='cartProductTitle'>{product.product_name}</h6>
-                <p className='cartProductShop'>Vendido por: {product.seller_name}</p>
+                <h6 className='cartProductTitle my-0'>{product.product_name}</h6>
+                <p className='cartProductShop my-0'>Vendido por: {product.seller_name}</p>
+                <p className='cartProductShop my-0'>Stock: {product.product_quantity}</p>
               </Col>
               </Row>
             </Col>
