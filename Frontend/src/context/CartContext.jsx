@@ -161,9 +161,9 @@ useEffect(()=>{
           confirmButtonColor: "#68D5E8",
           color:"#323232"
         })
-      } else if(res.data.msg=="Tiene que registrar su dirección antes de comprar"){
+      } else if(res.data.msg=="Tiene que registrar su dirección antes de comprar, vaya a la sección de Mi perfil"){
         Swal.fire({
-          title: "Tiene que registrar su dirección antes de comprar",
+          title: "Tiene que registrar su dirección antes de comprar, vaya a la sección de Mi perfil",
           icon: "error",
           confirmButtonColor: "#68D5E8",
           color:"#323232"

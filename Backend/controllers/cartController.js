@@ -102,7 +102,7 @@ exports.buyProductsToOrderController = async(req,res) =>{
         return res.json({msg: "Verifique el stock de uno de los productos del carrito"})
 
       } else if (orderConfirm.error=='address'){
-        return res.json({msg: "Tiene que registrar su dirección antes de comprar"})
+        return res.json({msg: "Tiene que registrar su dirección antes de comprar, vaya a la sección de Mi perfil"})
       }
     }
       
