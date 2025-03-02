@@ -3,7 +3,12 @@ import { Form, Container, Row, Col } from "react-bootstrap";
 
 const Filters = ({ setFilters }) => {
   const [categories, setCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 200000]);
+  const [priceRange, setPriceRange] = useState([0, max]);
+
+  // if(max) {
+  //   console.log("maxtotallog", max)
+  // }
+  console.log("maxtotal",max)
 
   const [valueMin, setValueMin] = useState(priceRange[0]);
   const [valueMax, setValueMax] = useState(priceRange[1]);
@@ -15,7 +20,7 @@ const Filters = ({ setFilters }) => {
   const valueMaxCLP = new Intl.NumberFormat("es-CL", {
     currency: "CLP",
     style: "currency",
-  }).format(valueMax);
+  }).format(max);
 
   const filtersArray = [
     "Figura",

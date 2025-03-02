@@ -42,13 +42,13 @@ const ProductProvider = ({ children }) => {
 
   const getAllProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/productos/todos");
-      setAllProducts(response.data);
+      const response = await axios.get("http://localhost:3000/api/productos/max");     
+      setMax(response.data);
     } catch (error) {
       console.error("Error al obtener todos los productos:", error);
     }
   }
-
+  
   useEffect(() => {
     getAllProducts();
   }, []);

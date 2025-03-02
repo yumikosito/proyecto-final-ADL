@@ -1,4 +1,4 @@
-const { getProducts, getProductById, getMyProducts, newProduct, getMyProductsById, putMyProductsById, deleteMyProductsById, filters, searchProduct, getAllProducts } = require('../modules/products.js');
+const { getProducts, getProductById, getMyProducts, newProduct, getMyProductsById, putMyProductsById, deleteMyProductsById, filters, searchProduct, getAllProducts, maxPrice } = require('../modules/products.js');
 const { getUser } = require('../modules/users.js');
 
 
@@ -144,4 +144,10 @@ exports.searchProductController = async (req,res) =>{
     res.status(500).json({ error: error.message, msg: "Error interno del servidor" });
   }
 
+}
+
+exports.maxPriceController = async (req, res) =>{
+  const max_price = await maxPrice()
+  return res.status(200).json(max_price)  
+    
 }
