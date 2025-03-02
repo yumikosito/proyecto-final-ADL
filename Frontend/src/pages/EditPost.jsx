@@ -135,7 +135,6 @@ const EditPost = () => {
                     <option value="">Selecciona una categoría</option>
                     <option value="Figura">Figura</option>
                     <option value="Peluche">Peluche</option>
-                    <option value="Pixel art">Pixel art</option>
                     <option value="Musica">Música</option>
                     <option value="Juego fisico">Juego físico</option>
                     <option value="Papeleria">Papelería</option>

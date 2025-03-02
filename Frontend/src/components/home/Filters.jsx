@@ -26,7 +26,6 @@ const Filters = ({ setFilters }) => {
   const filtersArray = [
     "Figura",
     "Peluche",
-    "Pixel Art",
     "Musica",
     "Juego fisico",
     "Papeleria",

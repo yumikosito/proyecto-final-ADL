@@ -84,7 +84,7 @@ const NewPostForm = () => {
             <Col xs={12} sm={2}>
               <Form.Group as={Col} controlId="formGridPassword" className='mb-3'>
                 <Form.Label>{"Precio ($ CLP)"}</Form.Label>
-                <Form.Control required className='newPostColor' type="number" placeholder="20000" {...product_price} />
+                <Form.Control required className='newPostColor' type="number" min={0} placeholder="20000" {...product_price} />
               </Form.Group>
     
             </Col>
@@ -94,7 +94,7 @@ const NewPostForm = () => {
             <Col xs={12} sm={4} className='d-flex flex-column'>
               <Form.Group as={Col} className="mb-3" controlId="formGridAddress1">
                 <Form.Label>Cantidad</Form.Label>
-                <Form.Control required type="number" className='newPostColor' placeholder="3" {...product_quantity} />
+                <Form.Control required type="number" className='newPostColor' min={0} placeholder="3" {...product_quantity} />
               </Form.Group>
 
               <Form.Group controlId="formCategory" className='mb-3'>
@@ -103,7 +103,6 @@ const NewPostForm = () => {
                   <option>Selecciona solo 1 categoría de abajo</option>
                   <option>Figura</option>
                   <option>Peluche</option>
-                  <option>Pixel art</option>
                   <option>Musica</option>
                   <option>Juego fisico</option>
                   <option>Papeleria</option>

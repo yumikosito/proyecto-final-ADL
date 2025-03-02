@@ -80,7 +80,7 @@ exports.stockValid = async (id_product,total_quantity) =>{
 
   let stockPlus= productStock[0].product_quantity - total_quantity
 
-  if(total_quantity<=productStock[0].product_quantity && productStock[0].product_quantity>0 && stockPlus>0){
+  if(total_quantity<=productStock[0].product_quantity && productStock[0].product_quantity>0 && stockPlus>=0){
     return true
   } else {
     return false
