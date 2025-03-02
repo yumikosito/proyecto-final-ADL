@@ -74,3 +74,13 @@ exports.myProductInCart = async (id_user, id_product) =>{
     return true
   }
 }
+
+exports.stockValid = async (id_product,total_quantity) =>{
+  const {rows:productStock} = await pool.query('SELECT product_quantity FROM products WHERE id_product = $1', [id_product])
+
+  if(total_quantity<=productStock[0].product_quantity && productStock[0].product_quantity>0){
+    return true
+  } else {
+    return false
+  }
+}

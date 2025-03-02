@@ -161,7 +161,14 @@ useEffect(()=>{
           confirmButtonColor: "#68D5E8",
           color:"#323232"
         })
-      } 
+      } else if(res.data.msg=="Verifique el stock de uno de los productos del carrito"){
+        Swal.fire({
+          title: "Verifique el stock de uno de los productos del carrito",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+      }
          
     } catch (error) {
       console.log("Error al comprar carrito",error); 

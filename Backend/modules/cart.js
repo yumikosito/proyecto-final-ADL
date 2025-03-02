@@ -1,4 +1,5 @@
 const pool = require('../config/database');
+const { stockValid } = require('../middlewares/validation');
 const { getProductById, getMyProductsByIdTrue, getProductsByIdTrue } = require('./products');
 const { getUserName } = require('./users');
 
@@ -107,34 +108,55 @@ exports.deleteProductInCart = async(id_user, id_product ) =>{
 
 exports.buyProductToOrder = async (id_user, cart) =>{
   try {
-    let totalPrice = 0;
-    let totalPriceOrder = cart.map((productPrice) =>{
-      totalPrice += (productPrice.product_price * productPrice.total_quantity);
-      return totalPrice
-    })
-    totalPriceOrder = Number(totalPriceOrder.slice(-1))
-    const totalPriceFinal = totalPriceOrder +3000
-    
-    let order_date = new Date()
-    const orderDate = order_date.toISOString().split('T')[0]
-    const orderTime = order_date.toISOString().split('T')[1].split('Z')[0]
-    order_date_final = orderDate + " " + orderTime;
-  
-    await pool.query('INSERT INTO orders (order_user, order_total, order_date) VALUES ($1,$2,$3)',[id_user, totalPriceFinal, order_date_final]);
-    const { rows: orderSearch } = await pool.query('SELECT id_order FROM orders WHERE order_user = $1 AND order_total = $2 AND order_date = $3', [id_user, totalPriceFinal, order_date_final ]);
-  
-    const orderId = orderSearch[0].id_order;
-    
-  
-    await Promise.all (cart.map( async(product) => {
-      await pool.query('INSERT INTO order_details (order_id, order_product, product_order_price,product_order_quantity) VALUES ($1,$2,$3,$4)', [orderId, product.product_id, product.product_price, product.total_quantity])
-  
-    })) 
-    return {confirm: true, order_details: { id_order: orderId, order_date: order_date_final, order_total: totalPriceFinal }}
+    let stock_valid = true
+    await Promise.all (cart.map( async (prodValid)=> {
+      const valid = await stockValid(prodValid.product_id,prodValid.total_quantity)
+      stock_valid = valid
 
+    }))
+
+    if(!stock_valid){
+      return false
+    } else{
+
+      let totalPrice = 0;
+      let totalPriceOrder = cart.map((productPrice) =>{
+        totalPrice += (productPrice.product_price * productPrice.total_quantity);
+        return totalPrice
+      })
+      totalPriceOrder = Number(totalPriceOrder.slice(-1))
+      const totalPriceFinal = totalPriceOrder +3000
+      
+      let order_date = new Date()
+      const orderDate = order_date.toISOString().split('T')[0]
+      const orderTime = order_date.toISOString().split('T')[1].split('Z')[0]
+      order_date_final = orderDate + " " + orderTime;
+    
+      await pool.query('INSERT INTO orders (order_user, order_total, order_date) VALUES ($1,$2,$3)',[id_user, totalPriceFinal, order_date_final]);
+      const { rows: orderSearch } = await pool.query('SELECT id_order FROM orders WHERE order_user = $1 AND order_total = $2 AND order_date = $3', [id_user, totalPriceFinal, order_date_final ]);
+    
+      const orderId = orderSearch[0].id_order;
+      
+    
+      await Promise.all (cart.map( async(product) => {
+        await pool.query('INSERT INTO order_details (order_id, order_product, product_order_price,product_order_quantity) VALUES ($1,$2,$3,$4)', [orderId, product.product_id, product.product_price, product.total_quantity])
+        
+        let productDetails = await getProductById(product.product_id);
+        let productQuantity = productDetails.product_quantity;
+        let productBuy = productQuantity - product.total_quantity;
+        
+        await pool.query('UPDATE products SET product_quantity = $1 WHERE id_product =$2',[productBuy,product.product_id])
+      })) 
+      return {confirm: true, order_details: { id_order: orderId, order_date: order_date_final, order_total: totalPriceFinal }}
+  
+   
+    }
   } catch (error) {
+    console.log(error);
+    
     throw new Error("Error al enviar la orden");
   }
+    
 }
 
 

@@ -96,6 +96,10 @@ exports.buyProductsToOrderController = async(req,res) =>{
     } else{
       let orderConfirm = await buyProductToOrder(id_user,cart);
       
+      if(!orderConfirm){
+        return res.json({msg: 'Verifique el stock de uno de los productos del carrito'})
+      } 
+      
       if(orderConfirm.confirm){
         let deleteConfirm = await deleteTotalCart(id_user);
 
