@@ -12,7 +12,7 @@ const OrderDetail = () => {
   const [order, setOrder] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalOrderProducts, setTotalOrderProducts] = useState(0);
-  const { totalDelivery, getCart } = useContext(CartContext);
+  const { getCart } = useContext(CartContext);
   const { user } = useContext(UserContext);
 
   const getTotalProducts = () => {
@@ -22,6 +22,8 @@ const OrderDetail = () => {
     });
     setTotalProducts(total);
   };
+
+  const totalDelivery = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(3000)
 
   const getTotalOrderProducts = () => {
     let total = 0;
@@ -45,7 +47,7 @@ const OrderDetail = () => {
       console.log(error);
     }
   };
-  const subTotal = totalOrderProducts - 3000;
+  const subTotal = totalOrderProducts ;
   const subTotalFormat = new Intl.NumberFormat("es-CL", {
     currency: "CLP",
     style: "currency",
@@ -53,7 +55,7 @@ const OrderDetail = () => {
   const totalOrderProductFormat = new Intl.NumberFormat("es-CL", {
     currency: "CLP",
     style: "currency",
-  }).format(totalOrderProducts);
+  }).format(totalOrderProducts+3000);
 
   useEffect(() => {
     const fetchOrders = async () => {
