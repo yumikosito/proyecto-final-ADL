@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
+import { ProductContext } from "../../context/ProductContext";
 
 const Filters = ({ setFilters }) => {
+  const {max} = useContext(ProductContext)
   const [categories, setCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 200000]);
+  const [priceRange, setPriceRange] = useState([0, max]);
+
+  // if(max) {
+  //   console.log("maxtotallog", max)
+  // }
+  // console.log("maxtotal",max)
 
   const [valueMin, setValueMin] = useState(priceRange[0]);
   const [valueMax, setValueMax] = useState(priceRange[1]);
@@ -101,7 +108,7 @@ const Filters = ({ setFilters }) => {
               <Form.Range
                 className="custom-range"
                 min={0}
-                max={200000}
+                max={max}
                 step={1000}
                 value={valueMax}
                 onChange={handleMaxPrice}

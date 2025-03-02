@@ -108,6 +108,18 @@ const HATEOASFormat = (array_products, total) => {
   return resProducts
 }
 
+exports.getAllProducts = async () => {
+  try {
+    const query = {
+      text: "SELECT * FROM products WHERE product_stock=$1",
+      values: [true]
+    };
+    const { rows: products } = await pool.query(query);
+    return products;
+  } catch (error) {
+    throw new Error("No se pudo obtener los productos");
+  }
+}
 
 
 exports.getProductById = async (id) => {

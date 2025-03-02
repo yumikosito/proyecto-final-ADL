@@ -1,4 +1,4 @@
-const { getProducts, getProductById, getMyProducts, newProduct, getMyProductsById, putMyProductsById, deleteMyProductsById, filters, searchProduct } = require('../modules/products.js');
+const { getProducts, getProductById, getMyProducts, newProduct, getMyProductsById, putMyProductsById, deleteMyProductsById, filters, searchProduct, getAllProducts } = require('../modules/products.js');
 const { getUser } = require('../modules/users.js');
 
 
@@ -20,7 +20,15 @@ exports.getFiltersController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({error: error.message, msg: "Error interno del servidor" });
   }
+}
 
+exports.getAllProductsController = async (req, res) => {
+  try {
+    const products = await getAllProducts();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message, msg: "Error interno del servidor" });
+  }
 }
 
 exports.getProductByIdController = async (req, res) => {

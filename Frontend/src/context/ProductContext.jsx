@@ -15,6 +15,9 @@ const ProductProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [result, setResult] = useState([])
   const [resultProduct, setResultProduct] = useState([])
+  const [allProducts, setAllProducts] = useState([])
+  const [max, setMax] = useState(0)
+
   const [filters, setFilters] = useState({
     precio_min: "",
     precio_max: "",
@@ -36,6 +39,29 @@ const ProductProvider = ({ children }) => {
       console.error("Error al obtener productos filtrados:", error);
     }
   };
+
+  const getAllProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/productos/todos");
+      setAllProducts(response.data);
+    } catch (error) {
+      console.error("Error al obtener todos los productos:", error);
+    }
+  }
+
+  useEffect(() => {
+    getAllProducts();
+
+    if(allProducts.length >0){
+      const prices = allProducts.map(product => product.product_price);
+      console.log(prices)
+      const max = Math.max(...prices);
+      console.log(max)
+      setMax(max)
+    }
+  }, []);
+
+  console.log(max)
 
   useEffect(() => {
       getFilteredProducts();
@@ -72,7 +98,7 @@ const ProductProvider = ({ children }) => {
   }
   }
 
-  return <ProductContext.Provider value={{newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct,  page}}>
+  return <ProductContext.Provider value={{newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct,  page, allProducts, max}}>
     {children}
   </ProductContext.Provider>
 }
