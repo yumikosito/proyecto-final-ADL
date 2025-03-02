@@ -148,7 +148,6 @@ exports.searchProductController = async (req,res) =>{
 
 exports.maxPriceController = async (req, res) =>{
   const max_price = await maxPrice()
-  console.log(max_price)
   return res.status(200).json(max_price)  
     
 }
