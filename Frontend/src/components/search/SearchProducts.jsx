@@ -31,7 +31,7 @@ const SearchProducts = () => {
  
           <Row>
             <Col xs={10} sm={9}>
-              <FormControl onChange = {(e) =>fetchData(e.target.value) } type="text" placeholder="Figura Zidane FFXIV" className=" mr-sm-2 newPostColor"/>
+              <FormControl onChange = {(e) =>fetchData(e.target.value) } onInput={(e) => e.target.value = ("" + e.target.value).toLowerCase()} type="text" placeholder="Figura Zidane FFXIV" className=" mr-sm-2 newPostColor"/>
             </Col>
             <Col xs={2} sm={3} className=''>
               <Search size={30} className='searchButton'/>

@@ -38,7 +38,7 @@ const Login = () => {
               <Button className='registerLoginButton registerLoginInput' variant="info" type="submit">
                 <p className='registerLoginButtonText'>Iniciar sesión</p>
               </Button>
-              <a href="">¿Olvidaste tu contraseña?</a>
+              {/* <a href="">¿Olvidaste tu contraseña?</a> */}
           </div>
             </Col>
             

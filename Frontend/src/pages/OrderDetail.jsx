@@ -12,7 +12,7 @@ const OrderDetail = () => {
   const [order, setOrder] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalOrderProducts, setTotalOrderProducts] = useState(0);
-  const { totalDelivery, getCart } = useContext(CartContext);
+  const { getCart } = useContext(CartContext);
   const { user } = useContext(UserContext);
 
   const getTotalProducts = () => {
@@ -48,7 +48,8 @@ const OrderDetail = () => {
   const subTotal = totalOrderProducts-3000;
   const subTotalFormat = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(subTotal)
   const totalOrderProductFormat= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(totalOrderProducts)
-
+  const totalDelivery = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(3000)
+  
   useEffect(() => {
     const fetchOrders = async () => {
       const orderDetail = await axios.get(
@@ -69,6 +70,9 @@ const OrderDetail = () => {
     getTotalOrderProducts();
     getTotalProducts();
   })
+
+  
+  
 
   return (
     <Container>
