@@ -51,17 +51,7 @@ const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     getAllProducts();
-
-    if(allProducts.length >0){
-      const prices = allProducts.map(product => product.product_price);
-      console.log(prices)
-      const max = Math.max(...prices);
-      console.log(max)
-      setMax(max)
-    }
   }, []);
-
-  console.log(max)
 
   useEffect(() => {
       getFilteredProducts();
@@ -98,7 +88,7 @@ const ProductProvider = ({ children }) => {
   }
   }
 
-  return <ProductContext.Provider value={{newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct,  page, allProducts, max}}>
+  return <ProductContext.Provider value={{newProduct, filteredProducts,totalProducts,limits,setPage,setFilters,result, setResult,resultProduct, setResultProduct,  page, allProducts}}>
     {children}
   </ProductContext.Provider>
 }
