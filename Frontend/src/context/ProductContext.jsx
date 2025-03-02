@@ -55,7 +55,7 @@ const ProductProvider = ({ children }) => {
 
   useEffect(() => {
       getFilteredProducts();
-  }, [filteredProducts,filters, page]);
+  }, [filters, page]);
 
 
 
