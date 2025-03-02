@@ -2,10 +2,12 @@ import axios from 'axios'
 import {createContext,useContext,useEffect,useState} from 'react'
 import { UserContext } from './UserContext'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const CartContext= createContext()
 
 const CartProvider = ({children}) => {
+  const navigate = useNavigate()
   const [cart,setCart]=useState([]);
   const [total, setTotal] = useState(0);
   const [discount,setDiscount] = useState(0);
@@ -163,11 +165,12 @@ useEffect(()=>{
         })
       } else if(res.data.msg=="Tiene que registrar su dirección antes de comprar, vaya a la sección de Mi perfil"){
         Swal.fire({
-          title: "Tiene que registrar su dirección antes de comprar, vaya a la sección de Mi perfil",
+          title: "Tiene que registrar su dirección antes de comprar, se redigirirá a Mi Perfil",
           icon: "error",
           confirmButtonColor: "#68D5E8",
           color:"#323232"
         })
+        navigate('/perfil')
       } else if(res.data.msg=="Carrito esta vacio"){
         Swal.fire({
           title: "Carrito esta vacio",
