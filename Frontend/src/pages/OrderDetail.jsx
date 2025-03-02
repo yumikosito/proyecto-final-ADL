@@ -23,6 +23,8 @@ const OrderDetail = () => {
     setTotalProducts(total);
   };
 
+  const totalDelivery = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(3000)
+
   const getTotalOrderProducts = () => {
     let total = 0;
     order.forEach((product) => {
@@ -34,22 +36,27 @@ const OrderDetail = () => {
   const reorder = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/pedidos/repetir-pedido/${order[0].id_order}`,
+        `http://localhost:3000/api/pedidos/repetir-pedido/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
       );
-      getCart()
+      getCart();
     } catch (error) {
       console.log(error);
     }
   };
-  const subTotal = totalOrderProducts-3000;
-  const subTotalFormat = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(subTotal)
-  const totalOrderProductFormat= new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(totalOrderProducts)
-  const totalDelivery = new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(3000)
-  
+  const subTotal = totalOrderProducts ;
+  const subTotalFormat = new Intl.NumberFormat("es-CL", {
+    currency: "CLP",
+    style: "currency",
+  }).format(subTotal);
+  const totalOrderProductFormat = new Intl.NumberFormat("es-CL", {
+    currency: "CLP",
+    style: "currency",
+  }).format(totalOrderProducts+3000);
+
   useEffect(() => {
     const fetchOrders = async () => {
       const orderDetail = await axios.get(
@@ -60,7 +67,6 @@ const OrderDetail = () => {
       );
 
       setOrder(orderDetail.data);
-
     };
 
     fetchOrders();
@@ -69,7 +75,7 @@ const OrderDetail = () => {
   useEffect(() => {
     getTotalOrderProducts();
     getTotalProducts();
-  })
+  });
 
   
   
@@ -79,11 +85,11 @@ const OrderDetail = () => {
       <Row>
         <Col>
           <h2 className="title-acme m-3 py-4">Detalle pedido anterior</h2>
-          <h3 className="title-acme m-3">Id de compra: {order.id_order} </h3>
+          <h3 className="title-acme m-3">Id de compra: {id} </h3>
         </Col>
       </Row>
       <Row className="mb-5">
-        <Col xs={12} md={8} >
+        <Col xs={12} md={8}>
           {order.length > 0
             ? order.map((product, index) => (
                 <Row id="cartCard" key={index} className="p-2 rounded-3 mb-2">
@@ -123,7 +129,7 @@ const OrderDetail = () => {
                       </Col>
 
                       <Col className="px-0 py-1 cartProductPrice pr-3">
-                        Precio: ${product.product_price}
+                        Precio: {new Intl.NumberFormat("es-CL", {currency: "CLP",style: "currency",}).format(product.product_price)}
                       </Col>
                     </Row>
                   </Col>
@@ -183,7 +189,11 @@ const OrderDetail = () => {
                   <span>{totalOrderProductFormat} CLP</span>
                 </Col>
 
-                <Button variant="info" className="buttonCheckout" onClick={reorder}>
+                <Button
+                  variant="info"
+                  className="buttonCheckout"
+                  onClick={reorder}
+                >
                   Pedir nuevamente
                 </Button>
               </Row>

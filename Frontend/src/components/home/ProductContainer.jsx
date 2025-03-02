@@ -7,11 +7,13 @@ import { Container, Row, Col, Form, Button, Offcanvas } from "react-bootstrap";
 import { Funnel, Search } from "react-bootstrap-icons";
 
 const ProductContainer = () => {
+
   const { filteredProducts, totalProducts, limits, setPage, setFilters } =
     useContext(ProductContext);
 
   useEffect(() => {
     setPage(1);
+      
     setFilters({precio_min: "",
       precio_max: "",
       categoria: "",
@@ -42,6 +44,7 @@ const ProductContainer = () => {
   };
 
   useEffect(() => {
+   
     let filtered = [...filteredProducts];
 
     if (search) {
@@ -59,6 +62,8 @@ const ProductContainer = () => {
     setProducts(filtered);
   }, [search, sort, filteredProducts]);
 
+
+  
   return (
     <Container>
       <Row>

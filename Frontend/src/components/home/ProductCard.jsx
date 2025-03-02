@@ -28,7 +28,7 @@ const ProductCard = ({ product_name, product_price, product_photo, id_product}) 
         <Card.Text className="priceText">{priceCLP}</Card.Text>
         <Button variant="info" className="mb-2 goDetails px-4" onClick={() => details(id_product)}>Ver detalles</Button>
         <Button
-        disabled={userLog ? "":"false"} 
+        disabled={userLog ? "": true} 
         variant="warning" className="addCartButton" onClick={()=>buttonCart(id_product)}>Agregar al carrito</Button>
       </Card.Body>
     </Card>     
