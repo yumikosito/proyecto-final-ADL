@@ -107,7 +107,7 @@ const OrderDetail = () => {
                           {product.product_name}
                         </h6>
                         <p className="cartProductShop">
-                          Vendido por: {product.username}
+                          Vendido por: {`${product.name} ${product.lastname}`}
                         </p>
                       </Col>
                     </Row>
