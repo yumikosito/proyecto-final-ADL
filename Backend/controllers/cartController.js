@@ -86,19 +86,25 @@ exports.editProductInCartController = async(req,res) =>{
 
 exports.buyProductsToOrderController = async(req,res) =>{
   try {
-    let { id_user } = await getUser(req);
+    let { id_user, address } = await getUser(req);
     let cart = await getCartFull(id_user)
     cart = cart.cart
     
     
     if(cart.length==0){
       res.json({msg:"Carrito esta vacio"});
+
     } else{
-      let orderConfirm = await buyProductToOrder(id_user,cart);
-      
-      if(!orderConfirm){
+      let orderConfirm = await buyProductToOrder(id_user,cart,address);
+
+      if(!orderConfirm.confirm){
+        if(orderConfirm.error =='stock'){
         return res.json({msg: "Verifique el stock de uno de los productos del carrito"})
-      } 
+
+      } else if (orderConfirm.error=='address'){
+        return res.json({msg: "Tiene que registrar su dirección antes de comprar"})
+      }
+    }
       
       if(orderConfirm.confirm){
         let deleteConfirm = await deleteTotalCart(id_user);
@@ -108,9 +114,9 @@ exports.buyProductsToOrderController = async(req,res) =>{
         } else {
           res.status(400).json({msg:"No se pudo borrar el carrito"});
         }
-      } else {
-        res.json({msg:"No se pudo enviar la orden"});
-      }
+        } else {
+          res.json({msg:"No se pudo enviar la orden"});
+        }
     }
   } catch (error) {
     res.status(400).json({msg:"No se pudo comprar el carrito", 'error': error.message});

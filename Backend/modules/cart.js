@@ -106,7 +106,7 @@ exports.deleteProductInCart = async(id_user, id_product ) =>{
 
 
 
-exports.buyProductToOrder = async (id_user, cart) =>{
+exports.buyProductToOrder = async (id_user, cart,address) =>{
   try {
     let stock_valid = []
     await Promise.all (cart.map( async (prodValid)=> {
@@ -117,9 +117,13 @@ exports.buyProductToOrder = async (id_user, cart) =>{
     
 
     if(stock_valid.some(prod=>prod==false)){
-      return false
+      return {confirm: false, error: 'stock'}
     } else{
+      if( address == 'No se registra dirección'){
+        return {confirm: false, error: 'address'}
+      } else{
 
+    
       let totalPrice = 0;
       let totalPriceOrder = cart.map((productPrice) =>{
         totalPrice += (productPrice.product_price * productPrice.total_quantity);
@@ -149,7 +153,7 @@ exports.buyProductToOrder = async (id_user, cart) =>{
         await pool.query('UPDATE products SET product_quantity = $1 WHERE id_product =$2',[productBuy,product.product_id])
       })) 
       return {confirm: true, order_details: { id_order: orderId, order_date: order_date_final, order_total: totalPriceFinal }}
-  
+    }
    
     }
   } catch (error) {

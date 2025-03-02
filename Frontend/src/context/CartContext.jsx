@@ -154,13 +154,6 @@ useEffect(()=>{
           color:"#323232"
         })
 
-      } else if(res.data.msg=="Carrito esta vacio"){
-        Swal.fire({
-          title: "Carrito esta vacio",
-          icon: "error",
-          confirmButtonColor: "#68D5E8",
-          color:"#323232"
-        })
       } else if(res.data.msg=="Verifique el stock de uno de los productos del carrito"){
         Swal.fire({
           title: "Verifique el stock de uno de los productos del carrito",
@@ -168,7 +161,21 @@ useEffect(()=>{
           confirmButtonColor: "#68D5E8",
           color:"#323232"
         })
-      }
+      } else if(res.data.msg=="Tiene que registrar su dirección antes de comprar"){
+        Swal.fire({
+          title: "Tiene que registrar su dirección antes de comprar",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+      } else if(res.data.msg=="Carrito esta vacio"){
+        Swal.fire({
+          title: "Carrito esta vacio",
+          icon: "error",
+          confirmButtonColor: "#68D5E8",
+          color:"#323232"
+        })
+      } 
          
     } catch (error) {
       console.log("Error al comprar carrito",error); 
