@@ -97,7 +97,7 @@ exports.buyProductsToOrderController = async(req,res) =>{
       let orderConfirm = await buyProductToOrder(id_user,cart);
       
       if(!orderConfirm){
-        return res.json({msg: "Verifique el stock de uno de los productos del carrito"})
+        return res.json({msg: "Verifique el stock de uno o mas de los productos del carrito"})
       } 
       
       if(orderConfirm.confirm){
