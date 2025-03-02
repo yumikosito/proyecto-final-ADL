@@ -19,6 +19,7 @@ product_quantity integer default 1,
 product_photo varchar,
 product_category varchar,
 seller integer,
+product_stock boolean default true,
 constraint fk_seller_user foreign key(seller) references users(id_user) on delete cascade
 );
 
