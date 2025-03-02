@@ -10,7 +10,7 @@ const Filters = ({ setFilters }) => {
   // if(max) {
   //   console.log("maxtotallog", max)
   // }
-  // console.log("maxtotal",max)
+  console.log("maxtotal",max)
 
   const [valueMin, setValueMin] = useState(priceRange[0]);
   const [valueMax, setValueMax] = useState(priceRange[1]);
@@ -22,7 +22,7 @@ const Filters = ({ setFilters }) => {
   const valueMaxCLP = new Intl.NumberFormat("es-CL", {
     currency: "CLP",
     style: "currency",
-  }).format(valueMax);
+  }).format(max);
 
   const filtersArray = [
     "Figura",

@@ -259,3 +259,9 @@ exports.getProductsByIdTrue = async(id) =>{
       throw new Error("No se pudo obtener el producto");
     }
 }
+
+exports.maxPrice = async() =>{
+  const { rows: products} = await pool.query('SELECT MAX(product_price) from products')
+  return products[0].max
+  
+}

@@ -42,26 +42,16 @@ const ProductProvider = ({ children }) => {
 
   const getAllProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/productos/todos");
-      setAllProducts(response.data);
+      const response = await axios.get("http://localhost:3000/api/productos/max");     
+      setMax(response.data);
     } catch (error) {
       console.error("Error al obtener todos los productos:", error);
     }
   }
-
+  
   useEffect(() => {
     getAllProducts();
-
-    if(allProducts.length >0){
-      const prices = allProducts.map(product => product.product_price);
-      console.log(prices)
-      const max = Math.max(...prices);
-      console.log(max)
-      setMax(max)
-    }
   }, []);
-
-  console.log(max)
 
   useEffect(() => {
       getFilteredProducts();
