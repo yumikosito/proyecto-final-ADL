@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
+import { ProductContext } from "../../context/ProductContext";
 
 const Filters = ({ setFilters }) => {
+  const {max } = useContext(ProductContext);
   const [categories, setCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, max]);
-
-  // if(max) {
-  //   console.log("maxtotallog", max)
-  // }
-  console.log("maxtotal",max)
-
   const [valueMin, setValueMin] = useState(priceRange[0]);
   const [valueMax, setValueMax] = useState(priceRange[1]);
+
+  useEffect(() => {
+    setPriceRange([0, max]);
+    setValueMax(max);
+  }, [max]);
 
   const valueMinCLP = new Intl.NumberFormat("es-CL", {
     currency: "CLP",
@@ -20,7 +21,7 @@ const Filters = ({ setFilters }) => {
   const valueMaxCLP = new Intl.NumberFormat("es-CL", {
     currency: "CLP",
     style: "currency",
-  }).format(max);
+  }).format(valueMax);
 
   const filtersArray = [
     "Figura",
@@ -49,14 +50,14 @@ const Filters = ({ setFilters }) => {
     const value = Number(e.target.value);
     setValueMin(value);
     setPriceRange([value, priceRange[1]]);
-    setFilters((prev) => ({ ...prev, precio_min: value || undefined }));
+    setFilters((prev) => ({ ...prev, precio_min: value  }));
   };
   
   const handleMaxPrice = (e) => {
     const value = Number(e.target.value);
     setValueMax(value);
     setPriceRange([priceRange[0], value]);
-    setFilters((prev) => ({ ...prev, precio_max: value || undefined }));
+    setFilters((prev) => ({ ...prev, precio_max: value }));
   };
 
   return (
@@ -92,9 +93,9 @@ const Filters = ({ setFilters }) => {
               </Form.Label>
               <Form.Range
                 className="custom-range"
-                min="0"
-                max="100000"
-                step="1000"
+                min={0}
+                max={max}
+                step={10}
                 value={valueMin}
                 onChange={handleMinPrice}
               />
@@ -106,8 +107,8 @@ const Filters = ({ setFilters }) => {
               <Form.Range
                 className="custom-range"
                 min={0}
-                max={200000}
-                step={1000}
+                max={max}
+                step={10}
                 value={valueMax}
                 onChange={handleMaxPrice}
               />

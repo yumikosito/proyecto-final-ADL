@@ -63,7 +63,7 @@ const CardDetail = () => {
                 
                 <Col className="">
                    <Button
-                   disabled={userLog ? "":"false"}
+                   disabled={userLog ? "": true}
                    onClick={()=>buttonCart(product.id_product)}
                    className="addCartButton mt-3 px-3 mx-2" variant="warning">
                       Agregar al carrito
