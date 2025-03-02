@@ -1,5 +1,5 @@
 const pool = require('../config/database');
-const { getProductById } = require('./products');
+const { getProductById, getMyProductsByIdTrue, getProductsByIdTrue } = require('./products');
 const { getUserName } = require('./users');
 
 
@@ -160,26 +160,36 @@ exports.repeatOrderToCart = async (idUser , idOrder) => {
       throw new Error("La orden no pertenece al usuario o no existe");
     }
 
+
     const { rows: orderProducts } = await pool.query(
       `SELECT order_product, product_order_quantity FROM order_details WHERE order_id = $1`,
       [idOrder]
     );
+    
 
     await Promise.all(orderProducts.map(async (product) => {
-      const { order_product, product_order_quantity } = product;
+      const { order_product, product_order_quantity} = product;
       const productExists = await exports.checkProductInCart(idUser , order_product);
+      
+      const productDetail = await getProductsByIdTrue(order_product)
+      if(productDetail.product_stock){
 
-      if (productExists) {
-        const { rows: currentProduct } = await pool.query(
-          `SELECT total_quantity FROM cart WHERE user_id = $1 AND product_id = $2`,
-          [idUser , order_product]
-        );
-
-        const newQuantity = currentProduct[0].total_quantity + product_order_quantity;
-        await exports.editProductInCart(idUser , order_product, newQuantity);
-      } else {
-        await exports.addProductInCart(idUser , order_product, product_order_quantity);
+        if (productExists) {
+          const { rows: currentProduct } = await pool.query(
+            `SELECT total_quantity FROM cart WHERE user_id = $1 AND product_id = $2`,
+            [idUser , order_product]
+          );
+  
+          const newQuantity = currentProduct[0].total_quantity + product_order_quantity;
+          await exports.editProductInCart(idUser , order_product, newQuantity);
+        } else {
+          if(product.order_product != null){
+            await exports.addProductInCart(idUser , order_product, product_order_quantity);
+          }
+        }
+      
       }
+      
     }));
 
     return { msg: "Orden añadida al carrito" };

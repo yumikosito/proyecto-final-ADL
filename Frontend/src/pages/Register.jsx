@@ -69,11 +69,11 @@ const Register = () => {
   }
 
   return (
-    <div className='registerForm'>
+    <div className='registerForm mx-1'>
       <h1 id='titleText'>Registrar nueva cuenta</h1>
       <div className=' py-2 my-3 '>
         <Container className='yellowColor py-5 rounded-3'>
-          <Form onSubmit={handleSubmit} className='whiteColor py-3 rounded-3 mx-5' >
+          <Form onSubmit={handleSubmit} className='whiteColor py-3 rounded-3 mx-4' >
           <Row>
             <Col md={12} lg={6} className='px-5'>
               <Form.Group className="mb-3"  controlId="formName">
@@ -101,21 +101,21 @@ const Register = () => {
             <Col md={12} lg={6} className='px-5 mb-4'>
              <Form.Group className="mb-3" controlId="formPassword">
                 <Form.Label>Contraseña</Form.Label>
-                <Form.Control required className='registerLoginColor' type="text" placeholder="Minimo 8 caracteres" {...password} />
+                <Form.Control required className='registerLoginColor' type="password" placeholder="Minimo 8 caracteres" {...password} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formPasswordConfirm">
                 <Form.Label>Repite tu contraseña</Form.Label>
-                <Form.Control required className='registerLoginColor' type="text" placeholder="" {...password_confirm}/>
+                <Form.Control required className='registerLoginColor' type="password" placeholder="" {...password_confirm}/>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formEmail">
-                <Form.Label>Correo electronico</Form.Label>
+                <Form.Label>Correo electrónico</Form.Label>
                 <Form.Control required className='registerLoginColor' type="email" placeholder="vivi@tienda.cl" {...email} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formEmailConfirm">
-                <Form.Label>Repite tu correo electronico</Form.Label>
+                <Form.Label>Repite tu correo electrónico</Form.Label>
                 <Form.Control required className='registerLoginColor' type="email" placeholder="vivi@tienda.cl" {...email_confirm} />
               </Form.Group>
             </Col>
@@ -123,7 +123,7 @@ const Register = () => {
 
           <Row className='registerLoginInput'>
             <Form.Group className="mb-3" controlId="formCheckbox">
-              <Form.Check  className='registerLoginInput2' type="checkbox" label="Aceptas los terminos de contrato" />
+              <Form.Check required className='registerLoginInput2' type="checkbox" label="Aceptas los terminos de contrato" />
             </Form.Group>
               <Button className='registerLoginButton registerLoginInput' variant="info" type="submit">
                 <p className='registerLoginButtonText'>Registrarse</p>

@@ -32,7 +32,7 @@ const obtenerTotal = async (filtros, values) => {
 //   }
 // }
 
-exports.filters = async ({ limits = 6, page = 1, precio_min, precio_max, categoria, sort, search }) => {
+exports.filters = async ({ product_stock = true,limits = 6, page = 1, precio_min, precio_max, categoria, sort, search }) => {
   const offset = Math.abs((page - 1) * limits);
 
   let filtros = [];
@@ -56,6 +56,10 @@ exports.filters = async ({ limits = 6, page = 1, precio_min, precio_max, categor
   if (search) {
     agregar("product_name", "ILIKE", `%${search}%`)
   }
+  if (product_stock) {
+    agregar("product_stock", "=", product_stock)
+  }
+
 
   let text = "SELECT * FROM products";
 
@@ -109,8 +113,8 @@ const HATEOASFormat = (array_products, total) => {
 exports.getProductById = async (id) => {
   try {
     const query = {
-      text: "SELECT * FROM products WHERE id_product = $1",
-      values: [id]
+      text: "SELECT * FROM products WHERE id_product = $1 and product_stock=$2",
+      values: [id,true]
     };
     const { rows: product } = await pool.query(query);
 
@@ -127,8 +131,8 @@ exports.getMyProducts = async (id) => {
   try {
 
     const query = {
-      text: "SELECT * FROM products WHERE seller = $1",
-      values: [id]
+      text: "SELECT * FROM products WHERE seller = $1 and product_stock=$2",
+      values: [id,true]
     };
 
     const { rows: products } = await pool.query(query);
@@ -145,8 +149,8 @@ exports.getMyProductsById = async (idUser, idProduct) => {
   try {
 
     const query = {
-      text: "SELECT * FROM products WHERE seller = $1 and id_product = $2",
-      values: [idUser, idProduct]
+      text: "SELECT * FROM products WHERE seller = $1 and id_product = $2 and product_stock=$3",
+      values: [idUser, idProduct,true]
     };
     
     const { rows: product } = await pool.query(query);
@@ -181,18 +185,23 @@ exports.putMyProductsById = async (idUser, idProduct, dataProduct) => {
 
 exports.deleteMyProductsById = async (idUser, idProduct) => {
   try {
+    await pool.query('DELETE FROM cart WHERE product_id = $1',[idProduct]);
 
-    const query = {
-      text: "DELETE FROM products WHERE seller = $1 and id_product = $2",
-      values: [idUser, idProduct]
-    };
-    const result = await pool.query(query);
+    await pool.query('UPDATE products SET product_stock = $1 WHERE id_product=$2', [false, idProduct])
 
-    if (result.rowCount === 0) {
-      throw new Error("El producto no existe");
-    }
+    // const query = {
+    //   text: "DELETE FROM products WHERE seller = $1 and id_product = $2",
+    //   values: [idUser, idProduct]
+    // };
+    // const result = await pool.query(query);
+
+    // if (result.rowCount === 0) {
+    //   throw new Error("El producto no existe");
+    // }
     return { message: "Producto eliminado" };
   } catch (error) {
+    console.log(error);
+    
     throw new Error("No se pudo eliminar el producto");
   }
 }
@@ -220,7 +229,21 @@ exports.searchProduct = async() =>{
 
   } catch (error) {
     throw new Error("No se pudo obtener todos los productos");
-  }
- 
-  
+  } 
+}
+
+exports.getProductsByIdTrue = async(id) =>{
+  try {
+    const query = {
+      text: "SELECT * FROM products WHERE id_product = $1 ",
+      values: [id]
+    };
+    const { rows: product } = await pool.query(query);
+
+    
+      return product[0];
+      
+    } catch (error) {
+      throw new Error("No se pudo obtener el producto");
+    }
 }

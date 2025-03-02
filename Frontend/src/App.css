@@ -167,12 +167,17 @@ hr{
 
 .registerLoginColor{
   border: #4aab5f solid 2px;
-  width: 20rem;
+  width: 100%;
+  color: var(--blackColor);
+}
+.registerLoginColor2{
+  width: 100%;
   color: var(--blackColor);
 }
 
+
 .registerLoginButton{
-  width: 20rem;
+  width: 90%;
   background-color: var(--skyBlue);
   color: var(--blackColor);
   padding: 0;

@@ -10,7 +10,7 @@ import { ProductContext } from "../context/ProductContext.jsx";
 import { CartContext } from "../context/CartContext.jsx";
 
 const CardDetail = () => {
-  const {user} = useContext(UserContext)
+  const {userLog} = useContext(UserContext)
   const { addCart } = useContext(CartContext)
   const navigate = useNavigate()
   const { id } = useParams();
@@ -63,7 +63,7 @@ const CardDetail = () => {
                 
                 <Col className="">
                    <Button
-                  //  disabled={userLog ? "":"false"}
+                   disabled={userLog ? "":"false"}
                    onClick={()=>buttonCart(product.id_product)}
                    className="addCartButton mt-3 px-3 mx-2" variant="warning">
                       Agregar al carrito

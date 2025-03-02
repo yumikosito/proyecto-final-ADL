@@ -18,27 +18,30 @@ const Login = () => {
   }
 
   return (
-    <div className='loginForm'>
-      <h1 id='titleText'>Iniciar sesion</h1>
+    <div className='loginForm mx-1'>
+      <h1 id='titleText'>Iniciar sesión</h1>
         <Container className='yellowColor py-5 my-5 rounded-3'>
           <Form onSubmit={handleSubmit} className='rounded-3 mx-5 d-flex flex-column align-items-center justify-content-center whiteColor py-3'>
-            <Form.Group className="mb-3"  controlId="formBasicEmail">
-              <Form.Label>Correo electronico</Form.Label>
+            <Col className='registerLoginColor2 px-5' >
+            <Form.Group className="mb-3 "  controlId="formBasicEmail">
+              <Form.Label>Correo electrónico</Form.Label>
               <Form.Control required className='registerLoginColor' type="email" placeholder="Vivi@tienda.cl" {...email}/>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3 " controlId="formBasicPassword">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control required className='registerLoginColor' type="password" placeholder="Minimo 8 caracteres" {...password} />
+              <Form.Control required className='registerLoginColor ' type="password" placeholder="Minimo 8 caracteres" {...password} />
             </Form.Group>
 
          
           <div className='registerLoginInput'>
               <Button className='registerLoginButton registerLoginInput' variant="info" type="submit">
-                <p className='registerLoginButtonText'>Iniciar sesion</p>
+                <p className='registerLoginButtonText'>Iniciar sesión</p>
               </Button>
-              <a href="">¿Olvidaste tu contraseña?</a>
+              {/* <a href="">¿Olvidaste tu contraseña?</a> */}
           </div>
+            </Col>
+            
 
           </Form>
         </Container>

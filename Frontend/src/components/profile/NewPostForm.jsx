@@ -9,16 +9,15 @@ import SearchResult from '../search/SearchResult';
 
 
 const NewPostForm = () => {
-  const {newProduct, resultProduct, setResultProduct} = useContext(ProductContext)
+  const {newProduct, resultProduct,setResultProduct} = useContext(ProductContext)
 
   
-  const product_name=useInput("");
-  const product_price=useInput("");
-  const product_quantity=useInput("");
-  const product_photo=useInput("");
-  const product_description=useInput("");
-  const product_category=useInput("");
-  const search=useInput("")
+  let product_name=useInput("");
+  let product_price=useInput("");
+  let product_quantity=useInput("");
+  let product_photo=useInput("");
+  let product_description=useInput("");
+  let product_category=useInput("");
 
   useEffect(() => {
     if (resultProduct.product_name){
@@ -32,7 +31,17 @@ const NewPostForm = () => {
 
   const handleSubmit = async (e)=> {
     e.preventDefault()
-    newProduct(product_name, product_price, product_quantity, product_photo, product_description, product_category) 
+    newProduct(product_name, product_price, product_quantity, product_photo, product_description, product_category);
+
+    setResultProduct([{
+      product_name:"",
+      product_photo:"",
+      product_category:"",
+      product_description: "",
+      product_price: "",
+      product_quantity:""
+    }])
+    
   }
 
 
@@ -85,13 +94,13 @@ const NewPostForm = () => {
             <Col xs={12} sm={4} className='d-flex flex-column'>
               <Form.Group as={Col} className="mb-3" controlId="formGridAddress1">
                 <Form.Label>Cantidad</Form.Label>
-                <Form.Control required className='newPostColor' placeholder="3" {...product_quantity} />
+                <Form.Control required type="number" className='newPostColor' placeholder="3" {...product_quantity} />
               </Form.Group>
 
               <Form.Group controlId="formCategory" className='mb-3'>
-                <Form.Label>Categoria</Form.Label>
+                <Form.Label>Categoría</Form.Label>
                 <Form.Select className='newPostColor' {...product_category}>
-                  <option>Seleciona solo 1 categoria de abajo</option>
+                  <option>Selecciona solo 1 categoría de abajo</option>
                   <option>Figura</option>
                   <option>Peluche</option>
                   <option>Pixel art</option>
@@ -107,7 +116,7 @@ const NewPostForm = () => {
             </Col>
             <Col xs={12} sm={8}>
               <Form.Group>
-                <Form.Label>Descripcion</Form.Label>
+                <Form.Label>Descripción</Form.Label>
                 <FloatingLabel
                   controlId="floatingTextarea"
                   label="Dimensiones, fabricante, origen, etc."

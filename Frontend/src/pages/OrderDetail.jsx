@@ -77,6 +77,9 @@ const OrderDetail = () => {
     getTotalProducts();
   });
 
+  
+  
+
   return (
     <Container>
       <Row>

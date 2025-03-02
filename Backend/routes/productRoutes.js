@@ -5,6 +5,7 @@ const productController = require('../controllers/productController.js');
 const authentication = require('../middlewares/authentication')
 
 router.get('/', productController.getFiltersController)
+router.get('/buscar', productController.searchProductController)
 // router.get('/filtros', productController.getFiltersController)
 router.get('/mis-productos', authentication, productController.getMyProductsController)
 router.post('/mis-productos/agregar', authentication, productController.newProductController)
