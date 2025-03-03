@@ -35,15 +35,10 @@ const Filters = ({ setFilters }) => {
   ];
 
   const handleCategory = (e) => {
-    const category = e.target.value;
-    setCategories((prevCategories) => {
-      const newCategories = prevCategories.includes(category)
-        ? prevCategories.filter((item) => item !== category)
-        : [...prevCategories, category];
-      setFilters((prev) => ({ ...prev, categoria: newCategories.join(",") }));
-      return newCategories;
-    });
-  };
+  const category = e.target.value;
+  setCategories(category); 
+  setFilters((prev) => ({ ...prev, categoria: category }));
+};
 
   const handleMinPrice = (e) => {
     const value = Number(e.target.value);
@@ -75,7 +70,7 @@ const Filters = ({ setFilters }) => {
                 <Form.Check
                   className="pb-3 formCheckColor"
                   key={index}
-                  type="checkbox"
+                  type="radio"
                   id={index}
                   label={filter}
                   value={filter}
