@@ -3,8 +3,8 @@ import { Form, Container, Row, Col } from "react-bootstrap";
 import { ProductContext } from "../../context/ProductContext";
 
 const Filters = ({ setFilters }) => {
-  const {max } = useContext(ProductContext);
-  const [categories, setCategories] = useState([]);
+  const { max } = useContext(ProductContext);
+  const [categories, setCategories] = useState("Todas las categorias");
   const [priceRange, setPriceRange] = useState([0, max]);
   const [valueMin, setValueMin] = useState(priceRange[0]);
   const [valueMax, setValueMax] = useState(priceRange[1]);
@@ -24,6 +24,7 @@ const Filters = ({ setFilters }) => {
   }).format(valueMax);
 
   const filtersArray = [
+    "Todas las categorias",
     "Figura",
     "Peluche",
     "Musica",
@@ -35,18 +36,19 @@ const Filters = ({ setFilters }) => {
   ];
 
   const handleCategory = (e) => {
-  const category = e.target.value;
-  setCategories(category); 
-  setFilters((prev) => ({ ...prev, categoria: category }));
-};
+    const category = e.target.value;
+    setCategories(category);
+    setFilters((prev) => ({ ...prev, categoria: category === "Todas las categorias" ? "" : category }));
+  };
+
 
   const handleMinPrice = (e) => {
     const value = Number(e.target.value);
     setValueMin(value);
     setPriceRange([value, priceRange[1]]);
-    setFilters((prev) => ({ ...prev, precio_min: value  }));
+    setFilters((prev) => ({ ...prev, precio_min: value }));
   };
-  
+
   const handleMaxPrice = (e) => {
     const value = Number(e.target.value);
     setValueMax(value);
@@ -59,13 +61,16 @@ const Filters = ({ setFilters }) => {
       <Container>
         <Row>
           <Col>
-            <h4 id="titleText" className="text-center filterText">Filtros</h4>
+            <h4 id="titleText" className="text-center filterText">
+              Filtros
+            </h4>
           </Col>
         </Row>
         <Row>
           <Col className="bg-warning-subtle d-flex flex-column rounded-3">
             <h4 className="p-3 categoryText">Categoría</h4>
             <Form>
+            
               {filtersArray.map((filter, index) => (
                 <Form.Check
                   className="pb-3 formCheckColor"
