@@ -30,7 +30,7 @@ const MyProducts = () => {
       if (confirm) {
         try {
           await axios.delete(
-            `http://localhost:3000/api/productos/mis-productos/${id}`,
+            `https://proyecto-final-adl-backend.onrender.com/api/productos/mis-productos/${id}`,
             {
               headers: { Authorization: `Bearer ${user.token}` },
             }

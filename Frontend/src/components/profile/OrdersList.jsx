@@ -23,7 +23,7 @@ const OrdersList = ({ order }) => {
   const reorder = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/pedidos/repetir-pedido/${order.id_order}`,
+        `https://proyecto-final-adl-backend.onrender.com/api/pedidos/repetir-pedido/${order.id_order}`,
         {},
         {
           headers: { Authorization: `Bearer ${user.token}` },

@@ -36,7 +36,7 @@ const OrderDetail = () => {
   const reorder = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/pedidos/repetir-pedido/${id}`,
+        `https://proyecto-final-adl-backend.onrender.com/api/pedidos/repetir-pedido/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -60,7 +60,7 @@ const OrderDetail = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       const orderDetail = await axios.get(
-        `http://localhost:3000/api/pedidos/mis-pedidos/${id}`,
+        `https://proyecto-final-adl-backend.onrender.com/api/pedidos/mis-pedidos/${id}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }

@@ -12,7 +12,7 @@ const UserProvider = ({children}) => {
 
   const registerUser = async (datos)  => {
     try {
-      const res= await axios.post("http://localhost:3000/api/usuarios/registro",{email: datos.email,
+      const res= await axios.post("https://proyecto-final-adl-backend.onrender.com/api/usuarios/registro",{email: datos.email,
         email_confirm:datos.email_confirm,
         password: datos.password,
         password_confirm:datos.password_confirm,
@@ -82,13 +82,13 @@ const UserProvider = ({children}) => {
 
   const logInUser = async (datos) => {
     try {
-      const res= await axios.post("http://localhost:3000/api/usuarios/iniciar-sesion", {email: datos.email, password: datos.password})
+      const res= await axios.post("https://proyecto-final-adl-backend.onrender.com/api/usuarios/iniciar-sesion", {email: datos.email, password: datos.password})
     if (res.data.msg=="Autentificación correcta"){
       setUserLog(true)
       // setUser({"token":res.data.token})
       navigate('/')
 
-      const res2= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+      const res2= await axios.get('https://proyecto-final-adl-backend.onrender.com/api/usuarios/perfil',{
         headers:{
           Authorization:`Bearer ${res.data.token}`,
         },
@@ -130,7 +130,7 @@ const UserProvider = ({children}) => {
 
   const profileUser = async()=>{
     try {
-      const res= await axios.get('http://localhost:3000/api/usuarios/perfil',{
+      const res= await axios.get('https://proyecto-final-adl-backend.onrender.com/api/usuarios/perfil',{
         headers:{
           Authorization:`Bearer ${user.token}`,
         },
@@ -148,7 +148,7 @@ const UserProvider = ({children}) => {
 
   const editProfile = async(nameChange, lastnameChange, passwordChange, emailChange) => {
     try {
-      const res =  await axios.put("http://localhost:3000/api/usuarios/editar-perfil", {nameChange: nameChange.value, lastnameChange: lastnameChange.value, passwordChange: passwordChange.value, emailChange: emailChange.value},{
+      const res =  await axios.put("https://proyecto-final-adl-backend.onrender.com/api/usuarios/editar-perfil", {nameChange: nameChange.value, lastnameChange: lastnameChange.value, passwordChange: passwordChange.value, emailChange: emailChange.value},{
       headers:{
               Authorization:`Bearer ${user.token}`,
           },})
@@ -247,7 +247,7 @@ const UserProvider = ({children}) => {
 
   const editAddress = async (addressChange) => {
     try {
-      const res =  await axios.put("http://localhost:3000/api/usuarios/editar-direccion", {addressChange: addressChange.value},{
+      const res =  await axios.put("https://proyecto-final-adl-backend.onrender.com/api/usuarios/editar-direccion", {addressChange: addressChange.value},{
         headers:{
               Authorization:`Bearer ${user.token}`,
         },})
@@ -288,7 +288,7 @@ const UserProvider = ({children}) => {
     
   const logoutUser = async () =>{
     try {
-      const res = await axios.get("http://localhost:3000/api/usuarios/cerrar-sesion",{
+      const res = await axios.get("https://proyecto-final-adl-backend.onrender.com/api/usuarios/cerrar-sesion",{
         headers:{
           Authorization:`Bearer ${user.token}`,
         },
@@ -305,7 +305,7 @@ const UserProvider = ({children}) => {
 
 
   // const delete_user = async () =>{
-  //   await axios.delete("http://localhost:3000/api/usuarios/eliminar",{
+  //   await axios.delete("https://proyecto-final-adl-backend.onrender.com/api/usuarios/eliminar",{
   //     headers:{
   //       Authorization:`Bearer ${user.token}`,
   //     },

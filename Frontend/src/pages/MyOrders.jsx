@@ -24,7 +24,7 @@ const MyOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/pedidos", {
+        const response = await axios.get("https://proyecto-final-adl-backend.onrender.com/api/pedidos", {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setOrders(response.data);

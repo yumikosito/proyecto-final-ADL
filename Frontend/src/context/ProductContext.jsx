@@ -31,7 +31,7 @@ const ProductProvider = ({ children }) => {
     try {
       const { precio_min, precio_max, categoria, search, sort, limits } = filters;
       const response = await axios.get(
-        `http://localhost:3000/api/productos/?limits=${limits}&page=${page}&sort=${sort}&search=${search}&precio_min=${precio_min}&precio_max=${precio_max}&categoria=${categoria}`
+        `https://proyecto-final-adl-backend.onrender.com/api/productos/?limits=${limits}&page=${page}&sort=${sort}&search=${search}&precio_min=${precio_min}&precio_max=${precio_max}&categoria=${categoria}`
       );
       setFilteredProducts(response.data.results);
       setTotalProducts(response.data.total);
@@ -42,7 +42,7 @@ const ProductProvider = ({ children }) => {
 
   const getAllProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/productos/max");     
+      const response = await axios.get("https://proyecto-final-adl-backend.onrender.com/api/productos/max");     
       setMax(response.data);
     } catch (error) {
       console.error("Error al obtener todos los productos:", error);
@@ -72,7 +72,7 @@ const ProductProvider = ({ children }) => {
     }
     
     try {
-    const res= await axios.post("http://localhost:3000/api/productos/mis-productos/agregar", newProduct,{
+    const res= await axios.post("https://proyecto-final-adl-backend.onrender.com/api/productos/mis-productos/agregar", newProduct,{
       headers:{
               Authorization:`Bearer ${user.token}`,
           },})

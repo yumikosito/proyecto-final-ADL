@@ -11,7 +11,7 @@ const SearchProducts = () => {
   const {result, setResult} = useContext(ProductContext)
   
   const fetchData = async (value) => {
-    const res = await axios.get("http://localhost:3000/api/productos/buscar")
+    const res = await axios.get("https://proyecto-final-adl-backend.onrender.com/api/productos/buscar")
     const data = res.data;
   
     const resultProd = data.filter((prod) => {

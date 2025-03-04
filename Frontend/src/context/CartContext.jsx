@@ -23,7 +23,7 @@ useEffect(()=>{
 
   const getCart = async () =>{
     try {
-      const res= await axios.get("http://localhost:3000/api/carrito/",{
+      const res= await axios.get("https://proyecto-final-adl-backend.onrender.com/api/carrito/",{
         headers:{
           Authorization:`Bearer ${user.token}`,
       }})     
@@ -38,7 +38,7 @@ useEffect(()=>{
   const quantityMinus = async(id,product) =>{
     try {
       let count = product.total_quantity-1
-      const res = await axios.post("http://localhost:3000/api/carrito/editar", {id_product: id, total_quantity: count},{
+      const res = await axios.post("https://proyecto-final-adl-backend.onrender.com/api/carrito/editar", {id_product: id, total_quantity: count},{
         headers:{
           Authorization:`Bearer ${user.token}`,
         },
@@ -53,7 +53,7 @@ useEffect(()=>{
   const quantityPlus = async(id,product) =>{
     try {
       let count = product.total_quantity+1
-      const res = await axios.post("http://localhost:3000/api/carrito/editar", {id_product: id, total_quantity: count},{
+      const res = await axios.post("https://proyecto-final-adl-backend.onrender.com/api/carrito/editar", {id_product: id, total_quantity: count},{
         headers:{
           Authorization:`Bearer ${user.token}`,
         },
@@ -69,7 +69,7 @@ useEffect(()=>{
 
   const eraseProduct = async (id) =>{
     try {
-      const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: id, total_quantity: 0},{
+      const res = await axios.post("https://proyecto-final-adl-backend.onrender.com/api/carrito/editar",{id_product: id, total_quantity: 0},{
         headers:{
           Authorization:`Bearer ${user.token}`,
         },
@@ -87,7 +87,7 @@ useEffect(()=>{
   const addCart = async (idProduct)=>{ 
     try {
       if (!cart.some(product => product.product_id == idProduct)){
-        const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
+        const res = await axios.post("https://proyecto-final-adl-backend.onrender.com/api/carrito/editar",{id_product: idProduct, total_quantity: 1},{
           headers:{
             Authorization:`Bearer ${user.token}`,
         },})
@@ -107,7 +107,7 @@ useEffect(()=>{
       
       } else{
         const product = cart.find(item => item.product_id == idProduct);   
-        const res = await axios.post("http://localhost:3000/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
+        const res = await axios.post("https://proyecto-final-adl-backend.onrender.com/api/carrito/editar",{id_product: idProduct, total_quantity: product.total_quantity+1},{
           headers:{
             Authorization:`Bearer ${user.token}`,
         },})
@@ -132,7 +132,7 @@ useEffect(()=>{
 
   const buyCart= async() =>{
     try {
-      const res = await axios.post("http://localhost:3000/api/carrito/comprar",{},{
+      const res = await axios.post("https://proyecto-final-adl-backend.onrender.com/api/carrito/comprar",{},{
         headers:{
           Authorization:`Bearer ${user.token}`,
         },
@@ -187,7 +187,7 @@ useEffect(()=>{
 
   const eraseTotalCart = async() => {
     try {
-      const res = await axios.delete("http://localhost:3000/api/carrito/eliminar",{
+      const res = await axios.delete("https://proyecto-final-adl-backend.onrender.com/api/carrito/eliminar",{
         headers:{
           Authorization:`Bearer ${user.token}`,
        },

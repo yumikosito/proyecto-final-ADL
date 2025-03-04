@@ -47,7 +47,7 @@ const EditPost = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/productos/mis-productos/editar/${id}`,
+        `https://proyecto-final-adl-backend.onrender.com/api/productos/mis-productos/editar/${id}`,
         newDataUser,
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -69,7 +69,7 @@ const EditPost = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/productos/mis-productos/${id}`,
+          `https://proyecto-final-adl-backend.onrender.com/api/productos/mis-productos/${id}`,
           {
             headers: { Authorization: `Bearer ${user.token}` },
           }
